@@ -119,7 +119,7 @@ const controlAddRecipe = async function (newRecipe) {
 };
 
 const newFeatures = function () {
-  console.log('Welcome to the app');
+  console.log('Welcome, how is your day?');
 };
 
 const init = function () {
