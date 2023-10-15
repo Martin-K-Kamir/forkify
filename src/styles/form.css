@@ -1,0 +1,18 @@
+
+.form {
+
+    & input {
+        border-radius    : var(--radius-pill);
+        padding          : var(--space-s) var(--space-m);
+        border           : none;
+        outline          : none;
+        background-color : var(--clr-zinc-800);
+        color            : #f3f4f6;
+        width            : 550px;
+        line-height      : var(--line-height-1);
+    }
+
+    & input::placeholder {
+        color : inherit;
+    }
+}
