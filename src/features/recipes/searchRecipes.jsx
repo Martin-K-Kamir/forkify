@@ -6,11 +6,14 @@ const SearchRecipes = () => {
             </h1>
 
             <form className="form">
-                <input
-                    type="text"
-                    className="input"
-                    placeholder="Search over 1,000,000 recipes"
-                />
+                <div className="[ search-input ] [ flow flex align-items-center justify-content-between radius-pill line-height-1 ]">
+                    <input
+                        type="text"
+                        className="input"
+                        placeholder="Search over 1,000,000 recipes"
+                    />
+                    <button>Search</button>
+                </div>
             </form>
         </div>
     );

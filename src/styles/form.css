@@ -1,18 +1,24 @@
 
 .form {
 
-    & input {
-        border-radius    : var(--radius-pill);
+    & .search-input {
         padding          : var(--space-s) var(--space-m);
+        width            : 550px;
+        color            : inherit;
+        background-color : var(--clr-zinc-800);
         border           : none;
         outline          : none;
-        background-color : var(--clr-zinc-800);
-        color            : #f3f4f6;
-        width            : 550px;
-        line-height      : var(--line-height-1);
     }
 
-    & input::placeholder {
-        color : inherit;
+    & .search-input input {
+        border           : none;
+        outline          : none;
+        background-color : transparent;
+        color            : inherit;
+        width            : 100%;
+    }
+
+    & .search-input::placeholder {
+        color : color-mix(in hsl, currentColor 50%, transparent);
     }
 }

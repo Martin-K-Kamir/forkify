@@ -119,11 +119,11 @@
 }
 
 body {
-    background               : var(--clr-zinc-900);
-    color                    : #fafafa;
     font-family              : var(--f-family-primary);
     font-size                : var(--f-size-1);
     font-weight              : var(--f-weight-regular);
+    color                    : var(--clr-zinc-050);
+    background-color         : var(--clr-zinc-900);
 
     text-rendering           : optimizeSpeed;
     -webkit-font-smoothing   : antialiased;
