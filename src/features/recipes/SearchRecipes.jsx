@@ -1,7 +1,7 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { useLazyGetRecipesQuery } from "./recipiesSlice.js";
-
+import Alert from "../../components/alert/Alert.jsx";
 
 const recipes = [
     "Pizza",
@@ -18,21 +18,36 @@ const recipes = [
 const SearchRecipes = () => {
     const navigate = useNavigate();
     const [searchTerm, setSearchTerm] = useState("");
-    const [getRecipes, {isLoading, isError}] = useLazyGetRecipesQuery();
+    const [showAlert, setShowAlert] = useState(false);
+    const [getRecipes, { isLoading, error }] = useLazyGetRecipesQuery();
+
+    useEffect(() => {
+        if (showAlert && !searchTerm) {
+            setTimeout(() => {
+                setShowAlert(false);
+            }, 3_000);
+        }
+    }, [searchTerm, showAlert]);
+
+    const handleCloseAlert = () => {
+        setShowAlert(false);
+    };
 
     const handleChange = e => {
         setSearchTerm(e.target.value);
-    }
+    };
 
     const handleSubmit = async e => {
         try {
             e.preventDefault();
             await getRecipes(searchTerm, true).unwrap();
             navigate(`/recipes/${searchTerm}`);
-        } catch (error) {
-            console.error(error);
+        } catch {
+            setShowAlert(true);
         }
-    }
+
+        setSearchTerm("");
+    };
 
     const renderedRecipes = recipes.map(recipe => {
         return (
@@ -47,11 +62,20 @@ const SearchRecipes = () => {
 
     return (
         <div className="h-screen flex flex-direction-column align-items-center gap-xl pt-fluid-2xl-7xl">
+            {showAlert && (
+                <Alert danger onClose={handleCloseAlert}>
+                    {error?.message}
+                </Alert>
+            )}
+
             <h1 className="block f-family-secondary f-size-6 f-weight-medium line-height-1">
                 Forkify
             </h1>
 
-            <form className="form flex max-w-l gap-m w-full flex-direction-column//below-md" onSubmit={handleSubmit}>
+            <form
+                className="form flex max-w-l gap-m w-full flex-direction-column//below-md"
+                onSubmit={handleSubmit}
+            >
                 <input
                     type="text"
                     className="bg-zinc-800 p-s radius-1 w-full"

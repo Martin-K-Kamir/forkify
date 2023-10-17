@@ -3,6 +3,7 @@ button {
     border           : none;
     outline          : none;
     cursor           : pointer;
+    background-color : transparent;
 }
 
 .button {
@@ -12,4 +13,10 @@ button {
     cursor           : pointer;
     background-color : var(--clr-blue-700);
     padding          : var(--space-s) var(--space-xl);
+}
+
+.button-close {
+    display: flex;
+    justify-content: center;
+    align-items: center;
 }

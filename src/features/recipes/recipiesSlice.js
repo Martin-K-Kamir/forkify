@@ -13,16 +13,18 @@ const extendedApi = api.injectEndpoints({
             query: recipesId => ({
                 url: `?search=${recipesId}`,
                 validateStatus: (response, result) => {
-                    return response.status === 200 && result.data.recipes.length > 0;
-                }
+                    return (
+                        response.status === 200 &&
+                        result.data.recipes.length > 0
+                    );
+                },
             }),
             transformErrorResponse(result, meta, arg) {
                 if (result.data.data.recipes.length === 0) {
-                    return { message: `No recipes found for your search ${arg}` };
+                    return { message: `No recipes found for search "${arg}"` };
                 }
             },
-
-        })
+        }),
     }),
 });
 

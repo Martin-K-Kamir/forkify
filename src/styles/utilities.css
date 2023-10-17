@@ -22,6 +22,9 @@
 .w-px {
     width : 1px;
 }
+.w-em {
+    width : 1em;
+}
 
 .w-3xs {
     width: 12.5rem; /* 200px */
@@ -54,8 +57,14 @@
 .max-w-0 {
     max-width : 0;
 }
+.max-w-full {
+    max-width : 100%;
+}
 .max-w-none {
     max-width : none;
+}
+.max-w-screen {
+    max-width : 100vw;
 }
 
 .max-w-3xs {
@@ -86,6 +95,22 @@
     max-width: 74.56rem; /* 1193px */
 }
 
+.min-w-0 {
+    min-width : 0;
+}
+.min-w-full {
+    min-width : 100%;
+}
+.min-w-min {
+    min-width : min-content;
+}
+.min-w-max {
+    min-width : max-content;
+}
+.min-w-fit {
+    min-width : fit-content;
+}
+
 /* /////////////// Height /////////////// */
 
 .h-auto {
@@ -103,8 +128,15 @@
 .h-px {
     height : 1px;
 }
+.h-em {
+    height : 1em;
+}
 
 /* /////////////// Colors /////////////// */
+
+.fill-current {
+    fill : currentColor;
+}
 
 /* text */
 .text-inherit {
@@ -149,6 +181,108 @@
 }
 .text-zinc-950 {
     color : color-mix(in hsl, var(--clr-zinc-950) var(--text-alpha, 100%), transparent);
+}
+
+.text-red-050 {
+    color : color-mix(in hsl, var(--clr-red-050) var(--text-alpha, 100%), transparent);
+}
+.text-red-100 {
+    color : color-mix(in hsl, var(--clr-red-100) var(--text-alpha, 100%), transparent);
+}
+.text-red-200 {
+    color : color-mix(in hsl, var(--clr-red-200) var(--text-alpha, 100%), transparent);
+}
+.text-red-300 {
+    color : color-mix(in hsl, var(--clr-red-300) var(--text-alpha, 100%), transparent);
+}
+.text-red-400 {
+    color : color-mix(in hsl, var(--clr-red-400) var(--text-alpha, 100%), transparent);
+}
+.text-red-500 {
+    color : color-mix(in hsl, var(--clr-red-500) var(--text-alpha, 100%), transparent);
+}
+.text-red-600 {
+    color : color-mix(in hsl, var(--clr-red-600) var(--text-alpha, 100%), transparent);
+}
+.text-red-700 {
+    color : color-mix(in hsl, var(--clr-red-700) var(--text-alpha, 100%), transparent);
+}
+.text-red-800 {
+    color : color-mix(in hsl, var(--clr-red-800) var(--text-alpha, 100%), transparent);
+}
+.text-red-900 {
+    color : color-mix(in hsl, var(--clr-red-900) var(--text-alpha, 100%), transparent);
+}
+.text-red-950 {
+    color : color-mix(in hsl, var(--clr-red-950) var(--text-alpha, 100%), transparent);
+}
+
+.text-yellow-050 {
+    color : color-mix(in hsl, var(--clr-yellow-050) var(--text-alpha, 100%), transparent);
+}
+.text-yellow-100 {
+    color : color-mix(in hsl, var(--clr-yellow-100) var(--text-alpha, 100%), transparent);
+}
+.text-yellow-200 {
+    color : color-mix(in hsl, var(--clr-yellow-200) var(--text-alpha, 100%), transparent);
+}
+.text-yellow-300 {
+    color : color-mix(in hsl, var(--clr-yellow-300) var(--text-alpha, 100%), transparent);
+}
+.text-yellow-400 {
+    color : color-mix(in hsl, var(--clr-yellow-400) var(--text-alpha, 100%), transparent);
+}
+.text-yellow-500 {
+    color : color-mix(in hsl, var(--clr-yellow-500) var(--text-alpha, 100%), transparent);
+}
+.text-yellow-600 {
+    color : color-mix(in hsl, var(--clr-yellow-600) var(--text-alpha, 100%), transparent);
+}
+.text-yellow-700 {
+    color : color-mix(in hsl, var(--clr-yellow-700) var(--text-alpha, 100%), transparent);
+}
+.text-yellow-800 {
+    color : color-mix(in hsl, var(--clr-yellow-800) var(--text-alpha, 100%), transparent);
+}
+.text-yellow-900 {
+    color : color-mix(in hsl, var(--clr-yellow-900) var(--text-alpha, 100%), transparent);
+}
+.text-yellow-950 {
+    color : color-mix(in hsl, var(--clr-yellow-950) var(--text-alpha, 100%), transparent);
+}
+
+.text-green-050 {
+    color : color-mix(in hsl, var(--clr-green-050) var(--text-alpha, 100%), transparent);
+}
+.text-green-100 {
+    color : color-mix(in hsl, var(--clr-green-100) var(--text-alpha, 100%), transparent);
+}
+.text-green-200 {
+    color : color-mix(in hsl, var(--clr-green-200) var(--text-alpha, 100%), transparent);
+}
+.text-green-300 {
+    color : color-mix(in hsl, var(--clr-green-300) var(--text-alpha, 100%), transparent);
+}
+.text-green-400 {
+    color : color-mix(in hsl, var(--clr-green-400) var(--text-alpha, 100%), transparent);
+}
+.text-green-500 {
+    color : color-mix(in hsl, var(--clr-green-500) var(--text-alpha, 100%), transparent);
+}
+.text-green-600 {
+    color : color-mix(in hsl, var(--clr-green-600) var(--text-alpha, 100%), transparent);
+}
+.text-green-700 {
+    color : color-mix(in hsl, var(--clr-green-700) var(--text-alpha, 100%), transparent);
+}
+.text-green-800 {
+    color : color-mix(in hsl, var(--clr-green-800) var(--text-alpha, 100%), transparent);
+}
+.text-green-900 {
+    color : color-mix(in hsl, var(--clr-green-900) var(--text-alpha, 100%), transparent);
+}
+.text-green-950 {
+    color : color-mix(in hsl, var(--clr-green-950) var(--text-alpha, 100%), transparent);
 }
 
 .text-blue-050 {
@@ -262,6 +396,108 @@
 }
 .bg-zinc-950 {
     background-color : color-mix(in hsl, var(--clr-zinc-950) var(--bg-alpha, 100%), transparent);
+}
+
+.bg-red-050 {
+    background-color : color-mix(in hsl, var(--clr-red-050) var(--text-alpha, 100%), transparent);
+}
+.bg-red-100 {
+    background-color : color-mix(in hsl, var(--clr-red-100) var(--text-alpha, 100%), transparent);
+}
+.bg-red-200 {
+    background-color : color-mix(in hsl, var(--clr-red-200) var(--text-alpha, 100%), transparent);
+}
+.bg-red-300 {
+    background-color : color-mix(in hsl, var(--clr-red-300) var(--text-alpha, 100%), transparent);
+}
+.bg-red-400 {
+    background-color : color-mix(in hsl, var(--clr-red-400) var(--text-alpha, 100%), transparent);
+}
+.bg-red-500 {
+    background-color : color-mix(in hsl, var(--clr-red-500) var(--text-alpha, 100%), transparent);
+}
+.bg-red-600 {
+    background-color : color-mix(in hsl, var(--clr-red-600) var(--text-alpha, 100%), transparent);
+}
+.bg-red-700 {
+    background-color : color-mix(in hsl, var(--clr-red-700) var(--text-alpha, 100%), transparent);
+}
+.bg-red-800 {
+    background-color : color-mix(in hsl, var(--clr-red-800) var(--text-alpha, 100%), transparent);
+}
+.bg-red-900 {
+    background-color : color-mix(in hsl, var(--clr-red-900) var(--text-alpha, 100%), transparent);
+}
+.bg-red-950 {
+    background-color : color-mix(in hsl, var(--clr-red-950) var(--text-alpha, 100%), transparent);
+}
+
+.bg-yellow-050 {
+    background-color : color-mix(in hsl, var(--clr-yellow-050) var(--text-alpha, 100%), transparent);
+}
+.bg-yellow-100 {
+    background-color : color-mix(in hsl, var(--clr-yellow-100) var(--text-alpha, 100%), transparent);
+}
+.bg-yellow-200 {
+    background-color : color-mix(in hsl, var(--clr-yellow-200) var(--text-alpha, 100%), transparent);
+}
+.bg-yellow-300 {
+    background-color : color-mix(in hsl, var(--clr-yellow-300) var(--text-alpha, 100%), transparent);
+}
+.bg-yellow-400 {
+    background-color : color-mix(in hsl, var(--clr-yellow-400) var(--text-alpha, 100%), transparent);
+}
+.bg-yellow-500 {
+    background-color : color-mix(in hsl, var(--clr-yellow-500) var(--text-alpha, 100%), transparent);
+}
+.bg-yellow-600 {
+    background-color : color-mix(in hsl, var(--clr-yellow-600) var(--text-alpha, 100%), transparent);
+}
+.bg-yellow-700 {
+    background-color : color-mix(in hsl, var(--clr-yellow-700) var(--text-alpha, 100%), transparent);
+}
+.bg-yellow-800 {
+    background-color : color-mix(in hsl, var(--clr-yellow-800) var(--text-alpha, 100%), transparent);
+}
+.bg-yellow-900 {
+    background-color : color-mix(in hsl, var(--clr-yellow-900) var(--text-alpha, 100%), transparent);
+}
+.bg-yellow-950 {
+    background-color : color-mix(in hsl, var(--clr-yellow-950) var(--text-alpha, 100%), transparent);
+}
+
+.bg-green-050 {
+    background-color : color-mix(in hsl, var(--clr-green-050) var(--text-alpha, 100%), transparent);
+}
+.bg-green-100 {
+    background-color : color-mix(in hsl, var(--clr-green-100) var(--text-alpha, 100%), transparent);
+}
+.bg-green-200 {
+    background-color : color-mix(in hsl, var(--clr-green-200) var(--text-alpha, 100%), transparent);
+}
+.bg-green-300 {
+    background-color : color-mix(in hsl, var(--clr-green-300) var(--text-alpha, 100%), transparent);
+}
+.bg-green-400 {
+    background-color : color-mix(in hsl, var(--clr-green-400) var(--text-alpha, 100%), transparent);
+}
+.bg-green-500 {
+    background-color : color-mix(in hsl, var(--clr-green-500) var(--text-alpha, 100%), transparent);
+}
+.bg-green-600 {
+    background-color : color-mix(in hsl, var(--clr-green-600) var(--text-alpha, 100%), transparent);
+}
+.bg-green-700 {
+    background-color : color-mix(in hsl, var(--clr-green-700) var(--text-alpha, 100%), transparent);
+}
+.bg-green-800 {
+    background-color : color-mix(in hsl, var(--clr-green-800) var(--text-alpha, 100%), transparent);
+}
+.bg-green-900 {
+    background-color : color-mix(in hsl, var(--clr-green-900) var(--text-alpha, 100%), transparent);
+}
+.bg-green-950 {
+    background-color : color-mix(in hsl, var(--clr-green-950) var(--text-alpha, 100%), transparent);
 }
 
 .bg-blue-050 {
