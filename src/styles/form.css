@@ -1,29 +1,14 @@
 
 .form {
 
-    & .input {
+    & input {
         border           : none;
         outline          : none;
         color            : inherit;
     }
 
-    & .search-input::placeholder {
+    & input::placeholder {
         color : color-mix(in hsl, currentColor 50%, transparent);
     }
 }
 
-button {
-    color            : inherit;
-    border           : none;
-    outline          : none;
-    cursor           : pointer;
-}
-
-.button {
-    color            : inherit;
-    border           : none;
-    outline          : none;
-    cursor           : pointer;
-    background-color : var(--clr-blue-700);
-    padding          : var(--space-s) var(--space-xl);
-}

@@ -1,3 +1,4 @@
+/* purgecss start ignore */
 *,
 *::before,
 *::after {
@@ -67,3 +68,4 @@ input, button, textarea, select {
         scroll-behavior: auto !important;
     }
 }
+/* purgecss end ignore */

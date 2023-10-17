@@ -1,0 +1,15 @@
+button {
+    color            : inherit;
+    border           : none;
+    outline          : none;
+    cursor           : pointer;
+}
+
+.button {
+    color            : inherit;
+    border           : none;
+    outline          : none;
+    cursor           : pointer;
+    background-color : var(--clr-blue-700);
+    padding          : var(--space-s) var(--space-xl);
+}
