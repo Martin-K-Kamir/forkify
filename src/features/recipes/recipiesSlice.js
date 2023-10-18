@@ -1,5 +1,6 @@
 import { api } from "../api/api";
 import { createEntityAdapter } from "@reduxjs/toolkit";
+import { dataSearchQueries } from "../../dataSearchQueries.js";
 
 export const recipesAdapter = createEntityAdapter({
     sortComparer: (a, b) => b.date.localeCompare(a.date),
@@ -25,7 +26,24 @@ const extendedApi = api.injectEndpoints({
                 }
             },
         }),
+        getSearchRecipes: builder.query({
+            queryFn: async () => {
+                try {
+                    // Fake fetching data from an API
+                    await new Promise(resolve => setTimeout(resolve, 200));
+                    const { data } = dataSearchQueries;
+
+                    return { data };
+                } catch (error) {
+                    return { error };
+                }
+            },
+        }),
     }),
 });
 
-export const { useGetRecipesQuery, useLazyGetRecipesQuery } = extendedApi;
+export const {
+    useGetRecipesQuery,
+    useLazyGetRecipesQuery,
+    useGetSearchRecipesQuery,
+} = extendedApi;

@@ -7,31 +7,32 @@ export const alertAdapter = createEntityAdapter({
 const initialState = alertAdapter.getInitialState();
 
 const alertSlice = createSlice({
-    name: 'alert',
+    name: "alert",
     initialState,
     reducers: {
-        showAlert: {
+        addAlert: {
             reducer: alertAdapter.addOne,
-            prepare: (action) => {
-                const date = new Date().toISOString()
+            prepare: action => {
+                const date = new Date().toISOString();
 
                 return {
                     payload: {
                         ...action,
                         id: action.message,
                         date,
-                    }
-                }
+                    },
+                };
             },
         },
-    }
-})
+        removeAlert: alertAdapter.removeOne,
+    },
+});
 
-export const {showAlert} = alertSlice.actions
-export default alertSlice.reducer
+export const { addAlert, removeAlert } = alertSlice.actions;
+export default alertSlice.reducer;
 
 export const {
     selectAll: selectAllAlerts,
     selectById: selectAlertById,
     selectIds: selectAlertIds,
-} = alertAdapter.getSelectors(state => state.alert)
+} = alertAdapter.getSelectors(state => state.alert);

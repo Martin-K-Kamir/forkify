@@ -5,6 +5,31 @@
     margin-inline : auto;
 }
 
+.stack {
+    --_stack-space : var(--stack-space, var(--space, 1em));
+
+    & > :where(*, *:empty) {
+        margin-block : 0;
+    }
+
+    & > :where(*:not(:empty) + *:not(:empty)) {
+        margin-block-start : var(--_stack-space);
+    }
+
+    &[data-stack-first]> *:first-child {
+        margin-block-start : var(--_stack-space)
+    }
+
+    &[data-inherit-space] {
+        --stack-space : inherit;
+    }
+
+    &[data-initial-space] {
+        --stack-space : initial;
+    }
+}
+
+
 /* /////////////// Width /////////////// */
 
 .w-auto {
