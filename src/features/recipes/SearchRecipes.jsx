@@ -1,7 +1,8 @@
-import { useEffect, useState } from "react";
+import { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { useLazyGetRecipesQuery } from "./recipiesSlice.js";
-import Alert from "../../components/alert/Alert.jsx";
+import { useDispatch } from "react-redux";
+import { showAlert } from "../alert/alertSlice.js";
 
 const recipes = [
     "Pizza",
@@ -16,22 +17,10 @@ const recipes = [
 ];
 
 const SearchRecipes = () => {
+    const dispatch = useDispatch();
     const navigate = useNavigate();
     const [searchTerm, setSearchTerm] = useState("");
-    const [showAlert, setShowAlert] = useState(false);
-    const [getRecipes, { isLoading, error }] = useLazyGetRecipesQuery();
-
-    useEffect(() => {
-        if (showAlert && !searchTerm) {
-            setTimeout(() => {
-                setShowAlert(false);
-            }, 3_000);
-        }
-    }, [searchTerm, showAlert]);
-
-    const handleCloseAlert = () => {
-        setShowAlert(false);
-    };
+    const [getRecipes, {isLoading}] = useLazyGetRecipesQuery();
 
     const handleChange = e => {
         setSearchTerm(e.target.value);
@@ -42,11 +31,14 @@ const SearchRecipes = () => {
             e.preventDefault();
             await getRecipes(searchTerm, true).unwrap();
             navigate(`/recipes/${searchTerm}`);
-        } catch {
-            setShowAlert(true);
+        } catch (error) {
+            dispatch(showAlert({
+                message: error.message,
+                isDanger: true,
+            }));
+        } finally {
+            setSearchTerm("");
         }
-
-        setSearchTerm("");
     };
 
     const renderedRecipes = recipes.map(recipe => {
@@ -62,12 +54,6 @@ const SearchRecipes = () => {
 
     return (
         <div className="h-screen flex flex-direction-column align-items-center gap-xl pt-fluid-2xl-7xl">
-            {showAlert && (
-                <Alert danger onClose={handleCloseAlert}>
-                    {error?.message}
-                </Alert>
-            )}
-
             <h1 className="block f-family-secondary f-size-6 f-weight-medium line-height-1">
                 Forkify
             </h1>

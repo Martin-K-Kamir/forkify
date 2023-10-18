@@ -1,0 +1,24 @@
+
+.alert-list {
+    position : fixed;
+    inset    : var(--space-fluid-l-xl) auto auto 0;
+    /*transform  : translateY(calc(-100% - var(--space-fluid-l-xl) - 1rem));*/
+    /*transition : transform 300ms ease-in-out;*/
+}
+
+
+.alert-item:where([data-visible="false"], [data-visible="true"]) {
+    transition : transform 300ms ease-in-out, opacity 300ms ease-in-out, visibility 300ms ease-in-out;
+}
+
+.alert-item[data-visible="false"] {
+    transform  : scale(0.65);
+    opacity    : 0;
+    visibility : hidden;
+}
+
+.alert-item[data-visible="true"] {
+    transform  : scale(1);
+    opacity    : 1;
+    visibility : visible;
+}

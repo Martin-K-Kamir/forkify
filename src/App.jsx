@@ -1,6 +1,7 @@
 import { Route, Routes } from "react-router-dom";
 import SearchRecipes from "./features/recipes/SearchRecipes.jsx";
 import RecipesList from "./features/recipes/RecipesList.jsx";
+import AlertList from "./features/alert/AlertList.jsx";
 
 const App = () => {
     return (
@@ -15,6 +16,8 @@ const App = () => {
 
                 </Route>
             </Routes>
+
+            <AlertList />
         </div>
     );
 };
