@@ -682,6 +682,19 @@
     line-height : var(--line-height-3)
 }
 
+
+/* /////////////// Typography  /////////////// */
+
+.text-underlined {
+    text-decoration : underline;
+}
+
+.text-no-decoration {
+    text-decoration : none;
+}
+
+
+
 /* /////////////// Radius  /////////////// */
 
 .radius-1 {
