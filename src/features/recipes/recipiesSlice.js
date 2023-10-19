@@ -3,12 +3,9 @@ import { createEntityAdapter, createSelector } from "@reduxjs/toolkit";
 import { dataSearchQueries } from "../../dataSearchQueries.js";
 import { sub } from "date-fns";
 
-
 export const recipesAdapter = createEntityAdapter({
     sortComparer: (a, b) => b.date.localeCompare(a.date),
 });
-
-const initialState = recipesAdapter.getInitialState();
 
 const extendedApi = api.injectEndpoints({
     endpoints: builder => ({
@@ -22,7 +19,61 @@ const extendedApi = api.injectEndpoints({
                     );
                 },
             }),
+            // queryFn: async (recipesId, api, extraOptions, baseQuery) => {
+            //     const response = await baseQuery(`?search=${recipesId}`);
+            //
+            //     console.log(response.data.data.recipes);
+            //
+            //     const preloadedRecipes = [];
+            //
+            //     const preloadPromises = response.data.data.recipes.map(
+            //         async recipe => {
+            //             return new Promise(async resolve => {
+            //                 const img = new Image();
+            //                 img.src = recipe.image_url;
+            //
+            //                 // Handle image load and error events
+            //                 img.onload = () => {
+            //                     preloadedRecipes.push(recipe);
+            //                     resolve();
+            //                 };
+            //
+            //                 img.onerror = () => {
+            //                     // Handle the error, e.g., by logging it
+            //                     console.error(
+            //                         `Failed to preload image: ${recipe.image_url}`
+            //                     );
+            //                     resolve(); // Resolve the promise to continue preloading other images
+            //                 };
+            //             });
+            //         }
+            //     );
+            //
+            //     await Promise.all(preloadPromises);
+            //
+            //     let min = 1;
+            //     let hour = 1;
+            //     let day = 1;
+            //
+            //     const recipes = preloadedRecipes.map(post => {
+            //         if (!post?.date)
+            //             post.date = sub(new Date(), {
+            //                 minutes: min++,
+            //                 hours: hour++,
+            //                 days: day++,
+            //             }).toISOString();
+            //         return post;
+            //     });
+            //
+            //     return {
+            //         data: recipesAdapter.setAll(
+            //             recipesAdapter.getInitialState(),
+            //             recipes
+            //         ),
+            //     };
+            // },
             transformResponse: result => {
+                console.log({ result });
                 let min = 1;
                 let hour = 1;
                 let day = 1;
@@ -36,7 +87,11 @@ const extendedApi = api.injectEndpoints({
                         }).toISOString();
                     return post;
                 });
-                return recipesAdapter.setAll(initialState, recipes);
+
+                return recipesAdapter.setAll(
+                    recipesAdapter.getInitialState(),
+                    recipes
+                );
             },
             transformErrorResponse(result, meta, arg) {
                 if (result.data.data.recipes.length === 0) {
@@ -65,17 +120,5 @@ export const {
     useLazyGetRecipesQuery,
     useGetSearchRecipesQuery,
 } = extendedApi;
-
-export const selectRecipesResult = extendedApi.endpoints.getRecipes.select();
-
-const selectRecipesData = createSelector(
-    selectRecipesResult,
-    recipesResult => recipesResult.data
-);
-
-export const {
-    selectAll: selectAllRecipes,
-    selectById: selectRecipeById,
-    selectIds: selectRecipeIds,
-    selectTotal: selectTotalRecipes,
-} = recipesAdapter.getSelectors(state => selectRecipesData(state) ?? initialState);
+export const useGetRecipesState =
+    extendedApi.endpoints.getRecipes.useQueryState;
