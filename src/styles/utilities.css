@@ -157,6 +157,61 @@
     height : 1em;
 }
 
+/* /////////////// Aspect ratio /////////////// */
+
+.aspect-ratio-4x3 {
+    aspect-ratio : 4 / 3;
+}
+
+.aspect-ratio-16x9 {
+    aspect-ratio : 16 / 9;
+}
+
+/* /////////////// Object fit /////////////// */
+
+.object-contain {
+    object-fit : contain;
+}
+.object-cover {
+    object-fit : cover;
+}
+.object-fill {
+    object-fit : fill;
+}
+.object-none {
+    object-fit : none;
+}
+.object-scale-down {
+    object-fit : scale-down;
+}
+
+/* /////////////// Overflow /////////////// */
+
+.overflow-auto {
+    overflow : auto;
+}
+.overflow-hidden {
+    overflow : hidden;
+}
+.overflow-visible {
+    overflow : visible;
+}
+.overflow-scroll {
+    overflow : scroll;
+}
+.overflow-x-auto {
+    overflow-x : auto;
+}
+.overflow-x-hidden {
+    overflow-x : hidden;
+}
+.overflow-x-visible {
+    overflow-x : visible;
+}
+.overflow-x-scroll {
+    overflow-x : scroll;
+}
+
 /* /////////////// Colors /////////////// */
 
 .fill-current {

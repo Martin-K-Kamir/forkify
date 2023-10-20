@@ -19,13 +19,11 @@ const RecipesList = () => {
         content = data.ids.slice(0, x).map(recipeId => {
             return <RecipesListItem key={recipeId} recipeId={recipeId} />;
         });
-        // content = <RecipesListItem key={data.ids[0]} recipeId={data.ids[0]} />;
     }
 
     return (
         <div>
             <div className="recipes-list py-3xl gap-fluid-m-l">{content}</div>
-            <button onClick={() => setX(x => x + 10)}>lol</button>
         </div>
     );
 };
