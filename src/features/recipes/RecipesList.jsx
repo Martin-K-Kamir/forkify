@@ -7,8 +7,6 @@ import { useState } from "react";
 const RecipesList = () => {
     const { recipesId } = useParams();
     const { data, isLoading, isError, error } = useGetRecipesQuery(recipesId);
-    const [x, setX] = useState(10);
-    console.log(data);
 
     let content;
     if (isLoading) {
@@ -16,14 +14,14 @@ const RecipesList = () => {
     } else if (isError) {
         content = <div>{error}</div>;
     } else {
-        content = data.ids.slice(0, x).map(recipeId => {
+        content = data.ids.slice(0, 12).map(recipeId => {
             return <RecipesListItem key={recipeId} recipeId={recipeId} />;
         });
     }
 
     return (
         <div>
-            <div className="recipes-list py-3xl gap-fluid-m-l">{content}</div>
+            <ul className="recipes-list py-3xl gap-fluid-m-l" role="list">{content}</ul>
         </div>
     );
 };

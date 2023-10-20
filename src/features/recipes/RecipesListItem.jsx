@@ -11,13 +11,15 @@ const RecipesListItem = ({recipeId}) => {
     console.log(recipe);
 
     return (
-        <div className="recipes-list__item bg-zinc-800 radius-1 overflow-hidden">
-            <img className="w-full aspect-ratio-16x9 object-cover" src={recipe.image_url} alt={recipe.title}/>
-            <div className="p-s">
-                <h3 className="f-size-1">{recipe.title}</h3>
-                <p className="f-size--1 mt-2xs">by {recipe.publisher}</p>
-            </div>
-        </div>
+        <li className="bg-zinc-800 radius-1 overflow-hidden">
+            <a href="#" className="text-zinc-050 text-no-decoration">
+                <img className="w-full aspect-ratio-16x9 object-cover" src={recipe.image_url} alt={recipe.title}/>
+                <div className="p-s">
+                    <h3 className="f-size-1 f-weight-medium">{recipe.title}</h3>
+                    <p className="f-size--1 mt-2xs text-zinc-300">- {recipe.publisher}</p>
+                </div>
+            </a>
+        </li>
     );
 };
 
