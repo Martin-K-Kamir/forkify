@@ -115,7 +115,12 @@ const Navigation = () => {
     const handleSearchSubmit = async (e, onSubmit) => {
         try {
             await onSubmit(e);
-            setIsSearchModalRendered(false);
+
+            setIsSearchModalVisible(false);
+
+            setTimeout(() => {
+                setIsSearchModalRendered(false);
+            }, 300);
         } catch {}
     };
 
