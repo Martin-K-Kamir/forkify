@@ -3,15 +3,6 @@
 @custom-media --touch   (hover: none) and (pointer: coarse);
 @custom-media --mouse   (hover) and (pointer: fine);
 
-@custom-media --above-sm  (width >= 30em); /* 480px */
-@custom-media --above-md  (width >= 48em); /* 768px */
-@custom-media --above-lg  (width >= 64em); /* 1024px */
-
-@custom-media --below-sm  (width < 30em); /* 480px */
-@custom-media --below-md  (width < 48em); /* 768px */
-@custom-media --below-lg  (width < 64em); /* 1024px */
-
-
 :root {
     --clr-zinc-050        : hsl(0, 0%, 98%);
     --clr-zinc-100        : hsl(240, 5%, 96%);
@@ -177,6 +168,10 @@ body {
     font-synthesis           : none;
     -moz-osx-font-smoothing  : grayscale;
     -webkit-text-size-adjust : 100%;
+}
+
+body[data-scroll="disabled"] {
+    overflow : hidden;
 }
 
 .animation-spin {

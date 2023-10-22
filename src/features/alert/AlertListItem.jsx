@@ -8,7 +8,7 @@ const AlertListItem = ({ alertId }) => {
     const dispatch = useDispatch();
 
     const [isVisible, setIsVisible] = useState(false);
-    const [isExtended, setIsExtended] = useState(true);
+    const [isExpanded, setIsExpanded] = useState(true);
     const [maxHeight, setMaxHeight] = useState(0);
     const ref = useRef(null);
 
@@ -27,7 +27,7 @@ const AlertListItem = ({ alertId }) => {
 
     const hideAlert = () => {
         setIsVisible(false);
-        setIsExtended(false);
+        setIsExpanded(false);
         setMaxHeight(0);
 
         setTimeout(() => {
@@ -49,20 +49,20 @@ const AlertListItem = ({ alertId }) => {
 
     let icon;
     if (isSuccess) {
-        icon = <Icon type="checkCircleOutline" className={iconClasses} />;
+        icon = <Icon type="checkCircle" className={iconClasses} />;
     } else if (isDanger) {
-        icon = <Icon type="cancelOutline" className={iconClasses} />;
+        icon = <Icon type="cancel" className={iconClasses} />;
     } else if (isWarning) {
-        icon = <Icon type="warningOutline" className={iconClasses} />;
+        icon = <Icon type="warning" className={iconClasses} />;
     } else if (isInfo) {
-        icon = <Icon type="infoOutline" className={iconClasses} />;
+        icon = <Icon type="info" className={iconClasses} />;
     }
 
     return (
         <div
-            className="alert-item mb-fluid-s-m"
-            data-visible={isVisible}
-            data-extended={isExtended}
+            className="alert-item mb-fluid-s-m transition-zoom transition-expand"
+            data-zoom={isVisible}
+            data-expand={isExpanded}
             ref={ref}
             style={{ maxHeight }}
         >

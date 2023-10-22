@@ -1,4 +1,3 @@
-import "./alert.css";
 import { createPortal } from "react-dom";
 import { useSelector } from "react-redux";
 import { selectAlertIds } from "./alertSlice.js";
@@ -12,7 +11,7 @@ const AlertList = () => {
     ));
 
     return createPortal(
-        <div className="alert-list w-full">
+        <div className="alert-list top-fluid-l-xl left-0 fixed z-index-900 w-full">
             <div className="wrapper grid max-w-m">{renderedAlerts}</div>
         </div>,
         document.getElementById("alert")

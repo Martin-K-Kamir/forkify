@@ -1,9 +1,5 @@
 
 .recipes-list {
     display: grid;
-    grid-template-columns: repeat(auto-fill, minmax(min(14rem, 100%), 1fr));
-}
-
-.recipes-list__item {
-
+    grid-template-columns: repeat(auto-fill, minmax(min(15rem, 100%), 1fr));
 }

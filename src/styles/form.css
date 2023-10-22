@@ -2,13 +2,12 @@
 .form {
 
     & input {
-        border           : none;
-        outline          : none;
-        color            : inherit;
+        border  : none;
+        outline : none;
+        color   : inherit;
     }
 
     & input::placeholder {
         color : color-mix(in hsl, currentColor 50%, transparent);
     }
 }
-

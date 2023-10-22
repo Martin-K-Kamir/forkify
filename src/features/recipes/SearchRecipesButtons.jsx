@@ -24,7 +24,7 @@ let SearchRecipesButtons = () => {
         return (
             <Link
                 to={`/recipes/${recipe}`}
-                className="bg-zinc-800 text-zinc-100 text-alpha-700 px-m py-xs f-size--1 line-height-1 text-no-decoration radius-pill"
+                className="bg-zinc-800 text-zinc-200 px-m py-xs f-size--1 line-height-1 text-no-decoration radius-pill"
                 key={recipe}
             >
                 {recipe}
