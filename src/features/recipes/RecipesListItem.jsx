@@ -1,7 +1,7 @@
 import { useGetRecipesState } from "./recipiesSlice.js";
 import { useParams } from "react-router-dom";
 import React from "react";
-
+import {Link} from "react-router-dom";
 let RecipesListItem = ({ recipeId }) => {
     const { recipesId } = useParams();
 
@@ -9,7 +9,7 @@ let RecipesListItem = ({ recipeId }) => {
         selectFromResult: ({ data }) => data.entities[recipeId],
     });
 
-    const { image_url: image, title, publisher } = recipe;
+    const { image_url: image, title, publisher, id } = recipe;
 
     return (
         <li className="container flex flex-direction-column justify-self-center bg-zinc-800 radius-1 overflow-hidden w-full max-w-s//below-md mb-xs//below-sm">
@@ -27,9 +27,9 @@ let RecipesListItem = ({ recipeId }) => {
                         by {publisher}
                     </p>
                 </div>
-                <button className="bg-blue-700 f-weight-medium f-size-1 f-size--1//above-sm f-size-1//container-above-sm line-height-1 radius-1 px-m py-xs mt-l w-full//below-sm w-full//container-above-sm">
+                <Link to={id} className="bg-blue-700 text-zinc-050 text-no-decoration text-center f-weight-medium f-size-1 f-size--1//above-sm f-size-1//container-above-sm line-height-1 radius-1 px-m py-xs mt-l w-full//below-sm w-full//container-above-sm">
                     View Recipe
-                </button>
+                </Link>
             </div>
         </li>
     );
