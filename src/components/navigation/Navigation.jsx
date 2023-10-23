@@ -36,7 +36,10 @@ const Navigation = () => {
     }, [theme]);
 
     useEffect(() => {
-        if (!isSearchModalRendered && !isMenuModalRendered) return;
+        console.log(isSearchModalVisible, isSearchModalVisible);
+        if (!isSearchModalVisible && !isSearchModalVisible) return;
+
+        console.log(!isSearchModalVisible && !isSearchModalVisible);
         document.body.dataset.scroll = "disabled";
 
         const handleOutsideSearchClick = handleOutsideClick(
@@ -51,11 +54,11 @@ const Navigation = () => {
             menuModalRef
         );
 
-        if (isSearchModalRendered) {
+        if (isSearchModalVisible) {
             document.addEventListener("click", handleOutsideSearchClick, true);
         }
 
-        if (isMenuModalRendered) {
+        if (isSearchModalVisible) {
             document.addEventListener("click", handleOutsideMenuClick, true);
         }
 
@@ -64,7 +67,7 @@ const Navigation = () => {
             document.removeEventListener("click", handleOutsideSearchClick);
             document.removeEventListener("click", handleOutsideMenuClick);
         };
-    }, [isSearchModalRendered, isMenuModalRendered]);
+    }, [isSearchModalVisible, isSearchModalVisible]);
 
     useEffect(() => {
         if (isBelowLg) {
