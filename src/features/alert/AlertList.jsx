@@ -11,7 +11,7 @@ const AlertList = () => {
     ));
 
     return createPortal(
-        <div className="alert-list top-fluid-l-xl left-0 fixed z-index-900 w-full">
+        <div className="alert-list top-fluid-m-l left-0 fixed z-index-900 w-full">
             <div className="wrapper grid max-w-m">{renderedAlerts}</div>
         </div>,
         document.getElementById("alert")

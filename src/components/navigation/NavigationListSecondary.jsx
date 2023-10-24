@@ -14,9 +14,9 @@ const NavigationListSecondary = ({
 
     const navigationItems = [
         {
-            label: "Favorites",
-            icon: "favorite",
-            url: "/favorites",
+            label: "bookmarks",
+            icon: "bookmarks",
+            url: "/bookmarks",
         },
         {
             label: "History",

@@ -13,32 +13,32 @@ const App = () => {
         <>
             <Routes>
                 <Route path="/">
-                    <Route index element={<SearchRecipesPage/>}/>
+                    <Route index element={<SearchRecipesPage />} />
 
-                    <Route element={<Layout/>}>
+                    <Route element={<Layout />}>
                         <Route path="recipes">
                             <Route
                                 path=":recipesId"
-                                element={<RecipesPage/>}
+                                element={<RecipesPage />}
                             />
                             <Route
                                 path=":recipesId/:recipeId"
-                                element={<SingleRecipePage/>}
+                                element={<SingleRecipePage />}
                             />
                         </Route>
 
-                        <Route path="add-recipe" element={<AddRecipeForm/>}/>
+                        <Route path="add-recipe" element={<AddRecipeForm />} />
 
-                        <Route path="favorites" element={<FavoritesPage/>}/>
+                        <Route path="bookmarks" element={<FavoritesPage />} />
 
-                        <Route path="history" element={<HistoryPage/>}/>
+                        <Route path="history" element={<HistoryPage />} />
                     </Route>
 
-                    <Route path="*" element={<Navigate to="/" replace/>}/>
+                    <Route path="*" element={<Navigate to="/" replace />} />
                 </Route>
             </Routes>
 
-            <AlertList/>
+            <AlertList />
         </>
     );
 };

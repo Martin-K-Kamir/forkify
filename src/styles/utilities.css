@@ -732,6 +732,41 @@
     text-decoration : none;
 }
 
+/* /////////////// List styles  /////////////// */
+
+.list-style-none {
+    list-style : none;
+}
+
+
+.list-style-inside {
+    list-style-position : inside;
+}
+.list-style-outside {
+    list-style-position : outside;
+}
+
+.list-align-text {
+    text-indent: -1.5em;
+    padding-left: 1.5em;
+}
+
+/* /////////////// Text styles  /////////////// */
+
+.text-center {
+    text-align : center
+}
+.text-left {
+    text-align : left
+}
+.text-right {
+    text-align : right
+}
+
+.text-balance {
+    text-wrap: balance;
+}
+
 /* /////////////// Radius  /////////////// */
 
 .radius-1 {
@@ -2690,16 +2725,6 @@
 
 /* /////////////// Alignment /////////////// */
 
-.text-center {
-    text-align : center
-}
-.text-left {
-    text-align : left
-}
-.text-right {
-    text-align : right
-}
-
 .align-content-center {
     align-content : center
 }
@@ -2798,6 +2823,9 @@
 
 .flex-direction-row {
     flex-direction : row;
+}
+.flex-direction-row-reverse {
+    flex-direction : row-reverse;
 }
 .flex-direction-column {
     flex-direction : column;
@@ -4345,6 +4373,9 @@
     .flex-direction-row\/\/above-sm {
         flex-direction : row;
     }
+    .flex-direction-row-reverse\/\/above-sm {
+        flex-direction : row-reverse;
+    }
     .flex-direction-column\/\/above-sm {
         flex-direction : column;
     }
@@ -5871,6 +5902,9 @@
     .flex-direction-row\/\/above-md {
         flex-direction : row;
     }
+    .flex-direction-row-reverse\/\/above-md {
+        flex-direction : row-reverse;
+    }
     .flex-direction-column\/\/above-md {
         flex-direction : column;
     }
@@ -7396,6 +7430,9 @@
 
     .flex-direction-row\/\/above-lg {
         flex-direction : row;
+    }
+    .flex-direction-row-reverse\/\/above-lg {
+        flex-direction : row-reverse;
     }
     .flex-direction-column\/\/above-lg {
         flex-direction : column;
@@ -8924,6 +8961,9 @@
     .flex-direction-row\/\/below-sm {
         flex-direction : row;
     }
+    .flex-direction-row-reverse\/\/below-sm {
+        flex-direction : row-reverse;
+    }
     .flex-direction-column\/\/below-sm {
         flex-direction : column;
     }
@@ -10450,6 +10490,9 @@
     .flex-direction-row\/\/below-md {
         flex-direction : row;
     }
+    .flex-direction-row-reverse\/\/below-md {
+        flex-direction : row-reverse;
+    }
     .flex-direction-column\/\/below-md {
         flex-direction : column;
     }
@@ -11975,6 +12018,9 @@
 
     .flex-direction-row\/\/below-lg {
         flex-direction : row;
+    }
+    .flex-direction-row-reverse\/\/below-lg {
+        flex-direction : row-reverse;
     }
     .flex-direction-column\/\/below-lg {
         flex-direction : column;

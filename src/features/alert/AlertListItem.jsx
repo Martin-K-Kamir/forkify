@@ -49,13 +49,13 @@ const AlertListItem = ({ alertId }) => {
 
     let icon;
     if (isSuccess) {
-        icon = <Icon type="checkCircle" className={iconClasses} />;
+        icon = <Icon type="checkCircle" className={iconClasses} fill={true} />;
     } else if (isDanger) {
-        icon = <Icon type="cancel" className={iconClasses} />;
+        icon = <Icon type="cancel" className={iconClasses} fill={true} />;
     } else if (isWarning) {
-        icon = <Icon type="warning" className={iconClasses} />;
+        icon = <Icon type="warning" className={iconClasses} fill={true} />;
     } else if (isInfo) {
-        icon = <Icon type="info" className={iconClasses} />;
+        icon = <Icon type="info" className={iconClasses} fill={true} />;
     }
 
     return (
