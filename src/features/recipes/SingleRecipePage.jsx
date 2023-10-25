@@ -2,13 +2,8 @@ import { useParams } from "react-router-dom";
 import { useGetRecipeQuery } from "./recipiesSlice.js";
 import Icon from "../../components/Icon.jsx";
 import Fraction from "fraction.js";
-import * as PropTypes from "prop-types";
-
-function Breadcrumbs(props) {
-    return null;
-}
-
-Breadcrumbs.propTypes = {breadcrumbs: PropTypes.any};
+import Breadcrumbs from "../../components/Breadcrumbs.jsx";
+import { capitalazeForEach } from "../../utilities.js";
 const SingleRecipePage = () => {
     const { recipeId } = useParams();
     const { data, isLoading, isError, isSuccess, error } =
@@ -64,17 +59,17 @@ const SingleRecipePage = () => {
 
         return (
             <div className="bg-zinc-800//above-sm radius-1 max-w-xl mx-auto p-fluid-m-l//above-sm pb-fluid-l-xl//above-sm">
-                <Breadcrumbs breadcrumbs={breadcrumbs} />
                 <img
                     className="w-full aspect-ratio-16x9 object-cover radius-1"
                     src={data.image_url}
                     alt={data.title}
                 />
                 <div className="stack s-l mt-fluid-s-m">
+                    <Breadcrumbs breadcrumbs={breadcrumbs} />
                     <header>
                         <div className="flex flex-wrap justify-content-between align-items-center gap-xs">
                             <h1 className="f-family-secondary f-size-fluid-4 f-size-fluid-5//above-sm f-weight-bold line-height-2">
-                                {data.title}
+                                {capitalazeForEach(data.title)}
                             </h1>
                             <div className="flex align-items-center gap-fluid-2xs-xs">
                                 {/*<button className="flex justify-content-center align-items-center p-2xs radius-circle bg-zinc-700">*/}
