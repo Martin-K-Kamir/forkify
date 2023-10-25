@@ -2,7 +2,13 @@ import { useParams } from "react-router-dom";
 import { useGetRecipeQuery } from "./recipiesSlice.js";
 import Icon from "../../components/Icon.jsx";
 import Fraction from "fraction.js";
+import * as PropTypes from "prop-types";
 
+function Breadcrumbs(props) {
+    return null;
+}
+
+Breadcrumbs.propTypes = {breadcrumbs: PropTypes.any};
 const SingleRecipePage = () => {
     const { recipeId } = useParams();
     const { data, isLoading, isError, isSuccess, error } =
@@ -41,8 +47,24 @@ const SingleRecipePage = () => {
             }
         );
 
+        const breadcrumbs = [
+            {
+                name: "Home",
+                link: "/",
+            },
+            {
+                name: "Recipes",
+                link: "/recipes",
+            },
+            {
+                name: data.title,
+                link: `/recipes/${data.id}`,
+            }
+        ];
+
         return (
             <div className="bg-zinc-800//above-sm radius-1 max-w-xl mx-auto p-fluid-m-l//above-sm pb-fluid-l-xl//above-sm">
+                <Breadcrumbs breadcrumbs={breadcrumbs} />
                 <img
                     className="w-full aspect-ratio-16x9 object-cover radius-1"
                     src={data.image_url}
@@ -51,7 +73,7 @@ const SingleRecipePage = () => {
                 <div className="stack s-l mt-fluid-s-m">
                     <header>
                         <div className="flex flex-wrap justify-content-between align-items-center gap-xs">
-                            <h1 className="f-family-secondary f-size-fluid-4 f-size-fluid-5//above-sm f-weight-bold line-height-2 text-balance">
+                            <h1 className="f-family-secondary f-size-fluid-4 f-size-fluid-5//above-sm f-weight-bold line-height-2">
                                 {data.title}
                             </h1>
                             <div className="flex align-items-center gap-fluid-2xs-xs">
@@ -109,7 +131,7 @@ const SingleRecipePage = () => {
                         <h2 className="f-family-secondary f-size-fluid-3 f-weight-bold line-height-2">
                             Recipe ingredients
                         </h2>
-                        <ul className="list-style-inside mt-2xs text-balance text-zinc-300">
+                        <ul className="list-style-inside mt-2xs text-zinc-300">
                             {renderedIngredients}
                         </ul>
                     </div>
@@ -117,7 +139,7 @@ const SingleRecipePage = () => {
                         <h2 className="f-family-secondary f-size-fluid-3 f-weight-bold line-height-2">
                             How to cook it
                         </h2>
-                        <p className="mt-2xs text-balance text-zinc-300">
+                        <p className="mt-2xs text-zinc-300">
                             This recipe was carefully designed and tested by{" "}
                             {data.publisher}. Please check out directions at
                             their website.
