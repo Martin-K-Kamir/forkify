@@ -2,6 +2,8 @@ import { api } from "../api/api";
 import { createEntityAdapter } from "@reduxjs/toolkit";
 import { dataSearchQueries } from "../../dataSearchQueries.js";
 import { sub } from "date-fns";
+import Fraction from "fraction.js";
+import { addBookmark, removeBookmark } from "../bookmarks/bookmarksSlice.js";
 
 export const recipesAdapter = createEntityAdapter({
     sortComparer: (a, b) => b.date.localeCompare(a.date),
@@ -20,7 +22,6 @@ const extendedApi = api.injectEndpoints({
                 },
             }),
             transformResponse: result => {
-                console.log({ result });
                 let min = 1;
                 let hour = 1;
                 let day = 1;
@@ -48,7 +49,13 @@ const extendedApi = api.injectEndpoints({
         }),
         getRecipe: builder.query({
             query: recipeId => `/${recipeId}`,
-            transformResponse: result => result.data.recipe,
+            transformResponse: result => {
+                const recipe = result.data.recipe;
+
+                if (!recipe?.isBookmarked) recipe.isBookmarked = false;
+
+                return recipe;
+            },
         }),
         getSearchRecipes: builder.query({
             queryFn: async () => {
@@ -63,6 +70,41 @@ const extendedApi = api.injectEndpoints({
                 }
             },
         }),
+        updateBookmark: builder.mutation({
+            queryFn: () => ({ data: null }),
+            async onQueryStarted(
+                { id, isBookmarked },
+                { dispatch, queryFulfilled, getState }
+            ) {
+                const patchResult = dispatch(
+                    api.util.updateQueryData("getRecipe", id, draft => {
+                        draft.isBookmarked = isBookmarked;
+                    })
+                );
+
+                const { data: recipe } = api.endpoints.getRecipe.select(id)(
+                    getState()
+                );
+
+                if (isBookmarked) {
+                    dispatch(addBookmark(recipe));
+                } else {
+                    dispatch(removeBookmark(recipe.id));
+                }
+
+                try {
+                    await queryFulfilled;
+                } catch {
+                    patchResult.undo();
+
+                    if (isBookmarked) {
+                        dispatch(removeBookmark(recipe.id));
+                    } else {
+                        dispatch(addBookmark(recipe));
+                    }
+                }
+            },
+        }),
     }),
 });
 
@@ -71,6 +113,7 @@ export const {
     useLazyGetRecipesQuery,
     useGetRecipeQuery,
     useGetSearchRecipesQuery,
+    useUpdateBookmarkMutation,
 } = extendedApi;
-export const useGetRecipesState =
+export const useGetRecipesQueryState =
     extendedApi.endpoints.getRecipes.useQueryState;

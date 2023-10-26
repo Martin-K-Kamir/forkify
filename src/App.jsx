@@ -1,7 +1,7 @@
 import { Navigate, Route, Routes } from "react-router-dom";
 import SearchRecipesPage from "./features/recipes/SearchRecipesPage.jsx";
 import AlertList from "./features/alert/AlertList.jsx";
-import FavoritesPage from "./features/favorites/FavoritesPage.jsx";
+import BookmarksPage from "./features/bookmarks/BookmarksPage.jsx";
 import HistoryPage from "./features/history/HistoryPage.jsx";
 import AddRecipeForm from "./features/recipes/AddRecipeForm.jsx";
 import RecipesPage from "./features/recipes/RecipesPage.jsx";
@@ -29,7 +29,7 @@ const App = () => {
 
                         <Route path="add-recipe" element={<AddRecipeForm />} />
 
-                        <Route path="bookmarks" element={<FavoritesPage />} />
+                        <Route path="bookmarks" element={<BookmarksPage />} />
 
                         <Route path="history" element={<HistoryPage />} />
                     </Route>
