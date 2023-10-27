@@ -31,11 +31,13 @@ const SingleRecipePage = () => {
         selectBookmarkById(state, recipeId)
     );
 
-    console.log({ bookmarkRecipe });
+    console.log(bookmarkRecipe?.isBookmarked);
 
     const [servings, setServings] = useState(0);
     const [prevServings, setPrevServings] = useState(0);
     const [ingredients, setIngredients] = useState(null);
+
+    const isBookmarked = bookmarkRecipe?.isBookmarked ?? recipe?.isBookmarked;
 
     useEffect(() => {
         if (recipe) {
@@ -77,7 +79,7 @@ const SingleRecipePage = () => {
     };
 
     const handleBookmarkClick = () => {
-        updateBookmark({ id: recipeId, isBookmarked: !recipe.isBookmarked });
+        updateBookmark( {id: recipeId, isBookmarked: !isBookmarked });
     };
 
     if (isLoading) {
@@ -144,10 +146,7 @@ const SingleRecipePage = () => {
                                     <Icon
                                         type="bookmarks"
                                         className="f-size-1"
-                                        fill={
-                                            bookmarkRecipe?.isBookmarked ??
-                                            recipe.isBookmarked
-                                        }
+                                        fill={isBookmarked}
                                     />
                                 </button>
                             </div>

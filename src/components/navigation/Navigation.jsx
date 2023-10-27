@@ -36,7 +36,6 @@ const Navigation = () => {
     }, [theme]);
 
     useEffect(() => {
-        console.log(isSearchModalVisible, isSearchModalVisible);
         if (!isSearchModalVisible && !isSearchModalVisible) return;
 
         console.log(!isSearchModalVisible && !isSearchModalVisible);
