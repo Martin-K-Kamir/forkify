@@ -1,8 +1,4 @@
-import {
-    createEntityAdapter,
-    createSelector,
-    createSlice,
-} from "@reduxjs/toolkit";
+import { createEntityAdapter, createSlice } from "@reduxjs/toolkit";
 
 const bookmarksAdapter = createEntityAdapter({
     sortComparer: (a, b) => b.bookmarkDate.localeCompare(a.bookmarkDate),
@@ -42,4 +38,5 @@ export const {
     selectAll: selectAllBookmarks,
     selectById: selectBookmarkById,
     selectIds: selectBookmarkIds,
+    selectTotal: selectTotalBookmarks,
 } = bookmarksAdapter.getSelectors(state => state.bookmarks);

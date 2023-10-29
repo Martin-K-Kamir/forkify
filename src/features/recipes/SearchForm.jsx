@@ -22,7 +22,7 @@ const SearchForm = ({ render }) => {
             e.preventDefault();
             await getRecipes(searchTerm, true).unwrap();
 
-            navigate(`/recipes/${searchTerm}`);
+            navigate(searchTerm);
         } catch (error) {
             dispatch(
                 addAlert({

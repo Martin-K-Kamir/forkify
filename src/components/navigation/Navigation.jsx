@@ -11,9 +11,9 @@ const Navigation = () => {
     const isAboveLg = useMediaQuery("(width >= 64em)");
     const [theme, saveTheme] = useLocalStorage("theme", null);
 
-    const [isSearchModalRendered, setIsSearchModalRendered] = useState(false);
+    const [renderSearchModal, setRenderSearchModal] = useState(false);
+    const [renderMenuModal, setRenderMenuModal] = useState(false);
     const [isSearchModalVisible, setIsSearchModalVisible] = useState(false);
-    const [isMenuModalRendered, setIsMenuModalRendered] = useState(false);
     const [isMenuModalVisible, setIsMenuModalVisible] = useState(false);
     const searchModalRef = useRef(null);
     const menuModalRef = useRef(null);
@@ -36,19 +36,18 @@ const Navigation = () => {
     }, [theme]);
 
     useEffect(() => {
-        if (!isSearchModalVisible && !isSearchModalVisible) return;
-
-        console.log(!isSearchModalVisible && !isSearchModalVisible);
+        if ((!isSearchModalVisible && !isMenuModalVisible) || !isBelowLg)
+            return;
         document.body.dataset.scroll = "disabled";
 
         const handleOutsideSearchClick = handleOutsideClick(
-            setIsSearchModalRendered,
+            setRenderSearchModal,
             setIsSearchModalVisible,
             searchModalRef
         );
 
         const handleOutsideMenuClick = handleOutsideClick(
-            setIsMenuModalRendered,
+            setRenderMenuModal,
             setIsMenuModalVisible,
             menuModalRef
         );
@@ -57,7 +56,7 @@ const Navigation = () => {
             document.addEventListener("click", handleOutsideSearchClick, true);
         }
 
-        if (isSearchModalVisible) {
+        if (isMenuModalVisible) {
             document.addEventListener("click", handleOutsideMenuClick, true);
         }
 
@@ -66,29 +65,29 @@ const Navigation = () => {
             document.removeEventListener("click", handleOutsideSearchClick);
             document.removeEventListener("click", handleOutsideMenuClick);
         };
-    }, [isSearchModalVisible, isSearchModalVisible]);
+    }, [isSearchModalVisible, isMenuModalVisible]);
 
     useEffect(() => {
         if (isBelowLg) {
-            setIsMenuModalRendered(false);
+            setRenderMenuModal(false);
             setIsMenuModalVisible(false);
         }
 
         if (isAboveLg) {
-            setIsMenuModalRendered(true);
+            setRenderMenuModal(true);
             setIsMenuModalVisible(true);
         }
     }, [isBelowLg, isAboveLg]);
 
-    const handleClick = (isRendered, mountFn, visibleFn) => {
+    const handleClick = (isRendered, renderFn, visibleFn) => {
         if (isRendered) {
             visibleFn(false);
 
             setTimeout(() => {
-                mountFn(false);
+                renderFn(false);
             }, 300);
         } else {
-            mountFn(true);
+            renderFn(true);
 
             setTimeout(() => {
                 visibleFn(true);
@@ -96,12 +95,12 @@ const Navigation = () => {
         }
     };
 
-    const handleOutsideClick = (mountFn, visibleFn, ref) => e => {
+    const handleOutsideClick = (renderFn, visibleFn, ref) => e => {
         if (ref.current === e.target) {
             visibleFn(false);
 
             setTimeout(() => {
-                mountFn(false);
+                renderFn(false);
             }, 300);
         }
     };
@@ -121,7 +120,7 @@ const Navigation = () => {
             setIsSearchModalVisible(false);
 
             setTimeout(() => {
-                setIsSearchModalRendered(false);
+                setRenderSearchModal(false);
             }, 300);
         } catch {}
     };
@@ -142,7 +141,7 @@ const Navigation = () => {
                         onChange,
                     }) => (
                         <form
-                            className="form flex max-w-s gap-s w-full"
+                            className="form flex max-w-s gap-xs w-full"
                             onSubmit={onSubmit}
                         >
                             <input
@@ -153,7 +152,7 @@ const Navigation = () => {
                                 onChange={onChange}
                             />
                             <button
-                                className="bg-blue-700 px-xs py-2xs  radius-1 flex justify-content-center align-items-center"
+                                className="bg-blue-700 px-2xs py-2xs radius-1 flex justify-content-center align-items-center"
                                 disabled={disabled}
                             >
                                 {isLoading ? (
@@ -173,26 +172,26 @@ const Navigation = () => {
             <div className="flex-shrink-0">
                 {isBelowLg && (
                     <NavigationListPrimary
-                        isSearchModalRendered={isSearchModalRendered}
+                        renderSearchModal={renderSearchModal}
                         onSearchClick={() =>
                             handleClick(
                                 isSearchModalVisible,
-                                setIsSearchModalRendered,
+                                setRenderSearchModal,
                                 setIsSearchModalVisible
                             )
                         }
-                        isMenuModalRendered={isMenuModalRendered}
+                        renderMenuModal={renderMenuModal}
                         onMenuClick={() =>
                             handleClick(
-                                isMenuModalRendered,
-                                setIsMenuModalRendered,
+                                renderMenuModal,
+                                setRenderMenuModal,
                                 setIsMenuModalVisible
                             )
                         }
                     />
                 )}
 
-                {isMenuModalRendered && (
+                {renderMenuModal && (
                     <NavigationListSecondary
                         theme={theme}
                         onThemeClick={handleThemeClick}
@@ -200,8 +199,8 @@ const Navigation = () => {
                         isMenuModalVisible={isMenuModalVisible}
                         onMenuClick={() =>
                             handleClick(
-                                isMenuModalRendered,
-                                setIsMenuModalRendered,
+                                renderMenuModal,
+                                setRenderMenuModal,
                                 setIsMenuModalVisible
                             )
                         }
@@ -209,7 +208,7 @@ const Navigation = () => {
                 )}
             </div>
 
-            {isSearchModalRendered && (
+            {renderSearchModal && (
                 <SearchForm
                     render={({
                         value,
@@ -223,7 +222,7 @@ const Navigation = () => {
                             role="button"
                             id="search-modal"
                             className="fixed inset-0 z-index-800 backdrop-blur-md bg-zinc-950/90 flex justify-content-center align-items-start pt-fluid-2xl-3xl transition-opacity"
-                            aria-expanded={isSearchModalRendered}
+                            aria-expanded={renderSearchModal}
                             data-opacity={isSearchModalVisible}
                         >
                             <button
@@ -231,7 +230,7 @@ const Navigation = () => {
                                 onClick={() =>
                                     handleClick(
                                         isSearchModalVisible,
-                                        setIsSearchModalRendered,
+                                        setRenderSearchModal,
                                         setIsSearchModalVisible
                                     )
                                 }

@@ -7,14 +7,10 @@ import Icon from "../../components/Icon.jsx";
 import { capitalazeForEach } from "../../utilities.js";
 import { useEffect, useState } from "react";
 import Fraction from "fraction.js";
-import { useDispatch, useSelector } from "react-redux";
-import {
-    addBookmark,
-    selectBookmarkById,
-} from "../bookmarks/bookmarksSlice.js";
+import { useSelector } from "react-redux";
+import { selectBookmarkById } from "../bookmarks/bookmarksSlice.js";
 
 const SingleRecipePage = () => {
-    const dispatch = useDispatch();
     const { recipeId } = useParams();
     const {
         data: recipe,
@@ -30,8 +26,6 @@ const SingleRecipePage = () => {
     const bookmarkRecipe = useSelector(state =>
         selectBookmarkById(state, recipeId)
     );
-
-    console.log(bookmarkRecipe?.isBookmarked);
 
     const [servings, setServings] = useState(0);
     const [prevServings, setPrevServings] = useState(0);
@@ -79,7 +73,7 @@ const SingleRecipePage = () => {
     };
 
     const handleBookmarkClick = () => {
-        updateBookmark( {id: recipeId, isBookmarked: !isBookmarked });
+        updateBookmark({ id: recipeId, isBookmarked: !isBookmarked });
     };
 
     if (isLoading) {
@@ -101,14 +95,15 @@ const SingleRecipePage = () => {
     } else if (isSuccess) {
         const renderedIngredients = (ingredients ?? recipe.ingredients).map(
             ({ quantity, unit, description }, i) => {
-                let quantityString = quantity;
+                let quantityString;
+
                 if (quantity) {
                     const fraction = new Fraction(quantity);
                     quantityString = fraction.toFraction(true);
                 }
 
                 return (
-                    <li key={i} className="list-align-text mt-3xs">
+                    <li key={i} className="list-align-text">
                         {quantityString} {unit} {description}
                     </li>
                 );
@@ -117,41 +112,47 @@ const SingleRecipePage = () => {
 
         return (
             <div className="bg-zinc-800//above-sm radius-1 max-w-xl mx-auto p-fluid-m-l//above-sm pb-fluid-l-xl//above-sm">
-                <img
-                    className="w-full aspect-ratio-16x9 object-cover radius-1"
-                    src={recipe.image_url}
-                    alt={recipe.title}
-                />
+                <div className="relative">
+                    <img
+                        className="w-full aspect-ratio-16x9 object-cover radius-1"
+                        src={recipe.image_url}
+                        alt={recipe.title}
+                    />
+                    <div className="flex absolute top-2xs top-xs//above-sm right-2xs right-s//above-sm align-items-center gap-3xs gap-2xs//above-sm bg-zinc-800//above-sm px-xs//above-sm py-2xs//above-sm radius-pill">
+                        <button className="flex justify-content-center align-items-center p-2xs radius-circle bg-red-700">
+                            <Icon type="delete" className="f-size-1" />
+                        </button>
+                        <button
+                            onClick={handleBookmarkClick}
+                            className="flex justify-content-center align-items-center p-2xs radius-circle bg-blue-700"
+                        >
+                            <Icon
+                                type={
+                                    isBookmarked
+                                        ? "bookmarkRemove"
+                                        : "bookmarkAdd"
+                                }
+                                className="f-size-1"
+                                fill={isBookmarked}
+                            />
+                        </button>
+                    </div>
+                </div>
+
                 <div className="stack s-l mt-fluid-s-m">
                     <header>
-                        <div className="flex flex-wrap justify-content-between align-items-center gap-xs">
-                            <h1 className="f-family-secondary f-size-fluid-4 f-size-fluid-5//above-sm f-weight-bold line-height-2">
-                                {capitalazeForEach(recipe.title)}
-                            </h1>
-                            <div className="flex align-items-center gap-fluid-2xs-xs">
-                                {/*<button className="flex justify-content-center align-items-center p-2xs radius-circle bg-zinc-700">*/}
-                                {/*    <Icon*/}
-                                {/*        type="person"*/}
-                                {/*        fill*/}
-                                {/*        className="f-size-1"*/}
-                                {/*    />*/}
-                                {/*</button>*/}
-                                {/*<button className="flex justify-content-center align-items-center p-2xs radius-circle bg-red-700">*/}
-                                {/*    <Icon type="delete" className="f-size-1" />*/}
-                                {/*</button>*/}
-                                <button
-                                    onClick={handleBookmarkClick}
-                                    className="flex justify-content-center align-items-center p-2xs radius-circle bg-blue-700"
-                                >
-                                    <Icon
-                                        type="bookmarks"
-                                        className="f-size-1"
-                                        fill={isBookmarked}
-                                    />
-                                </button>
+                        <h1 className="f-family-secondary f-size-fluid-4 f-size-fluid-5//above-sm f-weight-bold line-height-2">
+                            {capitalazeForEach(recipe.title)}
+                        </h1>
+                        <div className="flex flex-wrap align-items-center gap-2xs text-zinc-300 mt-2xs">
+                            <div className="flex align-items-center f-weight-medium mr-xs">
+                                <Icon
+                                    type="person"
+                                    className="f-size-2 mr-xs"
+                                    fill
+                                />
+                                <p>by {recipe.publisher}</p>
                             </div>
-                        </div>
-                        <div className="flex flex-wrap align-items-center gap-2xs text-zinc-300 mt-s mt-xs//above-sm">
                             <div className="flex align-items-center f-weight-medium mr-xs">
                                 <Icon
                                     type="schedule"
@@ -185,15 +186,15 @@ const SingleRecipePage = () => {
                             </div>
                         </div>
                     </header>
-                    <div>
+                    <section>
                         <h2 className="f-family-secondary f-size-fluid-3 f-weight-bold line-height-2">
                             Recipe ingredients
                         </h2>
-                        <ul className="list-style-inside mt-2xs text-zinc-300">
+                        <ul className="list-style-inside mt-2xs stack s-3xs text-zinc-300">
                             {renderedIngredients}
                         </ul>
-                    </div>
-                    <div>
+                    </section>
+                    <section>
                         <h2 className="f-family-secondary f-size-fluid-3 f-weight-bold line-height-2">
                             How to cook it
                         </h2>
@@ -208,7 +209,7 @@ const SingleRecipePage = () => {
                         >
                             Click here for directions
                         </a>
-                    </div>
+                    </section>
                 </div>
             </div>
         );

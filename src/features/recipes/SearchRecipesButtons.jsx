@@ -23,7 +23,7 @@ let SearchRecipesButtons = () => {
     const renderedRecipes = randomizeArray(data)?.map(recipe => {
         return (
             <Link
-                to={`/recipes/${recipe}`}
+                to={recipe}
                 className="bg-zinc-800 text-zinc-200 px-m py-xs f-size--1 line-height-1 text-no-decoration radius-pill"
                 key={recipe}
             >

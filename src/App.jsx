@@ -16,20 +16,14 @@ const App = () => {
                     <Route index element={<SearchRecipesPage />} />
 
                     <Route element={<Layout />}>
-                        <Route path="recipes">
-                            <Route
-                                path=":recipesId"
-                                element={<RecipesPage />}
-                            />
-                            <Route
-                                path=":recipesId/:recipeId"
-                                element={<SingleRecipePage />}
-                            />
-                        </Route>
+                        <Route path=":recipesId" element={<RecipesPage />} />
+                        <Route path="bookmarks" element={<BookmarksPage />} />
+                        <Route
+                            path=":recipesId/:recipeId"
+                            element={<SingleRecipePage />}
+                        />
 
                         <Route path="add-recipe" element={<AddRecipeForm />} />
-
-                        <Route path="bookmarks" element={<BookmarksPage />} />
 
                         <Route path="history" element={<HistoryPage />} />
                     </Route>

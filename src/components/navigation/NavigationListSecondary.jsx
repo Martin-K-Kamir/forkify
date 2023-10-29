@@ -14,19 +14,16 @@ const NavigationListSecondary = ({
 
     const navigationItems = [
         {
-            label: "bookmarks",
+            label: "Bookmarks",
             icon: "bookmarks",
-            url: "/bookmarks",
-        },
-        {
-            label: "History",
-            icon: "history",
-            url: "/history",
+            url: "bookmarks",
+            ...(isBelowLg && { onClick: onMenuClick }),
         },
         {
             label: "Add Recipe",
             icon: "postAdd",
             url: "/add-recipe",
+            ...(isBelowLg && { onClick: onMenuClick }),
         },
         {
             label: theme === "light" ? "Dark Mode" : "Light Mode",

@@ -1,9 +1,9 @@
 import NavigationListItem from "./NavigationListItem.jsx";
 
 const NavigationListPrimary = ({
-    searchModalMount,
+    renderSearchModal,
     onSearchClick,
-    isMenuModalRendered,
+    renderMenuModal,
     onMenuClick,
 }) => {
     const navigationItems = [
@@ -12,7 +12,7 @@ const NavigationListPrimary = ({
             icon: "search",
             onClick: onSearchClick,
             ariaOptions: {
-                "aria-expanded": searchModalMount,
+                "aria-expanded": renderSearchModal,
                 "aria-haspopup": "true",
                 "aria-controls": "search-modal",
             },
@@ -22,7 +22,7 @@ const NavigationListPrimary = ({
             icon: "menu",
             onClick: onMenuClick,
             ariaOptions: {
-                "aria-expanded": isMenuModalRendered,
+                "aria-expanded": renderMenuModal,
                 "aria-haspopup": "true",
                 "aria-controls": "navigation-secondary",
             },

@@ -1,17 +1,7 @@
-import { useGetRecipesQueryState } from "./recipiesSlice.js";
-import { useParams } from "react-router-dom";
 import React from "react";
 import { Link } from "react-router-dom";
 import { capitalazeForEach } from "../../utilities.js";
-let RecipesListItem = ({ recipeId }) => {
-    const { recipesId } = useParams();
-
-    const recipe = useGetRecipesQueryState(recipesId, {
-        selectFromResult: ({ data }) => data.entities[recipeId],
-    });
-
-    const { image_url: image, title, publisher, id } = recipe;
-
+let RecipesListItem = ({ image_url: image, title, publisher, id }) => {
     return (
         <li className="container flex flex-direction-column justify-self-center bg-zinc-800 radius-1 overflow-hidden w-full max-w-s//below-md mb-xs//below-sm">
             <img

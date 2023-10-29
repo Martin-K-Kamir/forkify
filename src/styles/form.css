@@ -1,7 +1,7 @@
 
 .form {
 
-    & input {
+    & :where(input, textarea, select) {
         border  : none;
         outline : none;
         color   : inherit;
@@ -9,5 +9,60 @@
 
     & input::placeholder {
         color : color-mix(in hsl, currentColor 50%, transparent);
+    }
+
+    & .select {
+        min-inline-size : 15ch;
+    }
+
+    & .label-w-input {
+        height : 3.3rem;
+    }
+
+    & .label-w-input label {
+        position   : absolute;
+        transition : transform 0.2s ease-in-out, font-size 0.2s ease-in-out;
+        top        : 50%;
+        left       : 0;
+        transform  : translateY(-50%);
+        font-size  : 100%;
+        color      : var(--clr-zinc-400);
+    }
+
+    & .label-w-input input {
+        transform : translateY(0.25rem);
+    }
+
+    & .label-w-input input[type=number] {
+        -moz-appearance : textfield;
+    }
+
+    & .label-w-input input[type=number]::-webkit-outer-spin-button,
+    & .label-w-input input[type=number]::-webkit-inner-spin-button {
+        -webkit-appearance : none;
+    }
+
+    & .label-w-input:has(:where(input:not([value=""]), input:focus)) label {
+        top       : 50%;
+        left      : 0;
+        transform : translateY(-140%);
+        color     : var(--clr-blue-200);
+        font-size : var(--f-size--1);
+    }
+
+    & .label-w-input:has(input:not(:focus, :valid, [value=""])) label {
+        color : var(--clr-red-200);
+    }
+}
+
+.form-details {
+    @media (width >= 48em) {
+        grid-template-columns : repeat(2, 1fr);
+    }
+
+    & .label-w-input:has(input#form-link) {
+        @media (width >= 48em) {
+            grid-column : span 2;
+        }
     }
 }
