@@ -15,11 +15,11 @@
         min-inline-size : 15ch;
     }
 
-    & .label-w-input {
+    & .field {
         height : 3.3rem;
     }
 
-    & .label-w-input label {
+    & .field label {
         position   : absolute;
         transition : transform 0.2s ease-in-out, font-size 0.2s ease-in-out;
         top        : 50%;
@@ -29,20 +29,20 @@
         color      : var(--clr-zinc-400);
     }
 
-    & .label-w-input input {
+    & .field input {
         transform : translateY(0.25rem);
     }
 
-    & .label-w-input input[type=number] {
+    & .field input[type=number] {
         -moz-appearance : textfield;
     }
 
-    & .label-w-input input[type=number]::-webkit-outer-spin-button,
-    & .label-w-input input[type=number]::-webkit-inner-spin-button {
+    & .field input[type=number]::-webkit-outer-spin-button,
+    & .field input[type=number]::-webkit-inner-spin-button {
         -webkit-appearance : none;
     }
 
-    & .label-w-input:has(:where(input:not([value=""]), input:focus)) label {
+    & .field:has(:where(input:not([value=""]), input:focus)) label {
         top       : 50%;
         left      : 0;
         transform : translateY(-140%);
@@ -50,7 +50,7 @@
         font-size : var(--f-size--1);
     }
 
-    & .label-w-input:has(input:not(:focus, :valid, [value=""])) label {
+    & .field:has(input:not(:focus, :valid, [value=""])) label {
         color : var(--clr-red-200);
     }
 }
@@ -60,9 +60,48 @@
         grid-template-columns : repeat(2, 1fr);
     }
 
-    & .label-w-input:has(input#form-link) {
+    & .field:has(input#form-link) {
         @media (width >= 48em) {
             grid-column : span 2;
         }
+    }
+}
+
+.form-row {
+
+    &:has( > .field:nth-child(1) + button) {
+        grid-template-columns : 1fr min-content;
+    }
+
+    &:has( > .field:nth-child(3)) {
+        grid-template-columns : 1fr repeat(2, 7fr) 1fr;
+        grid-template-areas   : "input1 input1 input2 input2"
+                             "input3 input3 input3 input3";
+
+        @media (width >= 48em) {
+            grid-template-columns : repeat(2, 7rem) 1fr min-content;
+            grid-template-areas   : "input1 input2 input3 input3"
+        }
+    }
+
+    &:has( > .field:nth-child(3) + button) {
+        grid-template-areas : "input1 input1 input2 input2"
+                             "input3 input3 input3 button";
+
+        @media (width >= 48em) {
+            grid-template-areas : "input1 input2 input3 button"
+        }
+    }
+
+    & .field:has(input[id*="quantity"]) {
+        grid-area : input1;
+    }
+
+    & .field:has(input[id*="unit"]) {
+        grid-area : input2;
+    }
+
+    & .field:has(input[id*="description"]) {
+        grid-area : input3;
     }
 }

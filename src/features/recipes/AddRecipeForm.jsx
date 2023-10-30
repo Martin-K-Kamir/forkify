@@ -1,17 +1,30 @@
 import { useState } from "react";
 import Icon from "../../components/Icon.jsx";
+import classNames from "classnames";
 
-const FormField = ({id, value, label, isRequired, inputType, pattern, min, max, handleChange }) => {
-
+const FormField = ({
+    id,
+    value,
+    label,
+    isRequired = true,
+    type,
+    pattern,
+    min,
+    max,
+    onChange,
+    className,
+}) => {
     const handleClick = e => {
         e.target.querySelector("input")?.focus();
     };
 
+    const wrapperClasses = classNames(
+        "field bg-zinc-800 bg-zinc-900//above-sm px-s py-xs radius-1 w-full cursor-text",
+        className
+    );
+
     return (
-        <div
-            className="label-w-input bg-zinc-900 px-s py-xs radius-1 w-full cursor-text"
-            onClick={handleClick}
-        >
+        <div className={wrapperClasses} onClick={handleClick}>
             <div className="relative flex h-full w-full line-height-1">
                 <label htmlFor={name} className="cursor-text">
                     {label}
@@ -20,10 +33,10 @@ const FormField = ({id, value, label, isRequired, inputType, pattern, min, max, 
                 <input
                     id={id}
                     name={id}
-                    type={inputType}
+                    type={type}
                     className="bg-transparent mt-auto w-full"
                     value={value}
-                    onChange={handleChange}
+                    onChange={onChange}
                     pattern={pattern}
                     min={min}
                     max={max}
@@ -39,8 +52,7 @@ const AddRecipeForm = () => {
             {
                 id: "form-title",
                 label: "Recipe Title",
-                isRequired: true,
-                inputType: "text",
+                type: "text",
                 pattern:
                     "^(?=.{3,50}$)[A-Za-z]+(&[A-Za-z]+)*( [A-Za-z]+)*( [A-Za-z]+)* *(?:[0-9]|!)?$",
                 value: "",
@@ -48,8 +60,7 @@ const AddRecipeForm = () => {
             {
                 id: "form-author",
                 label: "Author",
-                isRequired: true,
-                inputType: "text",
+                type: "text",
                 pattern:
                     "^[\\p{L}\\s&]{2,25}$|^[\\p{L}\\s&]{1,25}(\\s[\\p{L}\\s&]{1,25})*$",
                 value: "",
@@ -57,8 +68,7 @@ const AddRecipeForm = () => {
             {
                 id: "form-prep-time",
                 label: "Prep Time (minutes)",
-                isRequired: true,
-                inputType: "number",
+                type: "number",
                 pattern: "^(?!0\\d{2,})([0-9]{3,600})$",
                 min: 3,
                 max: 600,
@@ -67,8 +77,7 @@ const AddRecipeForm = () => {
             {
                 id: "form-servings",
                 label: "Servings",
-                isRequired: true,
-                inputType: "number",
+                type: "number",
                 pattern: "^(?!0\\d{2,})([0-9]{1,100})$",
                 min: 1,
                 max: 100,
@@ -78,7 +87,7 @@ const AddRecipeForm = () => {
                 id: "form-link",
                 label: "Link to Recipe",
                 isRequired: false,
-                inputType: "url",
+                type: "url",
                 pattern: "https?://.+",
                 value: "",
             },
@@ -86,32 +95,45 @@ const AddRecipeForm = () => {
         images: [
             {
                 id: "form-image-1",
-                label: "Image Link 1",
-                isRequired: true,
-                order: 1,
-                type: "image",
-                inputType: "url",
+                type: "url",
                 pattern: "https?://.+",
                 value: "",
             },
         ],
-        ingredients: [{
-            id: "form-ingredient-1",
-            order: 1,
-            type: "ingredient",
-            quantity: "",
-            unit: "",
-            description: "",
-        }],
+        ingredients: [
+            {
+                id: "form-ingredient-1",
+                subFields: [
+                    {
+                        id: "form-ingredient-quantity-1",
+                        label: "Quantity",
+                        isRequired: false,
+                        type: "number",
+                        value: "",
+                    },
+                    {
+                        id: "form-ingredient-unit-1",
+                        label: "Unit",
+                        isRequired: false,
+                        type: "text",
+                        value: "",
+                    },
+                    {
+                        id: "form-ingredient-description-1",
+                        label: "Description",
+                        type: "text",
+                        value: "",
+                    },
+                ],
+            },
+        ],
     });
 
     const handleChange = payload => {
-        const id = payload.id;
-        const section = payload.section;
-        const value = payload.value;
+        const { id, key, value } = payload;
 
         setForm(prevForm => {
-            const updatedFields = prevForm[section].map(field => {
+            const updatedFields = prevForm[key].map(field => {
                 if (field.id === id) {
                     return {
                         ...field,
@@ -124,62 +146,75 @@ const AddRecipeForm = () => {
 
             return {
                 ...prevForm,
-                [section]: updatedFields,
+                [key]: updatedFields,
             };
         });
     };
 
     const handleAddField = payload => {
-        const type = payload.type;
-        const section = payload.section;
+        const { key } = payload;
 
         setForm(prevForm => {
-            const fields = prevForm[section].filter(field =>
-                field.id.includes(type)
-            );
+            const firstField = prevForm[key][0];
+            const name = firstField.id.replace(/form-(.+)-\d+/, "$1");
+            const number = prevForm[key].length + 1;
 
-            const lastField = fields.at(-1);
+            let updatedFields;
 
-            const newField = {
-                ...lastField,
-                id: `form-${type}-${lastField.order + 1}`,
-                label: `${lastField.label.replace(/\d+/, "")} ${
-                    lastField.order + 1
-                }`,
-                order: lastField.order + 1,
-            };
+            if (firstField.subFields) {
+                updatedFields = [
+                    ...prevForm[key],
+                    {
+                        id: `form-${name}-${number}`,
+                        subFields: firstField.subFields.map(subField => {
+                            return {
+                                ...subField,
+                                id: `form-${name}-${number}-${subField.id.replace(
+                                    /form-(.+)-\d+-/,
+                                    "$1-"
+                                )}`,
+                                value: "",
+                            };
+                        }),
+                    },
+                ];
+            } else {
+                updatedFields = [
+                    ...prevForm[key],
+                    {
+                        ...firstField,
+                        id: `form-${name}-${number}`,
+                        value: "",
+                    },
+                ];
+            }
 
             return {
                 ...prevForm,
-                [section]: [...prevForm[section], newField],
+                [key]: updatedFields,
             };
         });
     };
 
     const handleRemoveField = payload => {
-        const id = payload.id;
-        const type = payload.type;
-        const section = payload.section;
+        const { id, key } = payload;
 
         setForm(prevForm => {
-            const fields = prevForm[section].filter(field =>
-                field.id.includes(type)
+            const name = id.replace(/form-(.+)-\d+/, "$1");
+            const filteredFields = prevForm[key].filter(
+                field => field.id !== id
             );
-
-            const filteredFields = fields.filter(field => field.id !== id);
 
             const updatedFields = filteredFields.map((field, i) => {
                 return {
                     ...field,
-                    id: `form-${type}-${i + 1}`,
-                    label: `${field.label.replace(/\d+/, "")} ${i + 1}`,
-                    order: i + 1,
+                    id: `form-${name}-${i + 1}`,
                 };
             });
 
             return {
                 ...prevForm,
-                [section]: updatedFields,
+                [key]: updatedFields,
             };
         });
     };
@@ -188,14 +223,14 @@ const AddRecipeForm = () => {
         return (
             <FormField
                 key={field.id}
-                handleChange={e =>
+                {...field}
+                onChange={e =>
                     handleChange({
                         id: field.id,
-                        section: "details",
+                        key: "details",
                         value: e.target.value,
                     })
                 }
-                {...field}
             />
         );
     });
@@ -207,16 +242,17 @@ const AddRecipeForm = () => {
 
         return (
             <div key={field.id}>
-                <div className="flex align-items-center gap-xs">
+                <div className="form-row grid align-items-center gap-xs">
                     <FormField
-                        handleChange={e =>
+                        {...field}
+                        label="Image URL"
+                        onChange={e =>
                             handleChange({
                                 id: field.id,
-                                section: "images",
+                                key: "images",
                                 value: e.target.value,
                             })
                         }
-                        {...field}
                     />
                     {!isFirstIndex && (
                         <button
@@ -224,8 +260,7 @@ const AddRecipeForm = () => {
                             onClick={() =>
                                 handleRemoveField({
                                     id: field.id,
-                                    type: "image",
-                                    section: "images",
+                                    key: "images",
                                 })
                             }
                             type="button"
@@ -237,9 +272,7 @@ const AddRecipeForm = () => {
                 {!isLimitReached && isLastIndex && (
                     <button
                         className="bg-blue-700 radius-1 px-s py-xs f-weight-medium flex align-items-center gap-3xs f-size--1 line-height-1 mt-xs"
-                        onClick={() =>
-                            handleAddField({ type: "image", section: "images" })
-                        }
+                        onClick={() => handleAddField({ key: "images" })}
                         type="button"
                     >
                         <Icon className="f-size-1" type="addCircle" />
@@ -251,20 +284,57 @@ const AddRecipeForm = () => {
     });
 
     const renderedIngredients = form.ingredients.map((field, i, arr) => {
+        const isFirstIndex = i === 0;
+        const isLastIndex = i === arr.length - 1;
+        const isLimitReached = arr.length === 20;
+
         return (
             <div key={field.id}>
-                <div className="flex align-items-center gap-xs">
-                    <FormField
-                        id={`${field.id}-quantity`}
-                        label="Quantity"
-
+                <div className="form-row grid align-items-center gap-xs">
+                    {field.subFields.map(subField => (
+                        <FormField
+                            key={subField.id}
+                            {...subField}
+                            onChange={e =>
+                                handleChange({
+                                    id: subField.id,
+                                    key: "ingredients",
+                                    value: e.target.value,
+                                })
+                            }
+                        />
+                    ))}
+                    {!isFirstIndex && (
+                        <button
+                            className="bg-red-700 radius-1 flex-shrink-0 p-2xs f-weight-medium flex align-items-center gap-3xs f-size--1 line-height-1"
+                            onClick={() =>
+                                handleRemoveField({
+                                    id: field.id,
+                                    key: "ingredients",
+                                })
+                            }
+                            type="button"
+                        >
+                            <Icon className="f-size-2" type="cancel" />
+                        </button>
+                    )}
                 </div>
+                {!isLimitReached && isLastIndex && (
+                    <button
+                        className="bg-blue-700 radius-1 px-s py-xs f-weight-medium flex align-items-center gap-3xs f-size--1 line-height-1 mt-xs"
+                        onClick={() => handleAddField({ key: "ingredients" })}
+                        type="button"
+                    >
+                        <Icon className="f-size-1" type="addCircle" />
+                        Add Ingredient
+                    </button>
+                )}
             </div>
-        )
-    })
+        );
+    });
 
     return (
-        <div className="bg-zinc-800 radius-1 stack s-l max-w-xl mx-auto p-fluid-m-l pb-fluid-l-xl">
+        <div className="bg-zinc-800//above-sm radius-1 stack s-l max-w-xl mx-auto p-fluid-m-l//above-sm pb-fluid-l-xl//above-sm">
             <header>
                 <h1 className="f-family-secondary f-size-fluid-4 f-weight-bold line-height-2">
                     Add Recipe
@@ -293,6 +363,7 @@ const AddRecipeForm = () => {
                     <h2 className="f-family-secondary f-size-fluid-3 f-weight-bold line-height-2">
                         Ingredients
                     </h2>
+                    <div className="grid gap-m mt-s">{renderedIngredients}</div>
                 </section>
             </form>
         </div>
