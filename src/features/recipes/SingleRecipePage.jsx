@@ -141,14 +141,14 @@ const SingleRecipePage = () => {
 
                 <div className="stack s-l mt-fluid-s-m">
                     <header>
-                        <h1 className="f-family-secondary f-size-fluid-4 f-size-fluid-5//above-sm f-weight-bold line-height-2">
+                        <h1 className="f-family-secondary f-size-fluid-4 f-weight-bold line-height-2">
                             {capitalazeForEach(recipe.title)}
                         </h1>
                         <div className="flex flex-wrap align-items-center gap-2xs text-zinc-300 mt-2xs">
                             <div className="flex align-items-center f-weight-medium mr-xs">
                                 <Icon
                                     type="person"
-                                    className="f-size-2 mr-xs"
+                                    className="f-size-2 mr-3xs"
                                     fill
                                 />
                                 <p>by {recipe.publisher}</p>
@@ -156,7 +156,7 @@ const SingleRecipePage = () => {
                             <div className="flex align-items-center f-weight-medium mr-xs">
                                 <Icon
                                     type="schedule"
-                                    className="f-size-2 mr-xs"
+                                    className="f-size-2 mr-3xs"
                                 />
                                 <p>{recipe.cooking_time} minutes</p>
                             </div>
@@ -164,7 +164,7 @@ const SingleRecipePage = () => {
                                 <Icon
                                     type="group"
                                     fill
-                                    className="f-size-2 mr-xs"
+                                    className="f-size-2 mr-3xs"
                                 />
                                 <p>{servings || recipe.servings} servings</p>
                                 <div className="flex align-items-center gap-3xs f-size-2 ml-xs">

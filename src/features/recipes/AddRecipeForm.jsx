@@ -1,9 +1,8 @@
 import { useState } from "react";
 import Icon from "../../components/Icon.jsx";
 
-const FormField = ({ field, handleChange }) => {
-    const { id, value, label, isRequired, inputType, pattern, min, max } =
-        field;
+const FormField = ({id, value, label, isRequired, inputType, pattern, min, max, handleChange }) => {
+
     const handleClick = e => {
         e.target.querySelector("input")?.focus();
     };
@@ -96,7 +95,14 @@ const AddRecipeForm = () => {
                 value: "",
             },
         ],
-        ingredients: [],
+        ingredients: [{
+            id: "form-ingredient-1",
+            order: 1,
+            type: "ingredient",
+            quantity: "",
+            unit: "",
+            description: "",
+        }],
     });
 
     const handleChange = payload => {
@@ -182,7 +188,6 @@ const AddRecipeForm = () => {
         return (
             <FormField
                 key={field.id}
-                field={field}
                 handleChange={e =>
                     handleChange({
                         id: field.id,
@@ -190,6 +195,7 @@ const AddRecipeForm = () => {
                         value: e.target.value,
                     })
                 }
+                {...field}
             />
         );
     });
@@ -203,7 +209,6 @@ const AddRecipeForm = () => {
             <div key={field.id}>
                 <div className="flex align-items-center gap-xs">
                     <FormField
-                        field={field}
                         handleChange={e =>
                             handleChange({
                                 id: field.id,
@@ -211,6 +216,7 @@ const AddRecipeForm = () => {
                                 value: e.target.value,
                             })
                         }
+                        {...field}
                     />
                     {!isFirstIndex && (
                         <button
@@ -243,6 +249,19 @@ const AddRecipeForm = () => {
             </div>
         );
     });
+
+    const renderedIngredients = form.ingredients.map((field, i, arr) => {
+        return (
+            <div key={field.id}>
+                <div className="flex align-items-center gap-xs">
+                    <FormField
+                        id={`${field.id}-quantity`}
+                        label="Quantity"
+
+                </div>
+            </div>
+        )
+    })
 
     return (
         <div className="bg-zinc-800 radius-1 stack s-l max-w-xl mx-auto p-fluid-m-l pb-fluid-l-xl">
