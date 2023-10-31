@@ -1,8 +1,7 @@
 import Icon from "./Icon.jsx";
 import Field from "./Field.jsx";
 
-const FieldList = ({fields, onChange, options}) => {
-
+const FieldList = ({ fields, onChange, options }) => {
     return fields.map((field, i, arr) => {
         const isFirstIndex = i === 0;
         const isLastIndex = i === arr.length - 1;
@@ -17,7 +16,7 @@ const FieldList = ({fields, onChange, options}) => {
                         onChange({
                             id: subField.id,
                             value: e.target.value,
-                            path: fields
+                            path: fields,
                         })
                     }
                 />
@@ -30,11 +29,11 @@ const FieldList = ({fields, onChange, options}) => {
                     onChange({
                         id: field.id,
                         value: e.target.value,
-                        path: fields
+                        path: fields,
                     })
                 }
             />
-        )
+        );
 
         return (
             <div key={field.id}>
@@ -42,16 +41,16 @@ const FieldList = ({fields, onChange, options}) => {
                     {renderedField}
                     {options?.handleRemoveField && !isFirstIndex && (
                         <button
-                            className="bg-red-700 radius-1 flex-shrink-0 p-2xs f-weight-medium flex align-items-center gap-3xs f-size--1 line-height-1"
+                            className="bg-red-700 radius-1 p-2xs f-weight-medium flex align-items-center gap-3xs f-size--1 line-height-1"
                             onClick={() =>
                                 options.handleRemoveField({
                                     id: field.id,
-                                    path: fields
+                                    path: fields,
                                 })
                             }
                             type="button"
                         >
-                            <Icon className="f-size-2" type="cancel"/>
+                            <Icon className="f-size-2" type="cancel" />
                         </button>
                     )}
                 </div>
@@ -61,18 +60,18 @@ const FieldList = ({fields, onChange, options}) => {
                         onClick={() => {
                             options.handleAddField({
                                 key: options.key,
-                                path: fields
+                                path: fields,
                             });
                         }}
                         type="button"
                     >
-                        <Icon className="f-size-1" type="addCircle"/>
+                        <Icon className="f-size-1" type="addCircle" />
                         {options.addFieldText}
                     </button>
                 )}
             </div>
         );
-    })
-}
+    });
+};
 
 export default FieldList;

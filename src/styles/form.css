@@ -1,6 +1,5 @@
 
 .form {
-
     & :where(input, textarea, select) {
         border  : none;
         outline : none;
@@ -21,7 +20,8 @@
 
     & .field textarea {
         resize     : none;
-        min-height : 5rem;
+        min-height : fit-content;
+        margin-top : 0.7rem;
     }
 
     & .field label {
@@ -35,8 +35,8 @@
     }
 
     & .field:has(textarea) label {
-        top: 0;
-        transform: translateY(0%);
+        top       : 0;
+        transform : translateY(1.15rem);
     }
 
     & .field input {
@@ -52,16 +52,14 @@
         -webkit-appearance : none;
     }
 
-    & .field:has(:where(input:not([value=""]), input:focus)) label {
-        transform : translateY(-140%);
+    & .field:has(:is(input:not([value=""]), input:focus, textarea:not([data-value=""]), textarea:focus)) label {
+        transform : translateY(-150%);
         color     : var(--clr-blue-200);
         font-size : var(--f-size--1);
     }
 
-    & .field:has(:where(textarea:focus)) label {
-        transform : translateY(-100%);
-        color     : var(--clr-blue-200);
-        font-size : var(--f-size--1);
+    & .field:has(:is(textarea:not([data-value=""]), textarea:focus)) label {
+        transform : translateY(0.44rem);
     }
 
     & .field:has(input:not(:focus, :valid, [value=""])) label {
@@ -82,6 +80,9 @@
 }
 
 .form-row {
+    &:has(textarea) > button {
+        align-self : start;
+    }
 
     &:has( > .field:nth-child(1) + button) {
         grid-template-columns : 1fr min-content;

@@ -1,13 +1,32 @@
 import classNames from "classnames";
+import { useEffect, useRef, useState } from "react";
 
-const Field = ({
-                   field,
-                   onChange,
-                   className,
-               }) => {
-    const {id, label, isRequired, type, pattern, min, max, maxLength, value} = field;
-    const handleClick = e => {
-        e.target.querySelector("input")?.focus();
+const Field = ({ field, onChange, className }) => {
+    const { id, label, isRequired, type, pattern, min, max, maxLength, value } =
+        field;
+
+    const textareaRef = useRef(null);
+
+    useEffect(() => {
+        if (type === "textarea") {
+            textareaRef.current.addEventListener("input", handleSettingHeight);
+        }
+
+        return () => {
+            if (type === "textarea") {
+                textareaRef.current?.removeEventListener(
+                    "input",
+                    handleSettingHeight
+                );
+            }
+        };
+    }, []);
+
+    const handleSettingHeight = e => {
+        const textarea = e.target;
+        textarea.style.height = "auto";
+        const { scrollHeight } = textarea;
+        textarea.style.height = `${scrollHeight}px`;
     };
 
     const fieldClasses = classNames(
@@ -15,35 +34,39 @@ const Field = ({
         className
     );
 
+    const handleFocusClick = e => {
+        e.target.querySelector("input")?.focus();
+        e.target.querySelector("textarea")?.focus();
+    };
+
     return (
-        <div className={fieldClasses} onClick={handleClick}>
-            {type === "textarea" ? (
-                <div className="flex h-full w-full">
-                    <label htmlFor={name} className="cursor-text px-s line-height-1">
-                        {label}
-                        {isRequired && "*"}
-                    </label>
+        <div className={fieldClasses} onClick={handleFocusClick}>
+            <div className="flex h-full w-full">
+                <label
+                    htmlFor={name}
+                    className="cursor-text px-s line-height-1"
+                >
+                    {label}
+                    {isRequired && "*"}
+                </label>
+                {type === "textarea" ? (
                     <textarea
+                        ref={textareaRef}
                         id={id}
                         name={id}
-                        className="mt-s bg-transparent w-full"
+                        className="bg-transparent w-full"
                         onChange={onChange}
                         value={value}
+                        data-value={value.substring(0, 1)}
                         required={isRequired}
+                        rows={2}
                     />
-                </div>
-
-            ) : (
-                <div className="flex h-full w-full line-height-1">
-                    <label htmlFor={name} className="cursor-text px-s">
-                        {label}
-                        {isRequired && "*"}
-                    </label>
+                ) : (
                     <input
                         id={id}
                         name={id}
                         type={type}
-                        className="bg-transparent mt-auto w-full"
+                        className="bg-transparent mt-auto w-full line-height-1"
                         value={value}
                         onChange={onChange}
                         pattern={pattern}
@@ -52,8 +75,8 @@ const Field = ({
                         maxLength={maxLength}
                         required={isRequired}
                     />
-                </div>
-            )}
+                )}
+            </div>
         </div>
     );
 };

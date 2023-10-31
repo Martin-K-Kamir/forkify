@@ -3,7 +3,6 @@ import Icon from "../../components/Icon.jsx";
 import classNames from "classnames";
 import FieldList from "../../components/FieldList.jsx";
 
-
 const AddRecipeForm = () => {
     const [form, setForm] = useState({
         details: [
@@ -106,7 +105,7 @@ const AddRecipeForm = () => {
     });
 
     const handleChange = payload => {
-        const {id, path, value} = payload;
+        const { id, path, value } = payload;
         const key = Object.keys(form).find(key => {
             return form[key] === path;
         });
@@ -146,7 +145,7 @@ const AddRecipeForm = () => {
     };
 
     const handleAddField = payload => {
-        const {path} = payload;
+        const { path } = payload;
 
         const key = Object.keys(form).find(key => {
             return form[key] === path;
@@ -167,8 +166,13 @@ const AddRecipeForm = () => {
                         subFields: firstField.subFields.map(subField => {
                             return {
                                 ...subField,
-                                id: subField.id.replace(regexRemoveNumber, "") + number,
+                                id:
+                                    subField.id.replace(regexRemoveNumber, "") +
+                                    number,
                                 value: "",
+                                ...(subField.label === "Description" && {
+                                    label: subField.label + " " + number,
+                                }),
                             };
                         }),
                     },
@@ -179,6 +183,7 @@ const AddRecipeForm = () => {
                     {
                         ...firstField,
                         id: name + number,
+                        label: firstField.label + " " + number,
                         value: "",
                     },
                 ];
@@ -192,7 +197,7 @@ const AddRecipeForm = () => {
     };
 
     const handleRemoveField = payload => {
-        const {id, path} = payload;
+        const { id, path } = payload;
 
         const key = Object.keys(form).find(key => {
             return form[key] === path;
@@ -213,7 +218,12 @@ const AddRecipeForm = () => {
                         subFields: field.subFields.map(subField => {
                             return {
                                 ...subField,
-                                id: subField.id.replace(regexRemoveNumber, "") + (i + 1),
+                                id:
+                                    subField.id.replace(regexRemoveNumber, "") +
+                                    (i + 1),
+                                ...(subField.label === "Description" && {
+                                    label: subField.label + " " + (i + 1),
+                                }),
                             };
                         }),
                     };
@@ -222,6 +232,7 @@ const AddRecipeForm = () => {
                 return {
                     ...field,
                     id: name + (i + 1),
+                    label: field.label.replace(regexRemoveNumber, "") + (i + 1),
                 };
             });
 
@@ -233,8 +244,7 @@ const AddRecipeForm = () => {
     };
 
     return (
-        <div
-            className="bg-zinc-800//above-sm radius-1 stack s-l max-w-xl mx-auto p-fluid-m-l//above-sm pb-fluid-l-xl//above-sm">
+        <div className="bg-zinc-800//above-sm radius-1 stack s-l max-w-xl mx-auto p-fluid-m-l//above-sm pb-fluid-l-xl//above-sm">
             <header>
                 <h1 className="f-family-secondary f-size-fluid-4 f-weight-bold line-height-2">
                     Add Recipe
@@ -250,7 +260,10 @@ const AddRecipeForm = () => {
                         Details
                     </h2>
                     <div className="form-details grid gap-m mt-s">
-                        <FieldList fields={form.details} onChange={handleChange}/>
+                        <FieldList
+                            fields={form.details}
+                            onChange={handleChange}
+                        />
                     </div>
                 </section>
                 <section>
@@ -281,7 +294,7 @@ const AddRecipeForm = () => {
                                 handleAddField,
                                 handleRemoveField,
                                 addFieldText: "Add Ingredient",
-                                limit : 25,
+                                limit: 25,
                             }}
                         />
                     </div>
