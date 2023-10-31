@@ -15,18 +15,28 @@
         min-inline-size : 15ch;
     }
 
-    & .field {
+    & .field:has(input) {
         height : 3.3rem;
+    }
+
+    & .field textarea {
+        resize     : none;
+        min-height : 5rem;
     }
 
     & .field label {
         position   : absolute;
         transition : transform 0.2s ease-in-out, font-size 0.2s ease-in-out;
-        top        : 50%;
         left       : 0;
+        top        : 50%;
         transform  : translateY(-50%);
         font-size  : 100%;
         color      : var(--clr-zinc-400);
+    }
+
+    & .field:has(textarea) label {
+        top: 0;
+        transform: translateY(0%);
     }
 
     & .field input {
@@ -43,9 +53,13 @@
     }
 
     & .field:has(:where(input:not([value=""]), input:focus)) label {
-        top       : 50%;
-        left      : 0;
         transform : translateY(-140%);
+        color     : var(--clr-blue-200);
+        font-size : var(--f-size--1);
+    }
+
+    & .field:has(:where(textarea:focus)) label {
+        transform : translateY(-100%);
         color     : var(--clr-blue-200);
         font-size : var(--f-size--1);
     }
@@ -60,7 +74,7 @@
         grid-template-columns : repeat(2, 1fr);
     }
 
-    & .field:has(input#form-link) {
+    & div:has(input#form-link) {
         @media (width >= 48em) {
             grid-column : span 2;
         }
