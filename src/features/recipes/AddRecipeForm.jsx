@@ -1,10 +1,10 @@
 import React, { useState } from "react";
-import Icon from "../../components/Icon.jsx";
-import classNames from "classnames";
 import FieldList from "../../components/FieldList.jsx";
-import Field from "../../components/Field.jsx";
+import { useAddRecipeMutation } from "./recipiesSlice.js";
 
 const AddRecipeForm = () => {
+    const [addRecipe, result] = useAddRecipeMutation();
+
     const [form, setForm] = useState({
         details: [
             {
@@ -17,7 +17,7 @@ const AddRecipeForm = () => {
                 value: "",
             },
             {
-                id: "form-author",
+                id: "form-publisher",
                 label: "Author",
                 type: "text",
                 isRequired: true,
@@ -26,7 +26,7 @@ const AddRecipeForm = () => {
                 value: "",
             },
             {
-                id: "form-prep-time",
+                id: "form-cooking-time",
                 label: "Prep Time (minutes)",
                 type: "number",
                 isRequired: true,
@@ -46,9 +46,9 @@ const AddRecipeForm = () => {
                 value: "",
             },
             {
-                id: "form-link",
+                id: "form-source-url",
                 label: "Link to Recipe",
-                isRequired: false,
+                isRequired: true,
                 type: "url",
                 pattern: "https?://.+",
                 value: "",
@@ -56,7 +56,7 @@ const AddRecipeForm = () => {
         ],
         images: [
             {
-                id: "form-image-1",
+                id: "form-image-url-1",
                 label: "Image URL",
                 type: "url",
                 isRequired: true,
@@ -69,14 +69,14 @@ const AddRecipeForm = () => {
                 id: "form-ingredient-1",
                 subFields: [
                     {
-                        id: "form-ingredient-quantity-1",
+                        id: "form-quantity-1",
                         label: "Quantity",
                         isRequired: false,
                         type: "number",
                         value: "",
                     },
                     {
-                        id: "form-ingredient-unit-1",
+                        id: "form-unit-1",
                         label: "Unit",
                         isRequired: false,
                         type: "text",
@@ -84,7 +84,7 @@ const AddRecipeForm = () => {
                         maxLength: 7,
                     },
                     {
-                        id: "form-ingredient-description-1",
+                        id: "form-description-1",
                         label: "Description",
                         type: "text",
                         isRequired: true,
@@ -153,9 +153,9 @@ const AddRecipeForm = () => {
         });
 
         setForm(prevForm => {
-            const regexRemoveNumber = /\d+$/;
+            const regexNumber = /\d+$/;
             const firstField = prevForm[key][0];
-            const name = firstField.id.replace(regexRemoveNumber, "");
+            const name = firstField.id.replace(regexNumber, "");
             const number = prevForm[key].length + 1;
 
             let updatedFields;
@@ -168,7 +168,7 @@ const AddRecipeForm = () => {
                             return {
                                 ...subField,
                                 id:
-                                    subField.id.replace(regexRemoveNumber, "") +
+                                    subField.id.replace(regexNumber, "") +
                                     number,
                                 value: "",
                                 ...(subField.label === "Description" && {
@@ -205,8 +205,8 @@ const AddRecipeForm = () => {
         });
 
         setForm(prevForm => {
-            const regexRemoveNumber = /\d+$/;
-            const name = id.replace(regexRemoveNumber, "");
+            const regexNumber = /\d+$/;
+            const name = id.replace(regexNumber, "");
             const filteredFields = prevForm[key].filter(
                 field => field.id !== id
             );
@@ -217,13 +217,19 @@ const AddRecipeForm = () => {
                         ...field,
                         id: name + (i + 1),
                         subFields: field.subFields.map(subField => {
-                            const id = subField.id.replace(regexRemoveNumber, "");
-                            const label = subField.label.replace(regexRemoveNumber, "");
+                            const id = subField.id.replace(regexNumber, "");
+                            const label = subField.label.replace(
+                                regexNumber,
+                                ""
+                            );
 
                             return {
                                 ...subField,
                                 id: id + (i + 1),
-                                label: label === "Description " && i !== 0 ? label + (i + 1) : label,
+                                label:
+                                    label === "Description " && i !== 0
+                                        ? label + (i + 1)
+                                        : label,
                             };
                         }),
                     };
@@ -232,7 +238,9 @@ const AddRecipeForm = () => {
                 return {
                     ...field,
                     id: name + (i + 1),
-                    ...(i !== 0 && {label: field.label.replace(regexRemoveNumber, "") + (i + 1)}),
+                    ...(i !== 0 && {
+                        label: field.label.replace(regexNumber, "") + (i + 1),
+                    }),
                 };
             });
 
@@ -243,82 +251,92 @@ const AddRecipeForm = () => {
         });
     };
 
-    const convertArrayToObject = array => {
-        return array.reduce((obj, item) => {
-            return {
-                ...obj,
-                [item.id]: item.value,
-            };
-        }, {});
-    }
-
     const handleSubmit = e => {
         e.preventDefault();
 
-        const howItSholdLook = {
-            "publisher": "Closet Cooking",
-            "ingredients": [
-                {
-                    "quantity": 1,
-                    "unit": "",
-                    "description": "medium head cauliflower cut into florets"
-                },
-                {
-                    "quantity": 1,
-                    "unit": "",
-                    "description": "egg"
-                },
-                {
-                    "quantity": 0.5,
-                    "unit": "cup",
-                    "description": "mozzarella shredded"
-                },
-                {
-                    "quantity": 1,
-                    "unit": "tsp",
-                    "description": "oregano or italian seasoning blend"
-                },
-                {
-                    "quantity": null,
-                    "unit": "",
-                    "description": "Salt and pepper to taste"
-                },
-                {
-                    "quantity": 1,
-                    "unit": "cup",
-                    "description": "chicken cooked and shredded"
-                },
-                {
-                    "quantity": 0.5,
-                    "unit": "cup",
-                    "description": "barbecue sauce"
-                },
-                {
-                    "quantity": 0.75,
-                    "unit": "cup",
-                    "description": "mozzarella shredded"
-                },
-                {
-                    "quantity": null,
-                    "unit": "",
-                    "description": "Red onion to taste thinly sliced"
-                },
-                {
-                    "quantity": null,
-                    "unit": "",
-                    "description": "Fresh cilantro to taste"
-                }
-            ],
-            "source_url": "http://feedproxy.google.com/~r/ClosetCooking/~3/xvkmVGnlXNQ/cauliflower-pizza-crust-with-bbq.html",
-            "image_url": "http://forkify-api.herokuapp.com/images/BBQChickenPizzawithCauliflowerCrust5004699695624ce.jpg",
-            "title": "Cauliflower Pizza Crust (with BBQ Chicken Pizza)",
-            "servings": 4,
-            "cooking_time": 75,
-            "id": "5ed6604591c37cdc054bcd09"
-        }
+        const formattedForm = Object.keys(form).reduce((acc, key) => {
+            const formattedFields = form[key].reduce((acc, field) => {
+                const formatId = (id, replaceNumber) => {
+                    id = id.replace(/^form-/g, "");
+                    if (replaceNumber) {
+                        id = id.replace(/-\d+$/g, "");
+                    }
+                    id = id.replace(/-/g, "_");
 
-        const formattedForm = {}
-    }
+                    return id;
+                };
+
+                const formatValue = value => {
+                    if (value === "") {
+                        return "";
+                    }
+
+                    return /^[0-9]+$/.test(value) ? Number(value) : value;
+                };
+
+                const key = formatId(field.id);
+                const value = formatValue(field.value);
+
+                if (field.subFields) {
+                    const formattedSubFields = field.subFields.reduce(
+                        (acc, subField) => {
+                            const key = formatId(subField.id, true);
+                            const value = formatValue(subField.value);
+
+                            return {
+                                ...acc,
+                                [key]: value,
+                            };
+                        },
+                        []
+                    );
+
+                    return {
+                        ...acc,
+                        [key]: formattedSubFields,
+                    };
+                }
+
+                return {
+                    ...acc,
+                    [key]: value,
+                };
+            }, {});
+
+            const fieldValues = Object.values(formattedFields);
+
+            if (key === "details") {
+                return {
+                    ...acc,
+                    ...formattedFields,
+                };
+            }
+
+            if (key === "images") {
+                return {
+                    ...acc,
+                    image_url: fieldValues[0], // The API requires image_url
+                    [key]: fieldValues,
+                };
+            }
+
+            if (fieldValues.length === 1) {
+                return {
+                    ...acc,
+                    [key]: Boolean(fieldValues[0]) ? [fieldValues[0]] : "",
+                };
+            }
+
+            return {
+                ...acc,
+                [key]: fieldValues,
+            };
+        }, {});
+
+        addRecipe(formattedForm);
+    };
+
+    // console.log(result);
 
     return (
         <div className="bg-zinc-800//above-sm radius-1 stack s-l max-w-xl mx-auto p-fluid-m-l//above-sm pb-fluid-l-xl//above-sm">
@@ -399,13 +417,10 @@ const AddRecipeForm = () => {
                     >
                         Preview Of Recipe
                     </button>
-                    <button
-                        className="bg-blue-700 text-zinc-050 text-center f-weight-medium f-size-1 line-height-1 radius-1 px-m py-xs w-full//below-md"
-                    >
+                    <button className="bg-blue-700 text-zinc-050 text-center f-weight-medium f-size-1 line-height-1 radius-1 px-m py-xs w-full//below-md">
                         Submit Recipe
                     </button>
                 </div>
-
             </form>
         </div>
     );

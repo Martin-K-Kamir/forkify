@@ -13,7 +13,7 @@ const extendedApi = api.injectEndpoints({
     endpoints: builder => ({
         getRecipes: builder.query({
             query: recipesId => ({
-                url: `?search=${recipesId}`,
+                url: `?search=${recipesId}&key=c62986c1-429b-4175-98ba-d2d6813fb6bf`,
                 validateStatus: (response, result) => {
                     return (
                         response.status === 200 &&
@@ -105,6 +105,13 @@ const extendedApi = api.injectEndpoints({
                 }
             },
         }),
+        addRecipe: builder.mutation({
+            query: recipe => ({
+                url: "/?key=c62986c1-429b-4175-98ba-d2d6813fb6bf",
+                method: "POST",
+                body: recipe,
+            }),
+        }),
     }),
 });
 
@@ -114,6 +121,5 @@ export const {
     useGetRecipeQuery,
     useGetSearchRecipesQuery,
     useUpdateBookmarkMutation,
+    useAddRecipeMutation,
 } = extendedApi;
-export const useGetRecipesQueryState =
-    extendedApi.endpoints.getRecipes.useQueryState;
