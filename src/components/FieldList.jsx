@@ -1,7 +1,8 @@
 import Icon from "./Icon.jsx";
 import Field from "./Field.jsx";
+import React from "react";
 
-const FieldList = ({ fields, onChange, options }) => {
+let FieldList = ({fields, onChange, options}) => {
     return fields.map((field, i, arr) => {
         const isFirstIndex = i === 0;
         const isLastIndex = i === arr.length - 1;
@@ -50,7 +51,7 @@ const FieldList = ({ fields, onChange, options }) => {
                             }
                             type="button"
                         >
-                            <Icon className="f-size-2" type="cancel" />
+                            <Icon className="f-size-2" type="cancel"/>
                         </button>
                     )}
                 </div>
@@ -65,7 +66,7 @@ const FieldList = ({ fields, onChange, options }) => {
                         }}
                         type="button"
                     >
-                        <Icon className="f-size-1" type="addCircle" />
+                        <Icon className="f-size-1" type="addCircle"/>
                         {options.addFieldText}
                     </button>
                 )}
@@ -73,5 +74,30 @@ const FieldList = ({ fields, onChange, options }) => {
         );
     });
 };
+
+FieldList = React.memo(FieldList, (prevProps, nextProps) => {
+    const isSameLength = prevProps.fields.length === nextProps.fields.length;
+    const areFieldsSame = prevProps.fields.every((field, i) => {
+        return (
+            field.id === nextProps.fields[i].id &&
+            field.value === nextProps.fields[i].value
+        );
+    });
+
+    const hasSubFields = prevProps.fields.some(field => field.subFields);
+    let areSubFieldsSame = true;
+    if (hasSubFields) {
+        areSubFieldsSame = prevProps.fields.every((field, i) => {
+            return field.subFields?.every((subField, j) => {
+                return (
+                    subField.id === nextProps.fields[i].subFields[j].id &&
+                    subField.value === nextProps.fields[i].subFields[j].value
+                );
+            });
+        });
+    }
+
+    return isSameLength && areFieldsSame && areSubFieldsSame;
+});
 
 export default FieldList;

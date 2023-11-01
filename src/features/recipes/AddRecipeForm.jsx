@@ -1,7 +1,8 @@
-import { useState } from "react";
+import React, { useState } from "react";
 import Icon from "../../components/Icon.jsx";
 import classNames from "classnames";
 import FieldList from "../../components/FieldList.jsx";
+import Field from "../../components/Field.jsx";
 
 const AddRecipeForm = () => {
     const [form, setForm] = useState({
@@ -98,7 +99,7 @@ const AddRecipeForm = () => {
                 id: "form-instruction-1",
                 label: "Instruction",
                 type: "textarea",
-                isRequired: true,
+                isRequired: false,
                 value: "",
             },
         ],
@@ -216,14 +217,13 @@ const AddRecipeForm = () => {
                         ...field,
                         id: name + (i + 1),
                         subFields: field.subFields.map(subField => {
+                            const id = subField.id.replace(regexRemoveNumber, "");
+                            const label = subField.label.replace(regexRemoveNumber, "");
+
                             return {
                                 ...subField,
-                                id:
-                                    subField.id.replace(regexRemoveNumber, "") +
-                                    (i + 1),
-                                ...(subField.label === "Description" && {
-                                    label: subField.label + " " + (i + 1),
-                                }),
+                                id: id + (i + 1),
+                                label: label === "Description " && i !== 0 ? label + (i + 1) : label,
                             };
                         }),
                     };
@@ -232,7 +232,7 @@ const AddRecipeForm = () => {
                 return {
                     ...field,
                     id: name + (i + 1),
-                    label: field.label.replace(regexRemoveNumber, "") + (i + 1),
+                    ...(i !== 0 && {label: field.label.replace(regexRemoveNumber, "") + (i + 1)}),
                 };
             });
 
@@ -242,6 +242,83 @@ const AddRecipeForm = () => {
             };
         });
     };
+
+    const convertArrayToObject = array => {
+        return array.reduce((obj, item) => {
+            return {
+                ...obj,
+                [item.id]: item.value,
+            };
+        }, {});
+    }
+
+    const handleSubmit = e => {
+        e.preventDefault();
+
+        const howItSholdLook = {
+            "publisher": "Closet Cooking",
+            "ingredients": [
+                {
+                    "quantity": 1,
+                    "unit": "",
+                    "description": "medium head cauliflower cut into florets"
+                },
+                {
+                    "quantity": 1,
+                    "unit": "",
+                    "description": "egg"
+                },
+                {
+                    "quantity": 0.5,
+                    "unit": "cup",
+                    "description": "mozzarella shredded"
+                },
+                {
+                    "quantity": 1,
+                    "unit": "tsp",
+                    "description": "oregano or italian seasoning blend"
+                },
+                {
+                    "quantity": null,
+                    "unit": "",
+                    "description": "Salt and pepper to taste"
+                },
+                {
+                    "quantity": 1,
+                    "unit": "cup",
+                    "description": "chicken cooked and shredded"
+                },
+                {
+                    "quantity": 0.5,
+                    "unit": "cup",
+                    "description": "barbecue sauce"
+                },
+                {
+                    "quantity": 0.75,
+                    "unit": "cup",
+                    "description": "mozzarella shredded"
+                },
+                {
+                    "quantity": null,
+                    "unit": "",
+                    "description": "Red onion to taste thinly sliced"
+                },
+                {
+                    "quantity": null,
+                    "unit": "",
+                    "description": "Fresh cilantro to taste"
+                }
+            ],
+            "source_url": "http://feedproxy.google.com/~r/ClosetCooking/~3/xvkmVGnlXNQ/cauliflower-pizza-crust-with-bbq.html",
+            "image_url": "http://forkify-api.herokuapp.com/images/BBQChickenPizzawithCauliflowerCrust5004699695624ce.jpg",
+            "title": "Cauliflower Pizza Crust (with BBQ Chicken Pizza)",
+            "servings": 4,
+            "cooking_time": 75,
+            "id": "5ed6604591c37cdc054bcd09"
+        }
+
+        const formattedForm = {}
+    }
 
     return (
         <div className="bg-zinc-800//above-sm radius-1 stack s-l max-w-xl mx-auto p-fluid-m-l//above-sm pb-fluid-l-xl//above-sm">
@@ -254,7 +331,7 @@ const AddRecipeForm = () => {
                     web!
                 </p>
             </header>
-            <form className="form stack s-l">
+            <form className="form stack s-l" onSubmit={handleSubmit}>
                 <section>
                     <h2 className="f-family-secondary f-size-fluid-3 f-weight-bold line-height-2">
                         Details
@@ -315,6 +392,20 @@ const AddRecipeForm = () => {
                         />
                     </div>
                 </section>
+                <div className="flex justify-content-center flex-direction-column//below-md gap-s mt-xl">
+                    <button
+                        type="button"
+                        className="bg-zinc-800 bg-zinc-900//above-sm text-zinc-050 text-center f-weight-medium f-size-1 line-height-1 radius-1 px-m py-xs w-full//below-md"
+                    >
+                        Preview Of Recipe
+                    </button>
+                    <button
+                        className="bg-blue-700 text-zinc-050 text-center f-weight-medium f-size-1 line-height-1 radius-1 px-m py-xs w-full//below-md"
+                    >
+                        Submit Recipe
+                    </button>
+                </div>
+
             </form>
         </div>
     );

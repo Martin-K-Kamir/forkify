@@ -1,7 +1,7 @@
 import classNames from "classnames";
-import { useEffect, useRef, useState } from "react";
+import React, { useEffect, useRef } from "react";
 
-const Field = ({ field, onChange, className }) => {
+let Field = ({ field, onChange, className }) => {
     const { id, label, isRequired, type, pattern, min, max, maxLength, value } =
         field;
 
@@ -60,6 +60,7 @@ const Field = ({ field, onChange, className }) => {
                         data-value={value.substring(0, 1)}
                         required={isRequired}
                         rows={2}
+                        maxLength={maxLength}
                     />
                 ) : (
                     <input
@@ -80,5 +81,9 @@ const Field = ({ field, onChange, className }) => {
         </div>
     );
 };
+
+Field = React.memo(Field, (prevProps, nextProps) => {
+    return prevProps.field.value === nextProps.field.value;
+});
 
 export default Field;
