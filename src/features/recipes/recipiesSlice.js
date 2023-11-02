@@ -108,9 +108,21 @@ const extendedApi = api.injectEndpoints({
         addRecipe: builder.mutation({
             query: recipe => ({
                 url: "/?key=c62986c1-429b-4175-98ba-d2d6813fb6bf",
+                // url: "/",
                 method: "POST",
                 body: recipe,
             }),
+            transformErrorResponse: result => {
+                if ([401].includes(result.status)) {
+                    return { message: "Oops! Something went wrong on our end. Please try again later." };
+                }
+
+                if ([500, 501, 502, 503, 504, 505].includes(result.status)) {
+                    return { message: "Our server needs a coffee break. Try again later." };
+                }
+
+                return result.data
+            }
         }),
     }),
 });

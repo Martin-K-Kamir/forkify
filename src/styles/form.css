@@ -72,7 +72,7 @@
         grid-template-columns : repeat(2, 1fr);
     }
 
-    & div:has(input#form-link) {
+    & div:has(input[id*="link"]) {
         @media (width >= 48em) {
             grid-column : span 2;
         }

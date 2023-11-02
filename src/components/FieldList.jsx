@@ -79,7 +79,7 @@ FieldList = React.memo(FieldList, (prevProps, nextProps) => {
     const isSameLength = prevProps.fields.length === nextProps.fields.length;
     const areFieldsSame = prevProps.fields.every((field, i) => {
         return (
-            field.id === nextProps.fields[i].id &&
+            field.id === nextProps.fields[i]?.id &&
             field.value === nextProps.fields[i].value
         );
     });
@@ -90,7 +90,7 @@ FieldList = React.memo(FieldList, (prevProps, nextProps) => {
         areSubFieldsSame = prevProps.fields.every((field, i) => {
             return field.subFields?.every((subField, j) => {
                 return (
-                    subField.id === nextProps.fields[i].subFields[j].id &&
+                    subField.id === nextProps.fields[i]?.subFields[j]?.id &&
                     subField.value === nextProps.fields[i].subFields[j].value
                 );
             });

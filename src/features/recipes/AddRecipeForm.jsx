@@ -1,8 +1,12 @@
 import React, { useState } from "react";
 import FieldList from "../../components/FieldList.jsx";
 import { useAddRecipeMutation } from "./recipiesSlice.js";
+import Icon from "../../components/Icon.jsx";
+import { addAlert } from "../alert/alertSlice.js";
+import { useDispatch } from "react-redux";
 
 const AddRecipeForm = () => {
+    const dispatch = useDispatch();
     const [addRecipe, result] = useAddRecipeMutation();
 
     const [form, setForm] = useState({
@@ -13,16 +17,16 @@ const AddRecipeForm = () => {
                 type: "text",
                 isRequired: true,
                 pattern:
-                    "^(?=.{3,50}$)[A-Za-z]+(&[A-Za-z]+)*( [A-Za-z]+)*( [A-Za-z]+)* *(?:[0-9]|!)?$",
+                    "^[\\p{L}\\s]{4,}$",
                 value: "",
             },
             {
                 id: "form-publisher",
-                label: "Author",
+                label: "Publisher",
                 type: "text",
                 isRequired: true,
                 pattern:
-                    "^[\\p{L}\\s&]{2,25}$|^[\\p{L}\\s&]{1,25}(\\s[\\p{L}\\s&]{1,25})*$",
+                    "^[\\p{L}\\s]{4,}$",
                 value: "",
             },
             {
@@ -104,9 +108,80 @@ const AddRecipeForm = () => {
             },
         ],
     });
+    const [originalForm] = useState(form);
+    const formatId = (id, replaceNumber) => {
+        id = id.replace(/^form-/g, "");
+        if (replaceNumber) {
+            id = id.replace(/-\d+$/g, "");
+        }
+        id = id.replace(/-/g, "_");
+
+        return id;
+    };
+
+    const formatValue = value => {
+        if (value === "") {
+            return "";
+        }
+
+        return /^[0-9]+$/.test(value) ? Number(value) : value;
+    };
+
+    const formatFields = (fields, replaceNumber) => {
+        return fields.reduce((acc, field) => {
+            const key = formatId(field.id, replaceNumber);
+            const value = formatValue(field.value);
+
+            if (field.subFields) {
+                return {
+                    ...acc,
+                    [key]: formatFields(field.subFields, true),
+                };
+            }
+
+            return {
+                ...acc,
+                [key]: value,
+            };
+        }, {});
+    }
+
+    const formatForm = form => {
+        return Object.keys(form).reduce((acc, key) => {
+            const formattedFields = formatFields(form[key]);
+            const fieldValues = Object.values(formattedFields);
+
+            if (key === "details") {
+                return {
+                    ...acc,
+                    ...formattedFields,
+                };
+            }
+
+            if (key === "images") {
+                return {
+                    ...acc,
+                    image_url: fieldValues[0], // The API requires image_url
+                    [key]: fieldValues,
+                };
+            }
+
+            if (fieldValues.length === 1) {
+                return {
+                    ...acc,
+                    [key]: Boolean(fieldValues[0]) ? [fieldValues[0]] : null,
+                };
+            }
+
+            return {
+                ...acc,
+                [key]: fieldValues,
+            };
+        }, {});
+    }
 
     const handleChange = payload => {
-        const { id, path, value } = payload;
+        const {id, path, value} = payload;
         const key = Object.keys(form).find(key => {
             return form[key] === path;
         });
@@ -146,7 +221,7 @@ const AddRecipeForm = () => {
     };
 
     const handleAddField = payload => {
-        const { path } = payload;
+        const {path} = payload;
 
         const key = Object.keys(form).find(key => {
             return form[key] === path;
@@ -198,7 +273,7 @@ const AddRecipeForm = () => {
     };
 
     const handleRemoveField = payload => {
-        const { id, path } = payload;
+        const {id, path} = payload;
 
         const key = Object.keys(form).find(key => {
             return form[key] === path;
@@ -251,95 +326,38 @@ const AddRecipeForm = () => {
         });
     };
 
-    const handleSubmit = e => {
+    const handleSubmit = async e => {
         e.preventDefault();
+        console.log({form: formatForm(form)})
 
-        const formattedForm = Object.keys(form).reduce((acc, key) => {
-            const formattedFields = form[key].reduce((acc, field) => {
-                const formatId = (id, replaceNumber) => {
-                    id = id.replace(/^form-/g, "");
-                    if (replaceNumber) {
-                        id = id.replace(/-\d+$/g, "");
-                    }
-                    id = id.replace(/-/g, "_");
+        try {
+            await addRecipe(formatForm(form)).unwrap();
+            console.log({originalForm})
+            setForm(originalForm);
+            dispatch(
+                addAlert({
+                    message: "Recipe added successfully!",
+                    isSuccess: true,
+                })
+            );
+        } catch (err) {
+            console.error(err);
 
-                    return id;
-                };
-
-                const formatValue = value => {
-                    if (value === "") {
-                        return "";
-                    }
-
-                    return /^[0-9]+$/.test(value) ? Number(value) : value;
-                };
-
-                const key = formatId(field.id);
-                const value = formatValue(field.value);
-
-                if (field.subFields) {
-                    const formattedSubFields = field.subFields.reduce(
-                        (acc, subField) => {
-                            const key = formatId(subField.id, true);
-                            const value = formatValue(subField.value);
-
-                            return {
-                                ...acc,
-                                [key]: value,
-                            };
-                        },
-                        []
-                    );
-
-                    return {
-                        ...acc,
-                        [key]: formattedSubFields,
-                    };
-                }
-
-                return {
-                    ...acc,
-                    [key]: value,
-                };
-            }, {});
-
-            const fieldValues = Object.values(formattedFields);
-
-            if (key === "details") {
-                return {
-                    ...acc,
-                    ...formattedFields,
-                };
-            }
-
-            if (key === "images") {
-                return {
-                    ...acc,
-                    image_url: fieldValues[0], // The API requires image_url
-                    [key]: fieldValues,
-                };
-            }
-
-            if (fieldValues.length === 1) {
-                return {
-                    ...acc,
-                    [key]: Boolean(fieldValues[0]) ? [fieldValues[0]] : "",
-                };
-            }
-
-            return {
-                ...acc,
-                [key]: fieldValues,
-            };
-        }, {});
-
-        addRecipe(formattedForm);
+            dispatch(
+                addAlert({
+                    message: err.message,
+                    isDanger: true,
+                    timeout: 5000,
+                })
+            );
+        }
     };
 
     // console.log(result);
 
     return (
-        <div className="bg-zinc-800//above-sm radius-1 stack s-l max-w-xl mx-auto p-fluid-m-l//above-sm pb-fluid-l-xl//above-sm">
+        <div
+            className="bg-zinc-800//above-sm radius-1 stack s-l max-w-xl mx-auto p-fluid-m-l//above-sm pb-fluid-l-xl//above-sm">
             <header>
                 <h1 className="f-family-secondary f-size-fluid-4 f-weight-bold line-height-2">
                     Add Recipe
@@ -415,10 +433,18 @@ const AddRecipeForm = () => {
                         type="button"
                         className="bg-zinc-800 bg-zinc-900//above-sm text-zinc-050 text-center f-weight-medium f-size-1 line-height-1 radius-1 px-m py-xs w-full//below-md"
                     >
-                        Preview Of Recipe
+                        Preview Recipe
                     </button>
-                    <button className="bg-blue-700 text-zinc-050 text-center f-weight-medium f-size-1 line-height-1 radius-1 px-m py-xs w-full//below-md">
-                        Submit Recipe
+                    <button
+                        className="bg-blue-700 text-zinc-050 text-center f-weight-medium f-size-1 line-height-1 radius-1 px-m py-xs w-full//below-md">
+                        {
+                            result.isLoading ? (
+                                <Icon
+                                    type="progressActivity"
+                                    className="animation-spin f-size-fluid-3"
+                                />
+                            ) : "Submit Recipe"
+                        }
                     </button>
                 </div>
             </form>

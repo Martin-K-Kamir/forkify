@@ -2,10 +2,15 @@ import classNames from "classnames";
 import React, { useEffect, useRef } from "react";
 
 let Field = ({ field, onChange, className }) => {
+    const textareaRef = useRef(null);
+
     const { id, label, isRequired, type, pattern, min, max, maxLength, value } =
         field;
 
-    const textareaRef = useRef(null);
+    const fieldClasses = classNames(
+        "field relative bg-zinc-800 bg-zinc-900//above-sm px-s py-xs radius-1 w-full cursor-text",
+        className
+    );
 
     useEffect(() => {
         if (type === "textarea") {
@@ -28,11 +33,6 @@ let Field = ({ field, onChange, className }) => {
         const { scrollHeight } = textarea;
         textarea.style.height = `${scrollHeight}px`;
     };
-
-    const fieldClasses = classNames(
-        "field relative bg-zinc-800 bg-zinc-900//above-sm px-s py-xs radius-1 w-full cursor-text",
-        className
-    );
 
     const handleFocusClick = e => {
         e.target.querySelector("input")?.focus();

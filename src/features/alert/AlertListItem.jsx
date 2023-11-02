@@ -13,7 +13,7 @@ const AlertListItem = ({ alertId }) => {
     const ref = useRef(null);
 
     const alert = useSelector(state => selectAlertById(state, alertId));
-    const { isSuccess, isDanger, isWarning, isInfo, message } = alert;
+    const { isSuccess, isDanger, isWarning, isInfo, message, timeout } = alert;
 
     useEffect(() => {
         setMaxHeight(ref.current.scrollHeight);
@@ -22,7 +22,7 @@ const AlertListItem = ({ alertId }) => {
             setIsVisible(true);
         }, 100);
 
-        setTimeout(hideAlert, 3000);
+        setTimeout(hideAlert, timeout || 3000);
     }, []);
 
     const hideAlert = () => {
