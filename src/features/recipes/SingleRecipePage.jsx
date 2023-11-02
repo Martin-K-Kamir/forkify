@@ -111,7 +111,7 @@ const SingleRecipePage = () => {
         );
 
         return (
-            <div className="bg-zinc-800//above-sm radius-1 max-w-xl mx-auto p-fluid-m-l//above-sm pb-fluid-l-xl//above-sm">
+            <div className="bg-zinc-800//above-sm radius-1 max-w-xl mx-auto p-fluid-m-l//above-sm">
                 <div className="relative">
                     <img
                         className="w-full aspect-ratio-16x9 object-cover radius-1"
@@ -204,7 +204,7 @@ const SingleRecipePage = () => {
                             their website.
                         </p>
                         <a
-                            className="inline-block bg-blue-700 text-zinc-050 text-no-decoration text-center f-weight-medium f-size-1 line-height-1 radius-1 px-m py-xs mt-m w-full//below-sm"
+                            className="inline-block bg-blue-700 text-zinc-050 text-no-decoration text-center f-weight-medium f-size-1 line-height-1 radius-1 px-m py-s mt-m w-full//below-sm"
                             href={recipe.source_url}
                         >
                             Click here for directions

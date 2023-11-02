@@ -1,13 +1,15 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import FieldList from "../../components/FieldList.jsx";
 import { useAddRecipeMutation } from "./recipiesSlice.js";
 import Icon from "../../components/Icon.jsx";
-import { addAlert } from "../alert/alertSlice.js";
+import { addAlert, removeAlert } from "../alert/alertSlice.js";
 import { useDispatch } from "react-redux";
+import Modal from "../../components/Modal.jsx";
 
 const AddRecipeForm = () => {
     const dispatch = useDispatch();
-    const [addRecipe, result] = useAddRecipeMutation();
+    const [addRecipe, { isLoading, isSuccess, isUninitialized }] =
+        useAddRecipeMutation();
 
     const [form, setForm] = useState({
         details: [
@@ -16,8 +18,7 @@ const AddRecipeForm = () => {
                 label: "Recipe Title",
                 type: "text",
                 isRequired: true,
-                pattern:
-                    "^[\\p{L}\\s]{4,}$",
+                pattern: "[\\s\\S]{4,50}",
                 value: "",
             },
             {
@@ -25,8 +26,7 @@ const AddRecipeForm = () => {
                 label: "Publisher",
                 type: "text",
                 isRequired: true,
-                pattern:
-                    "^[\\p{L}\\s]{4,}$",
+                pattern: "^[\\p{L}\\s]{4,25}$",
                 value: "",
             },
             {
@@ -109,6 +109,29 @@ const AddRecipeForm = () => {
         ],
     });
     const [originalForm] = useState(form);
+    const [agreedToTerms, setAgreedToTerms] = useState(false);
+
+    useEffect(() => {
+        let timer;
+        const message =
+            "The server is taking longer than usual to respond. Please be patient.";
+        if (isLoading && !isUninitialized) {
+            timer = setTimeout(() => {
+                dispatch(
+                    addAlert({
+                        message,
+                        isWarning: true,
+                        timeout: 10000,
+                    })
+                );
+            }, 5_000);
+        } else if (isSuccess) {
+            dispatch(removeAlert(message));
+        }
+
+        return () => clearTimeout(timer);
+    }, [isLoading, isSuccess]);
+
     const formatId = (id, replaceNumber) => {
         id = id.replace(/^form-/g, "");
         if (replaceNumber) {
@@ -144,7 +167,7 @@ const AddRecipeForm = () => {
                 [key]: value,
             };
         }, {});
-    }
+    };
 
     const formatForm = form => {
         return Object.keys(form).reduce((acc, key) => {
@@ -178,10 +201,10 @@ const AddRecipeForm = () => {
                 [key]: fieldValues,
             };
         }, {});
-    }
+    };
 
     const handleChange = payload => {
-        const {id, path, value} = payload;
+        const { id, path, value } = payload;
         const key = Object.keys(form).find(key => {
             return form[key] === path;
         });
@@ -221,7 +244,7 @@ const AddRecipeForm = () => {
     };
 
     const handleAddField = payload => {
-        const {path} = payload;
+        const { path } = payload;
 
         const key = Object.keys(form).find(key => {
             return form[key] === path;
@@ -273,7 +296,7 @@ const AddRecipeForm = () => {
     };
 
     const handleRemoveField = payload => {
-        const {id, path} = payload;
+        const { id, path } = payload;
 
         const key = Object.keys(form).find(key => {
             return form[key] === path;
@@ -328,18 +351,13 @@ const AddRecipeForm = () => {
 
     const handleSubmit = async e => {
         e.preventDefault();
-        console.log({form: formatForm(form)})
+        console.log({ form: formatForm(form) });
 
         try {
             await addRecipe(formatForm(form)).unwrap();
-            console.log({originalForm})
+            console.log({ originalForm });
             setForm(originalForm);
-            dispatch(
-                addAlert({
-                    message: "Recipe added successfully!",
-                    isSuccess: true,
-                })
-            );
+            setAgreedToTerms(false);
         } catch (err) {
             console.error(err);
 
@@ -353,11 +371,8 @@ const AddRecipeForm = () => {
         }
     };
 
-    // console.log(result);
-
     return (
-        <div
-            className="bg-zinc-800//above-sm radius-1 stack s-l max-w-xl mx-auto p-fluid-m-l//above-sm pb-fluid-l-xl//above-sm">
+        <div className="bg-zinc-800//above-sm radius-1 stack s-l max-w-xl mx-auto p-fluid-m-l//above-sm pb-fluid-l-xl//above-sm">
             <header>
                 <h1 className="f-family-secondary f-size-fluid-4 f-weight-bold line-height-2">
                     Add Recipe
@@ -428,26 +443,63 @@ const AddRecipeForm = () => {
                         />
                     </div>
                 </section>
-                <div className="flex justify-content-center flex-direction-column//below-md gap-s mt-xl">
+                <div className="flex align-items-start gap-2xs">
+                    <input
+                        type="checkbox"
+                        id="form-agree"
+                        style={{ transform: "translateY(3px)" }}
+                        checked={agreedToTerms}
+                        onChange={e => setAgreedToTerms(e.target.checked)}
+                        required={true}
+                    />
+                    <label
+                        htmlFor="form-agree"
+                        className="f-size--1 text-zinc-300"
+                    >
+                        I understand that the API is only for testing purposes
+                        and multiple images and instructions are not going to be
+                        submitted. Also i just wanted to add checkbox and long
+                        "terms" text to the form.
+                    </label>
+                </div>
+                <div className="flex justify-content-center flex-direction-column//below-md gap-s mt-l">
                     <button
                         type="button"
-                        className="bg-zinc-800 bg-zinc-900//above-sm text-zinc-050 text-center f-weight-medium f-size-1 line-height-1 radius-1 px-m py-xs w-full//below-md"
+                        className="bg-zinc-800 bg-zinc-900//above-sm text-zinc-050 text-center f-weight-medium f-size-1 line-height-1 radius-1 px-m py-s w-full//below-md"
+                        disabled={isLoading}
                     >
                         Preview Recipe
                     </button>
-                    <button
-                        className="bg-blue-700 text-zinc-050 text-center f-weight-medium f-size-1 line-height-1 radius-1 px-m py-xs w-full//below-md">
-                        {
-                            result.isLoading ? (
-                                <Icon
-                                    type="progressActivity"
-                                    className="animation-spin f-size-fluid-3"
-                                />
-                            ) : "Submit Recipe"
-                        }
+                    <button className="bg-blue-700 text-zinc-050 text-center f-weight-medium f-size-1 line-height-1 radius-1 px-m py-s w-full//below-md">
+                        {isLoading ? (
+                            <Icon
+                                type="progressActivity"
+                                className="animation-spin f-size-1"
+                            />
+                        ) : (
+                            "Submit Recipe"
+                        )}
                     </button>
                 </div>
             </form>
+
+            <Modal>
+                <h2 className="f-family-secondary f-size-fluid-3 f-weight-bold line-height-2">
+                    Form Submitted
+                </h2>
+                <p className="text-zinc-200">
+                    Your recipe has been submitted! Check it out on or add a new
+                    one.
+                </p>
+                <div className="flex gap-m w-full">
+                    <button className="bg-zinc-800 f-weight-medium f-size-1 line-height-1 radius-1 px-m py-s w-full//below-md">
+                        Add New Recipe
+                    </button>
+                    <button className="bg-blue-700 f-weight-medium f-size-1 line-height-1 radius-1 px-m py-s w-full//below-md">
+                        Go to Recipe
+                    </button>
+                </div>
+            </Modal>
         </div>
     );
 };

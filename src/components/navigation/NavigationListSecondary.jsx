@@ -66,7 +66,7 @@ const NavigationListSecondary = ({
                     <>
                         <div className="bg-zinc-800 h-px w-full"></div>
                         <button
-                            className="bg-blue-700 f-weight-medium f-size-1 line-height-1 radius-1 px-m py-xs max-w-xs w-full"
+                            className="bg-blue-700 f-weight-medium f-size-1 line-height-1 radius-1 px-m py-s max-w-xs w-full"
                             onClick={onMenuClick}
                             aria-controls="navigation-secondary"
                             aria-expanded="true"

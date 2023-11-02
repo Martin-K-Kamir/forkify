@@ -1,5 +1,7 @@
 
 .form {
+    accent-color: var(--clr-blue-300);
+
     & :where(input, textarea, select) {
         border  : none;
         outline : none;
@@ -72,7 +74,7 @@
         grid-template-columns : repeat(2, 1fr);
     }
 
-    & div:has(input[id*="link"]) {
+    & div:has(input[id*="source"]) {
         @media (width >= 48em) {
             grid-column : span 2;
         }
