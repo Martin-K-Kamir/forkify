@@ -491,7 +491,7 @@ const AddRecipeForm = () => {
                     <p className="text-zinc-200">
                         Your recipe has been successfully submitted! Click the go to recipe button to view it. Or add another recipe.
                     </p>
-                    <div className="flex gap-m w-full">
+                    <div className="flex gap-s w-full flex-direction-column//below-sm mt-l//below-sm">
                         <button
                             className="bg-zinc-800 f-weight-medium f-size-1 line-height-1 radius-1 px-m py-s w-full//below-sm">
                             Add New Recipe
