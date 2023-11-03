@@ -121,7 +121,7 @@ const AddRecipeForm = () => {
                     addAlert({
                         message,
                         isWarning: true,
-                        timeout: 10000,
+                        timeout: 5_000,
                     })
                 );
             }, 5_000);
@@ -483,21 +483,24 @@ const AddRecipeForm = () => {
                 </div>
             </form>
 
-            <Modal>
-                <h2 className="f-family-secondary f-size-fluid-3 f-weight-bold line-height-2">
-                    Form Submitted
-                </h2>
-                <p className="text-zinc-200">
-                    Your recipe has been submitted! Check it out on or add a new
-                    one.
-                </p>
-                <div className="flex gap-m w-full">
-                    <button className="bg-zinc-800 f-weight-medium f-size-1 line-height-1 radius-1 px-m py-s w-full//below-md">
-                        Add New Recipe
-                    </button>
-                    <button className="bg-blue-700 f-weight-medium f-size-1 line-height-1 radius-1 px-m py-s w-full//below-md">
-                        Go to Recipe
-                    </button>
+            <Modal transition showClose>
+                <div className="stack">
+                    <h2 className="f-family-secondary f-size-fluid-3 f-weight-bold line-height-2">
+                        Recipe Submitted
+                    </h2>
+                    <p className="text-zinc-200">
+                        Your recipe has been successfully submitted! Click the go to recipe button to view it. Or add another recipe.
+                    </p>
+                    <div className="flex gap-m w-full">
+                        <button
+                            className="bg-zinc-800 f-weight-medium f-size-1 line-height-1 radius-1 px-m py-s w-full//below-sm">
+                            Add New Recipe
+                        </button>
+                        <button
+                            className="bg-blue-700 f-weight-medium f-size-1 line-height-1 radius-1 px-m py-s w-full//below-sm">
+                            Go to Recipe
+                        </button>
+                    </div>
                 </div>
             </Modal>
         </div>
