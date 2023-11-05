@@ -5,9 +5,26 @@ import Icon from "../../components/Icon.jsx";
 import { addAlert, removeAlert } from "../alert/alertSlice.js";
 import { useDispatch } from "react-redux";
 import Modal from "../../components/Modal.jsx";
+import useModal from "../../hooks/useModal.jsx";
+import SingleRecipe from "./SingleRecipe.jsx";
 
 const AddRecipeForm = () => {
     const dispatch = useDispatch();
+
+    const {
+        isModalVisible: isSuccessModalVisible,
+        isModalRendered: isSuccessModalRendered,
+        showModal: showSuccessModal,
+        closeModal: closeSuccessModal,
+    } = useModal();
+
+    const {
+        isModalVisible: isPreviewModalVisible,
+        isModalRendered: isPreviewModalRendered,
+        showModal: showPreviewModal,
+        closeModal: closePreviewModal,
+    } = useModal();
+
     const [addRecipe, { isLoading, isSuccess, isUninitialized }] =
         useAddRecipeMutation();
 
@@ -108,8 +125,9 @@ const AddRecipeForm = () => {
             },
         ],
     });
+    const [canSubmit, setCanSubmit] = useState(false);
     const [originalForm] = useState(form);
-    const [agreedToTerms, setAgreedToTerms] = useState(false);
+    const formRef = React.useRef(form);
 
     useEffect(() => {
         let timer;
@@ -131,6 +149,10 @@ const AddRecipeForm = () => {
 
         return () => clearTimeout(timer);
     }, [isLoading, isSuccess]);
+
+    useEffect(() => {
+        setCanSubmit(formRef.current.checkValidity() && !isLoading);
+    }, [form]);
 
     const formatId = (id, replaceNumber) => {
         id = id.replace(/^form-/g, "");
@@ -355,9 +377,18 @@ const AddRecipeForm = () => {
 
         try {
             await addRecipe(formatForm(form)).unwrap();
-            console.log({ originalForm });
+
+            if (isPreviewModalVisible) {
+                closePreviewModal();
+
+                setTimeout(() => {
+                    showSuccessModal();
+                }, 400);
+            } else {
+                showSuccessModal();
+            }
+
             setForm(originalForm);
-            setAgreedToTerms(false);
         } catch (err) {
             console.error(err);
 
@@ -382,7 +413,11 @@ const AddRecipeForm = () => {
                     web!
                 </p>
             </header>
-            <form className="form stack s-l" onSubmit={handleSubmit}>
+            <form
+                ref={formRef}
+                className="form stack s-l"
+                onSubmit={handleSubmit}
+            >
                 <section>
                     <h2 className="f-family-secondary f-size-fluid-3 f-weight-bold line-height-2">
                         Details
@@ -443,30 +478,12 @@ const AddRecipeForm = () => {
                         />
                     </div>
                 </section>
-                <div className="flex align-items-start gap-2xs">
-                    <input
-                        type="checkbox"
-                        id="form-agree"
-                        style={{ transform: "translateY(3px)" }}
-                        checked={agreedToTerms}
-                        onChange={e => setAgreedToTerms(e.target.checked)}
-                        required={true}
-                    />
-                    <label
-                        htmlFor="form-agree"
-                        className="f-size--1 text-zinc-300"
-                    >
-                        I understand that the API is only for testing purposes
-                        and multiple images and instructions are not going to be
-                        submitted. Also i just wanted to add checkbox and long
-                        "terms" text to the form.
-                    </label>
-                </div>
                 <div className="flex justify-content-center flex-direction-column//below-md gap-s mt-l">
                     <button
                         type="button"
                         className="bg-zinc-800 bg-zinc-900//above-sm text-zinc-050 text-center f-weight-medium f-size-1 line-height-1 radius-1 px-m py-s w-full//below-md"
-                        disabled={isLoading}
+                        // disabled={!canSubmit}
+                        onClick={showPreviewModal}
                     >
                         Preview Recipe
                     </button>
@@ -483,26 +500,74 @@ const AddRecipeForm = () => {
                 </div>
             </form>
 
-            <Modal transition showClose>
-                <div className="stack">
-                    <h2 className="f-family-secondary f-size-fluid-3 f-weight-bold line-height-2">
-                        Recipe Submitted
-                    </h2>
-                    <p className="text-zinc-200">
-                        Your recipe has been successfully submitted! Click the go to recipe button to view it. Or add another recipe.
-                    </p>
-                    <div className="flex gap-s w-full flex-direction-column//below-sm mt-l//below-sm">
+            {isPreviewModalRendered && (
+                <Modal
+                    renderClose
+                    isVisible={isPreviewModalVisible}
+                    onClose={closePreviewModal}
+                    className="max-w-xl mt-m bg-zinc-800 p-m py-l//below-sm p-3xs//above-sm mb-5xl mb-3xl//above-sm"
+                >
+                    <SingleRecipe recipe={formatForm(form)} isPreview />
+                    <div className="absolute w-full left-0 flex justify-content-center flex-direction-column//below-sm gap-s mt-2xl mt-l//above-sm">
                         <button
-                            className="bg-zinc-800 f-weight-medium f-size-1 line-height-1 radius-1 px-m py-s w-full//below-sm">
-                            Add New Recipe
+                            className="bg-zinc-800 f-weight-medium f-size-1 line-height-1 radius-1 px-m py-s w-full//below-sm"
+                            onClick={closePreviewModal}
+                        >
+                            Close Preview
                         </button>
                         <button
-                            className="bg-blue-700 f-weight-medium f-size-1 line-height-1 radius-1 px-m py-s w-full//below-sm">
-                            Go to Recipe
+                            className="bg-blue-700 f-weight-medium f-size-1 line-height-1 radius-1 px-m py-s w-full//below-sm"
+                            // onClick={handleSubmit}
+                            onClick={() => {
+                                closePreviewModal();
+
+                                setTimeout(() => {
+                                    showSuccessModal();
+                                }, 400);
+                            }}
+                        >
+                            {isLoading ? (
+                                <Icon
+                                    type="progressActivity"
+                                    className="animation-spin f-size-1"
+                                />
+                            ) : (
+                                "Submit Recipe"
+                            )}
                         </button>
                     </div>
-                </div>
-            </Modal>
+                </Modal>
+            )}
+
+            {isSuccessModalRendered && (
+                <Modal
+                    renderClose
+                    isVisible={isSuccessModalVisible}
+                    onClose={closeSuccessModal}
+                >
+                    <div className="stack text-center//above-sm">
+                        <h2 className="f-family-secondary f-size-fluid-3 f-weight-bold line-height-2">
+                            Recipe Submitted
+                        </h2>
+                        <p className="text-zinc-200 text-balance">
+                            Your recipe has been successfully submitted! Click
+                            the go to recipe button to view it or add another
+                            recipe.
+                        </p>
+                        <div className="flex justify-content-center gap-s w-full flex-direction-column//below-sm mt-l">
+                            <button
+                                className="bg-zinc-800 f-weight-medium f-size-1 line-height-1 radius-1 px-m py-s w-full//below-sm"
+                                onClick={closeSuccessModal}
+                            >
+                                Go Back
+                            </button>
+                            <button className="bg-blue-700 f-weight-medium f-size-1 line-height-1 radius-1 px-m py-s w-full//below-sm">
+                                Go to Recipe
+                            </button>
+                        </div>
+                    </div>
+                </Modal>
+            )}
         </div>
     );
 };

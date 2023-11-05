@@ -31,7 +31,7 @@ const RecipesList = ({ recipes }) => {
         return <RecipesListItem key={recipe.id} {...recipe} />;
     });
 
-    const isRecipesListEmpty = renderedRecipes.length === 0;
+    const isRecipesListEmpty = recipes.length === 0;
 
     const isLimitReached = limit >= recipes?.length;
 
@@ -46,6 +46,7 @@ const RecipesList = ({ recipes }) => {
                     {renderedRecipes}
                 </ul>
             )}
+
             {isRecipesListEmpty && (
                 <p className="text-center f-size-1 f-weight-medium text-red-100 flex align-items-center justify-content-center flex-direction-column gap-2xs">
                     <Icon type="warning" fill className="f-size-3" />

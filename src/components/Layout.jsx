@@ -1,10 +1,10 @@
 import { Outlet } from "react-router-dom";
-import Navigation from "./navigation/Navigation.jsx";
+import Header from "./Header.jsx";
 
 const Layout = () => {
     return (
         <div className="wrapper py-fluid-l-xl">
-            <Navigation />
+            <Header />
 
             <main>
                 <Outlet />
