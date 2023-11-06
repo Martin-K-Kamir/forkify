@@ -1,8 +1,15 @@
 import classNames from "classnames";
-import { useEffect, useRef } from "react";
+import { useEffect, useMemo, useRef, useState } from "react";
 import Icon from "./Icon.jsx";
 import { createPortal } from "react-dom";
 
+function usePrevious(value) {
+    const ref = useRef();
+    useEffect(() => {
+        ref.current = value; //assign the value of ref to the argument
+    }, [value]); //this code will run when the value of 'value' changes
+    return ref.current; //in the end, return the current ref value.
+}
 const Overlay = ({
     children,
     onClose,
@@ -34,10 +41,11 @@ const Overlay = ({
             document.body.style.overflow = "hidden";
             document.addEventListener("click", handleClick);
             document.addEventListener("keydown", handleEscape);
+        } else {
+            document.body.style.overflow = "auto";
         }
 
         return () => {
-            document.body.style.overflow = "auto";
             document.removeEventListener("click", handleClick);
             document.removeEventListener("keydown", handleEscape);
         };

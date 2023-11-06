@@ -154,10 +154,6 @@ body {
     color-scheme: light dark;
 }
 
-body[data-scroll="disabled"] {
-    overflow : hidden;
-}
-
 .animation-spin {
     animation : spin 1s linear infinite;
 }

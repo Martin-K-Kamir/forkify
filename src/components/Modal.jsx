@@ -2,6 +2,7 @@ import Overlay from "./Overlay.jsx";
 import classnames from "classnames";
 import Icon from "./Icon.jsx";
 import { useMediaQuery } from "@uidotdev/usehooks";
+import { useEffect, useRef, useState } from "react";
 
 const Modal = ({ children, className, renderClose, ...rest }) => {
     const isAboveMd = useMediaQuery("(width >= 48em)");
