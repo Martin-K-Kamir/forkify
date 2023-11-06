@@ -6,7 +6,6 @@ import { selectBookmarkById } from "../bookmarks/bookmarksSlice.js";
 import { useEffect, useState } from "react";
 import { useParams } from "react-router-dom";
 import { useUpdateBookmarkMutation } from "./recipiesSlice.js";
-import imagePlaceholder from "../../assets/images/image_placeholder.svg";
 
 const SingleRecipe = ({ recipe, isPreview }) => {
     const { recipeId } = useParams();
@@ -90,7 +89,7 @@ const SingleRecipe = ({ recipe, isPreview }) => {
             <div className="relative">
                 <img
                     className="w-full aspect-ratio-16x9 object-cover radius-1"
-                    src={recipe.image_url || imagePlaceholder}
+                    src={recipe.image_url}
                     alt={recipe.title}
                 />
 

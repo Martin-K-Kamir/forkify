@@ -2,7 +2,6 @@ import Overlay from "./Overlay.jsx";
 import classnames from "classnames";
 import Icon from "./Icon.jsx";
 import { useMediaQuery } from "@uidotdev/usehooks";
-import { useEffect } from "react";
 
 const Modal = ({ children, className, renderClose, ...rest }) => {
     const isAboveMd = useMediaQuery("(width >= 48em)");
@@ -15,16 +14,6 @@ const Modal = ({ children, className, renderClose, ...rest }) => {
         },
         className
     );
-
-    useEffect(() => {
-        if (rest.isVisible) {
-            document.body.style.overflow = "hidden";
-        }
-
-        return () => {
-            console.log("unmount");
-        };
-    }, [rest.isVisible]);
 
     return (
         <Overlay {...rest} renderClose={renderClose && isAboveMd}>

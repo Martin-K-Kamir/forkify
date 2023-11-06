@@ -112,6 +112,13 @@ const extendedApi = api.injectEndpoints({
                 method: "POST",
                 body: recipe,
             }),
+            transformResponse: result => {
+                const recipe = result.data.recipe;
+
+                if (!recipe?.isBookmarked) recipe.isBookmarked = false;
+
+                return recipe;
+            },
             transformErrorResponse: result => {
                 if ([401].includes(result.status)) {
                     return { message: "Oops! Something went wrong on our end. Please try again later." };

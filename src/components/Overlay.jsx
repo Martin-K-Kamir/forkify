@@ -37,7 +37,6 @@ const Overlay = ({
         }
 
         return () => {
-            console.log("unmount");
             document.body.style.overflow = "auto";
             document.removeEventListener("click", handleClick);
             document.removeEventListener("keydown", handleEscape);
