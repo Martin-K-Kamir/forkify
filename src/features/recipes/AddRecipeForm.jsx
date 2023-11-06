@@ -383,7 +383,7 @@ const AddRecipeForm = () => {
             if (isPreviewModalVisible) {
                 closePreviewModal();
 
-                await wait(400);
+                await wait(500);
                 showSuccessModal();
 
                 await wait(200);
@@ -530,11 +530,11 @@ const AddRecipeForm = () => {
 
                                 setTimeout(() => {
                                     showSuccessModal();
-                                }, 400);
+                                }, 500);
 
                                 setTimeout(() => {
                                     setForm(originalForm);
-                                }, 600);
+                                }, 700);
                             }}
                         >
                             {isLoading ? (
