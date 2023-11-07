@@ -135,12 +135,6 @@ const Navigation = ({
             url: "/bookmarks",
         },
         {
-            id: "myRecipes",
-            label: "My Recipes",
-            icon: "libraryBooks",
-            url: "/my-recipes",
-        },
-        {
             id: "addRecipe",
             label: "Add Recipe",
             icon: "postAdd",
@@ -212,7 +206,7 @@ const Navigation = ({
 
             {isSearchModalRendered && (
                 <Overlay
-                    renderClose
+                    isCloseRendered
                     isVisible={isSearchModalVisible}
                     onClose={closeSearchModal}
                 >

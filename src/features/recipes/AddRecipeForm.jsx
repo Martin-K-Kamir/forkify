@@ -27,7 +27,7 @@ const AddRecipeForm = () => {
         closeModal: closePreviewModal,
     } = useModal();
 
-    const [addRecipe, {data, isLoading, isSuccess, isUninitialized}] =
+    const [addRecipe, { data, isLoading, isSuccess, isUninitialized }] =
         useAddRecipeMutation();
 
     const [form, setForm] = useState({
@@ -228,7 +228,7 @@ const AddRecipeForm = () => {
     };
 
     const handleChange = payload => {
-        const {id, path, value} = payload;
+        const { id, path, value } = payload;
         const key = Object.keys(form).find(key => {
             return form[key] === path;
         });
@@ -268,7 +268,7 @@ const AddRecipeForm = () => {
     };
 
     const handleAddField = payload => {
-        const {path} = payload;
+        const { path } = payload;
 
         const key = Object.keys(form).find(key => {
             return form[key] === path;
@@ -320,7 +320,7 @@ const AddRecipeForm = () => {
     };
 
     const handleRemoveField = payload => {
-        const {id, path} = payload;
+        const { id, path } = payload;
 
         const key = Object.keys(form).find(key => {
             return form[key] === path;
@@ -375,24 +375,13 @@ const AddRecipeForm = () => {
 
     const handleSubmit = async e => {
         e.preventDefault();
-        console.log({form: formatForm(form)});
 
         try {
             await addRecipe(formatForm(form)).unwrap();
 
-            if (isPreviewModalVisible) {
-                closePreviewModal();
-
-                await wait(500);
-                showSuccessModal();
-
-                await wait(200);
-                setForm(originalForm);
-            } else {
-                showSuccessModal();
-                setForm(originalForm);
-            }
-
+            showSuccessModal();
+            await wait(200); // Wait for modal to render before resetting form
+            setForm(originalForm);
         } catch (err) {
             console.error(err);
 
@@ -407,13 +396,12 @@ const AddRecipeForm = () => {
     };
 
     return (
-        <div
-            className="bg-zinc-800//above-sm radius-1 stack s-l max-w-xl mx-auto p-fluid-m-l//above-sm pb-fluid-l-xl//above-sm">
+        <div className="bg-zinc-800//above-sm radius-1 stack s-l max-w-xl mx-auto p-fluid-m-l//above-sm">
             <header>
                 <h1 className="f-family-secondary f-size-fluid-4 f-weight-bold line-height-2">
                     Add Recipe
                 </h1>
-                <p className="mt-2xs">
+                <p className="mt-2xs text-zinc-200">
                     Add your own recipe to the most delicious recipe app on the
                     web!
                 </p>
@@ -487,13 +475,12 @@ const AddRecipeForm = () => {
                     <button
                         type="button"
                         className="bg-zinc-800 bg-zinc-900//above-sm text-zinc-050 text-center f-weight-medium f-size-1 line-height-1 radius-1 px-m py-s w-full//below-md"
-                        // disabled={!canSubmit}
+                        disabled={!canSubmit}
                         onClick={showPreviewModal}
                     >
                         Preview Recipe
                     </button>
-                    <button
-                        className="bg-blue-700 text-zinc-050 text-center f-weight-medium f-size-1 line-height-1 radius-1 px-m py-s w-full//below-md">
+                    <button className="bg-blue-700 text-zinc-050 text-center f-weight-medium f-size-1 line-height-1 radius-1 px-m py-s w-full//below-md">
                         {isLoading ? (
                             <Icon
                                 type="progressActivity"
@@ -508,51 +495,18 @@ const AddRecipeForm = () => {
 
             {isPreviewModalRendered && (
                 <Modal
-                    renderClose
+                    isCloseRendered
                     isVisible={isPreviewModalVisible}
                     onClose={closePreviewModal}
-                    className="max-w-xl mt-m bg-zinc-800 p-m py-l//below-sm p-3xs//above-sm mb-5xl mb-3xl//above-sm"
+                    className="max-w-xl mt-m bg-zinc-800 p-m py-l//below-sm p-3xs//above-sm"
                 >
-                    <SingleRecipe recipe={formatForm(form)} isPreview/>
-                    <div
-                        className="absolute w-full left-0 flex justify-content-center flex-direction-column//below-sm gap-s mt-2xl mt-l//above-sm">
-                        <button
-                            className="bg-zinc-800 f-weight-medium f-size-1 line-height-1 radius-1 px-m py-s w-full//below-sm"
-                            onClick={closePreviewModal}
-                        >
-                            Close Preview
-                        </button>
-                        <button
-                            className="bg-blue-700 f-weight-medium f-size-1 line-height-1 radius-1 px-m py-s w-full//below-sm"
-                            // onClick={handleSubmit}
-                            onClick={() => {
-                                closePreviewModal();
-
-                                setTimeout(() => {
-                                    showSuccessModal();
-                                }, 500);
-
-                                setTimeout(() => {
-                                    setForm(originalForm);
-                                }, 700);
-                            }}
-                        >
-                            {isLoading ? (
-                                <Icon
-                                    type="progressActivity"
-                                    className="animation-spin f-size-1"
-                                />
-                            ) : (
-                                "Submit Recipe"
-                            )}
-                        </button>
-                    </div>
+                    <SingleRecipe recipe={formatForm(form)} isPreview />
                 </Modal>
             )}
 
             {isSuccessModalRendered && (
                 <Modal
-                    renderClose
+                    isCloseRendered
                     isVisible={isSuccessModalVisible}
                     onClose={closeSuccessModal}
                 >
@@ -568,15 +522,14 @@ const AddRecipeForm = () => {
                         <div className="flex justify-content-center gap-s w-full flex-direction-column//below-sm mt-l">
                             <button
                                 className="bg-zinc-800 f-weight-medium f-size-1 line-height-1 radius-1 px-m py-s w-full//below-sm"
-                                onClick={() => {
-                                    closeSuccessModal();
-                                    // setForm(originalForm);
-                                }}
+                                onClick={closeSuccessModal}
                             >
                                 Go Back
                             </button>
-                            <Link to={data?.id}
-                                  className="bg-blue-700 text-zinc-050 text-center text-no-decoration f-weight-medium f-size-1 line-height-1 radius-1 px-m py-s w-full//below-sm">
+                            <Link
+                                to={data?.id}
+                                className="bg-blue-700 text-zinc-050 text-center text-no-decoration f-weight-medium f-size-1 line-height-1 radius-1 px-m py-s w-full//below-sm"
+                            >
                                 Go to Recipe
                             </Link>
                         </div>

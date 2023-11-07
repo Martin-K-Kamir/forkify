@@ -6,7 +6,7 @@ import { createPortal } from "react-dom";
 const Overlay = ({
     children,
     onClose,
-    renderClose,
+    isCloseRendered,
     isVisible,
     className,
     center,
@@ -24,7 +24,7 @@ const Overlay = ({
             "align-items-center//below-sm": center === "below-sm",
             "align-items-center//below-md": center === "below-md",
             "align-items-center//below-lg": center === "below-lg",
-            "pt-l": renderClose && !center,
+            "pt-l": isCloseRendered && !center,
         },
         className
     );
@@ -57,7 +57,7 @@ const Overlay = ({
 
     return createPortal(
         <div ref={overlayRef} className={classes} data-opacity={isVisible}>
-            {renderClose && (
+            {isCloseRendered && (
                 <button
                     className="absolute z-index-1 top-xs right-xs text-zinc-200"
                     onClick={onClose}

@@ -4,6 +4,7 @@ import { dataSearchQueries } from "../../dataSearchQueries.js";
 import { sub } from "date-fns";
 import Fraction from "fraction.js";
 import { addBookmark, removeBookmark } from "../bookmarks/bookmarksSlice.js";
+import { API_KEY } from "../../env.js";
 
 export const recipesAdapter = createEntityAdapter({
     sortComparer: (a, b) => b.date.localeCompare(a.date),
@@ -13,7 +14,7 @@ const extendedApi = api.injectEndpoints({
     endpoints: builder => ({
         getRecipes: builder.query({
             query: recipesId => ({
-                url: `?search=${recipesId}&key=c62986c1-429b-4175-98ba-d2d6813fb6bf`,
+                url: `?search=${recipesId}&key=${API_KEY}`,
                 validateStatus: (response, result) => {
                     return (
                         response.status === 200 &&
@@ -107,8 +108,7 @@ const extendedApi = api.injectEndpoints({
         }),
         addRecipe: builder.mutation({
             query: recipe => ({
-                url: "/?key=c62986c1-429b-4175-98ba-d2d6813fb6bf",
-                // url: "/",
+                url: `/?key=${API_KEY}`,
                 method: "POST",
                 body: recipe,
             }),
@@ -121,15 +121,21 @@ const extendedApi = api.injectEndpoints({
             },
             transformErrorResponse: result => {
                 if ([401].includes(result.status)) {
-                    return { message: "Oops! Something went wrong on our end. Please try again later." };
+                    return {
+                        message:
+                            "Oops! Something went wrong on our end. Please try again later.",
+                    };
                 }
 
                 if ([500, 501, 502, 503, 504, 505].includes(result.status)) {
-                    return { message: "Our server needs a coffee break. Try again later." };
+                    return {
+                        message:
+                            "Our server needs a coffee break. Try again later.",
+                    };
                 }
 
-                return result.data
-            }
+                return result.data;
+            },
         }),
     }),
 });

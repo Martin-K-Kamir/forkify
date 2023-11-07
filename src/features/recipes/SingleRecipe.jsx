@@ -180,6 +180,7 @@ const SingleRecipe = ({ recipe, isPreview }) => {
                     <a
                         className="inline-block bg-blue-700 text-zinc-050 text-no-decoration text-center f-weight-medium f-size-1 line-height-1 radius-1 px-m py-s mt-m w-full//below-sm"
                         href={recipe.source_url}
+                        target="_blank"
                     >
                         Click here for directions
                     </a>

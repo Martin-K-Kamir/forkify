@@ -3,7 +3,14 @@ import classnames from "classnames";
 import Icon from "./Icon.jsx";
 import { useMediaQuery } from "@uidotdev/usehooks";
 
-const Modal = ({ children, className, renderClose, ...rest }) => {
+const Modal = ({
+    children,
+    renderFooter,
+    renderHeader,
+    className,
+    isCloseRendered,
+    ...rest
+}) => {
     const isAboveMd = useMediaQuery("(width >= 48em)");
     const isBelowMd = useMediaQuery("(width < 48em)");
 
@@ -16,9 +23,9 @@ const Modal = ({ children, className, renderClose, ...rest }) => {
     );
 
     return (
-        <Overlay {...rest} renderClose={renderClose && isAboveMd}>
+        <Overlay {...rest} isCloseRendered={isCloseRendered && isAboveMd}>
             <div className={classes} data-fade-up={rest.isVisible}>
-                {renderClose && isBelowMd && (
+                {isCloseRendered && isBelowMd && (
                     <button
                         className="absolute z-index-1 top-2xs right-2xs text-zinc-200"
                         onClick={rest.onClose}
