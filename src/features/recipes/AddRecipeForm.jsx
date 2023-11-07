@@ -9,9 +9,12 @@ import useModal from "../../hooks/useModal.jsx";
 import SingleRecipe from "./SingleRecipe.jsx";
 import { Link } from "react-router-dom";
 import { wait } from "../../utilities.js";
+import Overlay from "../../components/Overlay.jsx";
+import { useMediaQuery } from "@uidotdev/usehooks";
 
 const AddRecipeForm = () => {
     const dispatch = useDispatch();
+    const isAboveMd = useMediaQuery("(width >= 48em)");
 
     const {
         isModalVisible: isSuccessModalVisible,
@@ -27,7 +30,14 @@ const AddRecipeForm = () => {
         closeModal: closePreviewModal,
     } = useModal();
 
-    const [addRecipe, { data, isLoading, isSuccess, isUninitialized }] =
+    const {
+        isModalVisible: isOverlayVisible,
+        isModalRendered: isOverlayRendered,
+        showModal: showOverlay,
+        closeModal: closeOverlay,
+    } = useModal();
+
+    const [addRecipe, {data, isLoading, isSuccess, isUninitialized}] =
         useAddRecipeMutation();
 
     const [form, setForm] = useState({
@@ -84,7 +94,7 @@ const AddRecipeForm = () => {
                 type: "url",
                 isRequired: true,
                 pattern: "https?://.+",
-                value: "",
+                value: "https://images.unsplash.com/photo-1588315029754-2dd089d39a1a?auto=format&fit=crop&q=80&w=3871&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D",
             },
         ],
         ingredients: [
@@ -228,7 +238,7 @@ const AddRecipeForm = () => {
     };
 
     const handleChange = payload => {
-        const { id, path, value } = payload;
+        const {id, path, value} = payload;
         const key = Object.keys(form).find(key => {
             return form[key] === path;
         });
@@ -268,7 +278,7 @@ const AddRecipeForm = () => {
     };
 
     const handleAddField = payload => {
-        const { path } = payload;
+        const {path} = payload;
 
         const key = Object.keys(form).find(key => {
             return form[key] === path;
@@ -320,7 +330,7 @@ const AddRecipeForm = () => {
     };
 
     const handleRemoveField = payload => {
-        const { id, path } = payload;
+        const {id, path} = payload;
 
         const key = Object.keys(form).find(key => {
             return form[key] === path;
@@ -375,7 +385,7 @@ const AddRecipeForm = () => {
 
     const handleSubmit = async e => {
         e.preventDefault();
-        console.log({ form: formatForm(form) });
+        console.log({form: formatForm(form)});
 
         try {
             await addRecipe(formatForm(form)).unwrap();
@@ -403,7 +413,8 @@ const AddRecipeForm = () => {
     };
 
     return (
-        <div className="bg-zinc-800//above-sm radius-1 stack s-l max-w-xl mx-auto p-fluid-m-l//above-sm pb-fluid-l-xl//above-sm">
+        <div
+            className="bg-zinc-800//above-sm radius-1 stack s-l max-w-xl mx-auto p-fluid-m-l//above-sm pb-fluid-l-xl//above-sm">
             <header>
                 <h1 className="f-family-secondary f-size-fluid-4 f-weight-bold line-height-2">
                     Add Recipe
@@ -482,12 +493,23 @@ const AddRecipeForm = () => {
                     <button
                         type="button"
                         className="bg-zinc-800 bg-zinc-900//above-sm text-zinc-050 text-center f-weight-medium f-size-1 line-height-1 radius-1 px-m py-s w-full//below-md"
-                        disabled={!canSubmit}
-                        onClick={showPreviewModal}
+                        // disabled={!canSubmit}
+                        onClick={() => {
+                            showPreviewModal();
+                            showOverlay();
+                        }}
                     >
                         Preview Recipe
                     </button>
-                    <button className="bg-blue-700 text-zinc-050 text-center f-weight-medium f-size-1 line-height-1 radius-1 px-m py-s w-full//below-md">
+                    <button
+                        className="bg-blue-700 text-zinc-050 text-center f-weight-medium f-size-1 line-height-1 radius-1 px-m py-s w-full//below-md"
+                        type="button"
+                        onClick={() => {
+                            showOverlay();
+                            showSuccessModal();
+                        }}
+                    >
+
                         {isLoading ? (
                             <Icon
                                 type="progressActivity"
@@ -500,75 +522,109 @@ const AddRecipeForm = () => {
                 </div>
             </form>
 
-            {isPreviewModalRendered && (
-                <Modal
-                    renderClose
-                    isVisible={isPreviewModalVisible}
-                    onClose={closePreviewModal}
-                    className="max-w-xl mt-m bg-zinc-800 p-m py-l//below-sm p-3xs//above-sm mb-5xl mb-3xl//above-sm"
-                >
-                    <SingleRecipe recipe={formatForm(form)} isPreview />
-                    <div className="absolute w-full left-0 flex justify-content-center flex-direction-column//below-sm gap-s mt-2xl mt-l//above-sm">
-                        <button
-                            className="bg-zinc-800 f-weight-medium f-size-1 line-height-1 radius-1 px-m py-s w-full//below-sm"
-                            onClick={closePreviewModal}
-                        >
-                            Close Preview
-                        </button>
-                        <button
-                            className="bg-blue-700 f-weight-medium f-size-1 line-height-1 radius-1 px-m py-s w-full//below-sm"
-                            onClick={handleSubmit}
-                        >
-                            {isLoading ? (
-                                <Icon
-                                    type="progressActivity"
-                                    className="animation-spin f-size-1"
-                                />
-                            ) : (
-                                "Submit Recipe"
-                            )}
-                        </button>
-                    </div>
-                </Modal>
-            )}
+            {
+                isOverlayRendered && (
+                    <Overlay
+                        renderClose={isAboveMd}
+                        isVisible={isOverlayVisible}
+                        onClose={() => {
+                            closeOverlay();
+                            closePreviewModal();
+                        }}
+                    >
+                        {isPreviewModalRendered && (
+                            <Modal
+                                renderClose
+                                disableOverlay
+                                isVisible={isPreviewModalVisible}
+                                onClose={() => {
+                                    closeOverlay();
+                                    closePreviewModal();
+                                }}
+                                className="max-w-xl mt-m bg-zinc-800 p-m py-l//below-sm p-3xs//above-sm mb-5xl mb-3xl//above-sm"
+                            >
+                                <SingleRecipe recipe={formatForm(form)} isPreview/>
+                                <div
+                                    className="absolute w-full left-0 flex justify-content-center flex-direction-column//below-sm gap-s mt-2xl mt-l//above-sm">
+                                    <button
+                                        className="bg-zinc-800 f-weight-medium f-size-1 line-height-1 radius-1 px-m py-s w-full//below-sm"
+                                        onClick={() => {
+                                            closeOverlay();
+                                            closePreviewModal();
+                                        }}
+                                    >
+                                        Close Preview
+                                    </button>
+                                    <button
+                                        className="bg-blue-700 f-weight-medium f-size-1 line-height-1 radius-1 px-m py-s w-full//below-sm"
+                                        // onClick={handleSubmit}
+                                        onClick={() => {
+                                            showSuccessModal()
+                                            closePreviewModal();
+                                            setForm(originalForm);
+                                        }}
+                                    >
+                                        {isLoading ? (
+                                            <Icon
+                                                type="progressActivity"
+                                                className="animation-spin f-size-1"
+                                            />
+                                        ) : (
+                                            "Submit Recipe"
+                                        )}
+                                    </button>
+                                </div>
+                            </Modal>
+                        )}
 
-            {isSuccessModalRendered && (
-                <Modal
-                    renderClose
-                    isVisible={isSuccessModalVisible}
-                    onClose={closeSuccessModal}
-                >
-                    <div className="stack text-center//above-sm">
-                        <h2 className="f-family-secondary f-size-fluid-3 f-weight-bold line-height-2">
-                            Recipe Submitted
-                        </h2>
-                        <p className="text-zinc-200 text-balance">
-                            Your recipe has been successfully submitted! Click
-                            the go to recipe button to view it or add another
-                            recipe.
-                        </p>
-                        <div className="flex justify-content-center gap-s w-full flex-direction-column//below-sm mt-l">
-                            <button
-                                className="bg-zinc-800 f-weight-medium f-size-1 line-height-1 radius-1 px-m py-s w-full//below-sm"
-                                onClick={() => {
+                        {isSuccessModalRendered && (
+                            <Modal
+                                renderClose
+                                hideOverlay
+                                isVisible={isSuccessModalVisible}
+                                onClose={() => {
+                                    closeOverlay();
                                     closeSuccessModal();
-                                    // setForm(originalForm);
                                 }}
                             >
-                                Go Back
-                            </button>
-                            <Link
-                                to={data.id}
-                                className="bg-blue-700 text-zinc-050 text-center text-no-decoration f-weight-medium f-size-1 line-height-1 radius-1 px-m py-s w-full//below-sm"
-                            >
-                                Go to Recipe
-                            </Link>
-                        </div>
-                    </div>
-                </Modal>
-            )}
+                                <div className="stack text-center//above-sm">
+                                    <h2 className="f-family-secondary f-size-fluid-3 f-weight-bold line-height-2">
+                                        Recipe Submitted
+                                    </h2>
+                                    <p className="text-zinc-200 text-balance">
+                                        Your recipe has been successfully submitted! Click
+                                        the go to recipe button to view it or add another
+                                        recipe.
+                                    </p>
+                                    <div
+                                        className="flex justify-content-center gap-s w-full flex-direction-column//below-sm mt-l">
+                                        <button
+                                            className="bg-zinc-800 f-weight-medium f-size-1 line-height-1 radius-1 px-m py-s w-full//below-sm"
+                                            onClick={() => {
+                                                closeOverlay();
+                                                closeSuccessModal();
+                                            }}
+                                        >
+                                            Go Back
+                                        </button>
+                                        <Link
+                                            to={data?.id}
+                                            className="bg-blue-700 text-zinc-050 text-center text-no-decoration f-weight-medium f-size-1 line-height-1 radius-1 px-m py-s w-full//below-sm"
+                                        >
+                                            Go to Recipe
+                                        </Link>
+                                    </div>
+                                </div>
+                            </Modal>
+                        )}
+                    </Overlay>
+                )
+            }
+
+
         </div>
-    );
+    )
+        ;
 };
 
 export default AddRecipeForm;
