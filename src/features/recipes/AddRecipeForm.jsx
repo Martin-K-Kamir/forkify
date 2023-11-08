@@ -1,6 +1,5 @@
 import React, { useEffect, useState } from "react";
 import FieldList from "../../components/FieldList.jsx";
-import { useAddRecipeMutation } from "./recipiesSlice.js";
 import Icon from "../../components/Icon.jsx";
 import { addAlert, removeAlert } from "../alert/alertSlice.js";
 import { useDispatch } from "react-redux";
@@ -9,6 +8,7 @@ import useModal from "../../hooks/useModal.jsx";
 import SingleRecipe from "./SingleRecipe.jsx";
 import { Link } from "react-router-dom";
 import { wait } from "../../utilities.js";
+import { useAddRecipeMutation } from "../user/userSlice.js";
 
 const AddRecipeForm = () => {
     const dispatch = useDispatch();

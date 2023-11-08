@@ -1,14 +1,6 @@
 import { useParams } from "react-router-dom";
-import {
-    useGetRecipeQuery,
-    useUpdateBookmarkMutation,
-} from "./recipiesSlice.js";
+import { useGetRecipeQuery } from "./recipiesSlice.js";
 import Icon from "../../components/Icon.jsx";
-import { capitalazeForEach } from "../../utilities.js";
-import { useEffect, useState } from "react";
-import Fraction from "fraction.js";
-import { useSelector } from "react-redux";
-import { selectBookmarkById } from "../bookmarks/bookmarksSlice.js";
 import SingleRecipe from "./SingleRecipe.jsx";
 
 const SingleRecipePage = () => {

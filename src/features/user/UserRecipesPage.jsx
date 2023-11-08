@@ -1,23 +1,27 @@
 import { useSelector } from "react-redux";
-import { selectAllBookmarks, selectTotalBookmarks } from "./bookmarksSlice.js";
 import RecipesList from "../recipes/RecipesList.jsx";
 import { useEffect, useRef, useState } from "react";
 import Icon from "../../components/Icon.jsx";
 import Select from "../../components/Select.jsx";
 import {
+    selectAllUserBookmarks,
     selectAllUserRecipes,
+    selectTotalUserBookmarks,
     selectTotalUserRecipes,
-} from "../user/userSlice.js";
+    selectUserAllRecipes,
+} from "./userSlice.js";
 
-const BookmarksPage = () => {
-    const bookmarks = useSelector(selectAllBookmarks);
-    const bookmarksTotal = useSelector(selectTotalBookmarks);
+const UserRecipesPage = () => {
+    const userBookmarks = useSelector(selectAllUserBookmarks);
+    const userBookmarksTotal = useSelector(selectTotalUserBookmarks);
     const userRecipes = useSelector(selectAllUserRecipes);
     const userRecipesTotal = useSelector(selectTotalUserRecipes);
 
+    console.log(userRecipes);
+
     const [sort, setSort] = useState(null);
     const [searchTerm, setSearchTerm] = useState("");
-    const [recipes, setRecipes] = useState(bookmarks);
+    const [recipes, setRecipes] = useState(userBookmarks);
 
     const searchRef = useRef();
 
@@ -31,10 +35,10 @@ const BookmarksPage = () => {
         { label: "My Recipes", value: "myRecipes" },
     ];
 
-    const areBookmarksEmpty = bookmarks.length === 0;
+    const areBookmarksEmpty = userBookmarks.length === 0;
 
     useEffect(() => {
-        const filteredRecipes = bookmarks.filter(bookmark => {
+        const filteredRecipes = userBookmarks.filter(bookmark => {
             return bookmark.title
                 .toLowerCase()
                 .includes(searchTerm.toLowerCase());
@@ -84,7 +88,7 @@ const BookmarksPage = () => {
                             Your Recipes and Bookmarks
                         </h1>
                         <p className="f-size-fluid-1 mt-3xs text-zinc-200">
-                            {userRecipesTotal} recipes and {bookmarksTotal}{" "}
+                            {userRecipesTotal} recipes and {userBookmarksTotal}{" "}
                             bookmarks
                         </p>
                     </header>
@@ -138,3 +142,5 @@ const BookmarksPage = () => {
         </div>
     );
 };
+
+export default UserRecipesPage;

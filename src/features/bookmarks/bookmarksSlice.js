@@ -19,10 +19,10 @@ const bookmarksSlice = createSlice({
     },
 });
 
-export const { addBookmark, removeBookmark } = bookmarksSlice.actions;
+const { addBookmark, removeBookmark } = bookmarksSlice.actions;
 export default bookmarksSlice.reducer;
 
-export const {
+const {
     selectAll: selectAllBookmarks,
     selectById: selectBookmarkById,
     selectIds: selectBookmarkIds,

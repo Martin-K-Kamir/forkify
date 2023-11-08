@@ -129,10 +129,10 @@ const Navigation = ({
 
     const menuItems = [
         {
-            id: "bookmarks",
-            label: "Bookmarks",
+            id: "myRecipes",
+            label: "My Recipes",
             icon: "bookmarks",
-            url: "/bookmarks",
+            url: "/my-recipes",
         },
         {
             id: "addRecipe",

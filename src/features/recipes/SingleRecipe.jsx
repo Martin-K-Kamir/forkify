@@ -2,10 +2,12 @@ import Fraction from "fraction.js";
 import Icon from "../../components/Icon.jsx";
 import { capitalazeForEach } from "../../utilities.js";
 import { useSelector } from "react-redux";
-import { selectBookmarkById } from "../bookmarks/bookmarksSlice.js";
 import { useEffect, useState } from "react";
 import { useParams } from "react-router-dom";
-import { useUpdateBookmarkMutation } from "./recipiesSlice.js";
+import {
+    selectUserBookmarkById,
+    useUpdateBookmarkMutation,
+} from "../user/userSlice.js";
 
 const SingleRecipe = ({ recipe, isPreview }) => {
     const { recipeId } = useParams();
@@ -15,7 +17,7 @@ const SingleRecipe = ({ recipe, isPreview }) => {
     });
 
     const bookmarkRecipe = useSelector(state =>
-        selectBookmarkById(state, recipeId)
+        selectUserBookmarkById(state, recipeId)
     );
 
     const [servings, setServings] = useState(0);
