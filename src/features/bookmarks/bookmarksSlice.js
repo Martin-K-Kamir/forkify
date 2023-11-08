@@ -14,19 +14,7 @@ const bookmarksSlice = createSlice({
     name: "bookmarks",
     initialState,
     reducers: {
-        addBookmark: {
-            reducer: bookmarksAdapter.addOne,
-            prepare: action => {
-                const bookmarkDate = new Date().toISOString();
-
-                return {
-                    payload: {
-                        ...action,
-                        bookmarkDate,
-                    },
-                };
-            },
-        },
+        addBookmark: bookmarksAdapter.addOne,
         removeBookmark: bookmarksAdapter.removeOne,
     },
 });

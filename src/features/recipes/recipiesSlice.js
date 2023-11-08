@@ -2,13 +2,9 @@ import { api } from "../api/api";
 import { createEntityAdapter } from "@reduxjs/toolkit";
 import { dataSearchQueries } from "../../dataSearchQueries.js";
 import { sub } from "date-fns";
-import Fraction from "fraction.js";
 import { addBookmark, removeBookmark } from "../bookmarks/bookmarksSlice.js";
+import { addUserRecipe } from "../user/userSlice.js";
 import { API_KEY } from "../../env.js";
-
-export const recipesAdapter = createEntityAdapter({
-    sortComparer: (a, b) => b.date.localeCompare(a.date),
-});
 
 const extendedApi = api.injectEndpoints({
     endpoints: builder => ({
@@ -27,14 +23,22 @@ const extendedApi = api.injectEndpoints({
                 let hour = 1;
                 let day = 1;
 
-                const recipes = result.data.recipes.map(post => {
-                    if (!post?.date)
-                        post.date = sub(new Date(), {
+                const recipes = result.data.recipes.map(recipe => {
+                    if (!recipe?.date)
+                        recipe.date = sub(new Date(), {
                             minutes: min++,
                             hours: hour++,
                             days: day++,
                         }).toISOString();
-                    return post;
+                    if (recipe.key) {
+                        recipe.userId = recipe.key;
+                        delete recipe.key;
+                    }
+                    return recipe;
+                });
+
+                const recipesAdapter = createEntityAdapter({
+                    sortComparer: (a, b) => b.date.localeCompare(a.date),
                 });
 
                 return recipesAdapter.setAll(
@@ -44,7 +48,7 @@ const extendedApi = api.injectEndpoints({
             },
             transformErrorResponse(result, meta, arg) {
                 if (result.data.data.recipes.length === 0) {
-                    return { message: `No recipes found for search "${arg}"` };
+                    return {message: `No recipes found for search "${arg}"`};
                 }
             },
         }),
@@ -54,6 +58,10 @@ const extendedApi = api.injectEndpoints({
                 const recipe = result.data.recipe;
 
                 if (!recipe?.isBookmarked) recipe.isBookmarked = false;
+                if (recipe.key) {
+                    recipe.userId = recipe.key;
+                    delete recipe.key;
+                }
 
                 return recipe;
             },
@@ -63,27 +71,28 @@ const extendedApi = api.injectEndpoints({
                 try {
                     // Fake fetching data from an API
                     await new Promise(resolve => setTimeout(resolve, 200));
-                    const { data } = dataSearchQueries;
+                    const {data} = dataSearchQueries;
 
-                    return { data };
+                    return {data};
                 } catch (error) {
-                    return { error };
+                    return {error};
                 }
             },
         }),
         updateBookmark: builder.mutation({
-            queryFn: () => ({ data: null }),
+            queryFn: () => ({data: null}),
             async onQueryStarted(
-                { id, isBookmarked },
-                { dispatch, queryFulfilled, getState }
+                {id, isBookmarked},
+                {dispatch, queryFulfilled, getState}
             ) {
                 const patchResult = dispatch(
                     api.util.updateQueryData("getRecipe", id, draft => {
                         draft.isBookmarked = isBookmarked;
+                        draft.bookmarkDate = new Date().toISOString();
                     })
                 );
 
-                const { data: recipe } = api.endpoints.getRecipe.select(id)(
+                const {data: recipe} = api.endpoints.getRecipe.select(id)(
                     getState()
                 );
 
@@ -115,7 +124,11 @@ const extendedApi = api.injectEndpoints({
             transformResponse: result => {
                 const recipe = result.data.recipe;
 
-                if (!recipe?.isBookmarked) recipe.isBookmarked = false;
+                if (recipe.key) {
+                    recipe.userId = recipe.key;
+                    delete recipe.key;
+                }
+                if (!recipe?.date) recipe.date = new Date().toISOString();
 
                 return recipe;
             },
@@ -136,6 +149,16 @@ const extendedApi = api.injectEndpoints({
 
                 return result.data;
             },
+            async onQueryStarted(
+                {recipe},
+                {dispatch, queryFulfilled}
+            ) {
+                try {
+                    const {data: recipe} = await queryFulfilled;
+                    dispatch(addUserRecipe(recipe));
+                } catch {
+                }
+            },
         }),
     }),
 });
@@ -148,3 +171,4 @@ export const {
     useUpdateBookmarkMutation,
     useAddRecipeMutation,
 } = extendedApi;
+

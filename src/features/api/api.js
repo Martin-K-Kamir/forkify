@@ -5,7 +5,7 @@ export const api = createApi({
     baseQuery: fetchBaseQuery({
         baseUrl: "https://forkify-api.herokuapp.com/api/v2/recipes",
         fetchFn: async (...args) => {
-            console.log(...args);
+            // console.log(...args);
             await new Promise(resolve => setTimeout(resolve, 1000));
             return fetch(...args);
         },
