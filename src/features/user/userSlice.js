@@ -17,7 +17,8 @@ const extendedApi = api.injectEndpoints({
                 const patchResult = dispatch(
                     api.util.updateQueryData("getRecipe", id, draft => {
                         draft.isBookmarked = isBookmarked;
-                        draft.bookmarkDate = new Date().toISOString();
+                        draft.bookmarkedAt = new Date().toISOString();
+                        draft.sortDate = new Date().toISOString();
                     })
                 );
 
@@ -57,7 +58,9 @@ const extendedApi = api.injectEndpoints({
                     recipe.userId = recipe.key;
                     delete recipe.key;
                 }
-                if (!recipe?.date) recipe.date = new Date().toISOString();
+                recipe.createdAt = new Date().toISOString(); // overwriting server date with local date, since server date is not accurate
+                recipe.sortDate = new Date().toISOString();
+                recipe.isUserRecipe = true;
 
                 return recipe;
             },
@@ -91,13 +94,7 @@ const extendedApi = api.injectEndpoints({
 export const { useUpdateBookmarkMutation, useAddRecipeMutation } = extendedApi;
 
 const userRecipesAdapter = createEntityAdapter({
-    sortComparer: (a, b) => {
-        if (a.bookmarkDate) {
-            return b.bookmarkDate.localeCompare(a.bookmarkDate);
-        }
-
-        return b.date.localeCompare(a.date);
-    },
+    sortComparer: (a, b) => b.sortDate.localeCompare(a.sortDate),
 });
 
 const userRecipes = localStorage.getItem("userRecipes");
@@ -153,16 +150,11 @@ export const {
     selectTotal: selectTotalUserBookmarks,
 } = userRecipesAdapter.getSelectors(state => state.user.userBookmarks);
 
-export const selectUserAllRecipes = createSelector(
-    selectAllUserRecipes,
-    selectAllUserBookmarks,
+export const selectAllUserStoredRecipes = createSelector(
+    [selectAllUserRecipes, selectAllUserBookmarks],
     (userRecipes, userBookmarks) => {
-        return [...userRecipes, ...userBookmarks]
-            .map(recipe => {
-                if (recipe.isBookmarked) {
-                    recipe.bookmarkDate = recipe.date;
-                }
-            })
-            .sort((a, b) => b.date.localeCompare(a.date));
+        return [...userRecipes, ...userBookmarks].sort((a, b) =>
+            b.sortDate.localeCompare(a.sortDate)
+        );
     }
 );

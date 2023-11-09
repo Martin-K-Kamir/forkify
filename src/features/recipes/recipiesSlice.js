@@ -22,8 +22,8 @@ const extendedApi = api.injectEndpoints({
                 let day = 1;
 
                 const recipes = result.data.recipes.map(recipe => {
-                    if (!recipe?.date)
-                        recipe.date = sub(new Date(), {
+                    if (!recipe?.createdAt)
+                        recipe.createdAt = sub(new Date(), {
                             minutes: min++,
                             hours: hour++,
                             days: day++,
@@ -36,7 +36,8 @@ const extendedApi = api.injectEndpoints({
                 });
 
                 const recipesAdapter = createEntityAdapter({
-                    sortComparer: (a, b) => b.date.localeCompare(a.date),
+                    sortComparer: (a, b) =>
+                        b.createdAt.localeCompare(a.createdAt),
                 });
 
                 return recipesAdapter.setAll(
@@ -56,6 +57,8 @@ const extendedApi = api.injectEndpoints({
                 const recipe = result.data.recipe;
 
                 if (!recipe?.isBookmarked) recipe.isBookmarked = false;
+                if (!recipe?.createdAt)
+                    recipe.createdAt = new Date().toISOString();
                 if (recipe.key) {
                     recipe.userId = recipe.key;
                     delete recipe.key;

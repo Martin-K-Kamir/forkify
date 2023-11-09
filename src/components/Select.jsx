@@ -3,6 +3,7 @@ import classNames from "classnames";
 import Icon from "./Icon.jsx";
 
 const Select = ({ label, options, value, onChange }) => {
+    const [currentValue, setCurrentValue] = useState(value);
     const [isOpen, setIsOpen] = useState(false);
     const ref = useRef();
 
@@ -15,7 +16,7 @@ const Select = ({ label, options, value, onChange }) => {
     );
 
     const dropdownClasses = classNames(
-        "bottom-0 left-0 translate-y-full stack s-2xs w-full absolute bg-inherit",
+        "bottom-1 left-0 translate-y-full stack s-2xs w-full absolute bg-inherit",
         {
             "radius-bottom-1": isOpen,
             "radius-1": !isOpen,
@@ -39,7 +40,13 @@ const Select = ({ label, options, value, onChange }) => {
     }
 
     function handleChange(option) {
-        onChange(option);
+        if (option.value === currentValue?.value) {
+            onChange(null);
+            setCurrentValue(null);
+        } else {
+            onChange(option);
+            setCurrentValue(option);
+        }
         setIsOpen(false);
     }
 
@@ -67,7 +74,7 @@ const Select = ({ label, options, value, onChange }) => {
     return (
         <div className={selectClasses} ref={ref} role="select">
             <div
-                className="cursor-pointer flex align-items-center justify-content-between gap-s line-height-1 px-xs py-2xs"
+                className="cursor-pointer flex align-items-center justify-content-between gap-s line-height-1 text-nowrap px-xs py-2xs"
                 onClick={handleClick}
             >
                 {value?.label ?? label ?? "Select an option"}

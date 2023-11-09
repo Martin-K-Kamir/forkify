@@ -8,24 +8,25 @@ import {
     selectAllUserRecipes,
     selectTotalUserBookmarks,
     selectTotalUserRecipes,
-    selectUserAllRecipes,
+    selectAllUserStoredRecipes,
 } from "./userSlice.js";
+import { LiaObjectGroup } from "react-icons/lia";
 
 const UserRecipesPage = () => {
     const userBookmarks = useSelector(selectAllUserBookmarks);
     const userBookmarksTotal = useSelector(selectTotalUserBookmarks);
     const userRecipes = useSelector(selectAllUserRecipes);
     const userRecipesTotal = useSelector(selectTotalUserRecipes);
+    const allUserStoredRecipes = useSelector(selectAllUserStoredRecipes);
 
-    console.log(userRecipes);
-
-    const [sort, setSort] = useState(null);
+    const [selectedFilter, setSelectedFilter] = useState(null);
+    const [selectedDate, setSelectedDate] = useState(null);
     const [searchTerm, setSearchTerm] = useState("");
-    const [recipes, setRecipes] = useState(userBookmarks);
+    const [recipes, setRecipes] = useState(allUserStoredRecipes);
 
     const searchRef = useRef();
 
-    const sortOptions = [
+    const dateOptions = [
         { label: "Newest", value: "newest" },
         { label: "Oldest", value: "oldest" },
     ];
@@ -38,7 +39,7 @@ const UserRecipesPage = () => {
     const areBookmarksEmpty = userBookmarks.length === 0;
 
     useEffect(() => {
-        const filteredRecipes = userBookmarks.filter(bookmark => {
+        const filteredRecipes = allUserStoredRecipes.filter(bookmark => {
             return bookmark.title
                 .toLowerCase()
                 .includes(searchTerm.toLowerCase());
@@ -48,27 +49,52 @@ const UserRecipesPage = () => {
     }, [searchTerm]);
 
     useEffect(() => {
-        if (sort?.value === "newest") {
-            setRecipes(prevState => sortByNewest(prevState));
-        } else if (sort?.value === "oldest") {
-            setRecipes(prevState => sortByOldest(prevState));
+        const value = selectedDate?.value;
+        console.log(value);
+        if (value === "newest") {
+            setRecipes(prevRecipes => sortByNewest(prevRecipes));
+        } else if (value === "oldest") {
+            setRecipes(prevRecipes => sortByOldest(prevRecipes));
+        } else if (value === null) {
+            setRecipes(allUserStoredRecipes);
         }
-    }, [sort, searchTerm]);
+    }, [selectedDate, searchTerm]);
+
+    useEffect(() => {
+        const value = selectedFilter?.value;
+
+        if (value === "bookmarks") {
+            setRecipes(prevRecipes => getBookmarks(prevRecipes));
+        } else if (value === "myRecipes") {
+            setRecipes(prevRecipes => getUserRecipes(prevRecipes));
+        } else if (value === null) {
+            setRecipes(allUserStoredRecipes);
+        }
+    }, [selectedFilter, searchTerm]);
 
     const sortByNewest = arr => {
-        return [...arr].sort((a, b) =>
-            b.bookmarkDate.localeCompare(a.bookmarkDate)
-        );
+        return [...arr].sort((a, b) => b.sortDate.localeCompare(a.sortDate));
     };
 
     const sortByOldest = arr => {
-        return [...arr].sort((a, b) =>
-            a.bookmarkDate.localeCompare(b.bookmarkDate)
-        );
+        return [...arr].sort((a, b) => a.sortDate.localeCompare(b.sortDate));
     };
 
-    const handleSelectChange = option => {
-        setSort(option);
+    const getBookmarks = arr => {
+        return arr.filter(recipe => recipe.isBookmarked);
+    };
+
+    const getUserRecipes = arr => {
+        console.log(arr);
+        return arr.filter(recipe => recipe.isUserRecipe);
+    };
+
+    const handleSelectFilterChange = option => {
+        setSelectedFilter(option);
+    };
+
+    const handleSelectDateChange = option => {
+        setSelectedDate(option);
     };
 
     const handleSearchChange = e => {
@@ -116,14 +142,14 @@ const UserRecipesPage = () => {
                         <div className="flex gap-xs gap-m//above-sm">
                             <Select
                                 options={filterOptions}
-                                onChange={handleSelectChange}
-                                value={sort}
+                                onChange={handleSelectFilterChange}
+                                value={selectedFilter}
                                 label="Filter by"
                             />
                             <Select
-                                options={sortOptions}
-                                onChange={handleSelectChange}
-                                value={sort}
+                                options={dateOptions}
+                                onChange={handleSelectDateChange}
+                                value={selectedDate}
                                 label="Sort by"
                             />
                         </div>
