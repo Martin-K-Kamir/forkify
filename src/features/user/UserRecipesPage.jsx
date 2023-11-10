@@ -10,23 +10,22 @@ import {
     selectTotalUserRecipes,
     selectAllUserStoredRecipes,
 } from "./userSlice.js";
-import { LiaObjectGroup } from "react-icons/lia";
 
 const UserRecipesPage = () => {
     const userBookmarks = useSelector(selectAllUserBookmarks);
     const userBookmarksTotal = useSelector(selectTotalUserBookmarks);
     const userRecipes = useSelector(selectAllUserRecipes);
     const userRecipesTotal = useSelector(selectTotalUserRecipes);
-    const allUserStoredRecipes = useSelector(selectAllUserStoredRecipes);
+    const allUserRecipes = useSelector(selectAllUserStoredRecipes);
 
     const [selectedFilter, setSelectedFilter] = useState(null);
-    const [selectedDate, setSelectedDate] = useState(null);
+    const [selectedSort, setSelectedSort] = useState(null);
     const [searchTerm, setSearchTerm] = useState("");
-    const [recipes, setRecipes] = useState(allUserStoredRecipes);
+    const [recipes, setRecipes] = useState(allUserRecipes);
 
     const searchRef = useRef();
 
-    const dateOptions = [
+    const sortOptions = [
         { label: "Newest", value: "newest" },
         { label: "Oldest", value: "oldest" },
     ];
@@ -39,36 +38,71 @@ const UserRecipesPage = () => {
     const areBookmarksEmpty = userBookmarks.length === 0;
 
     useEffect(() => {
-        const filteredRecipes = allUserStoredRecipes.filter(bookmark => {
+        const filteredRecipes = allUserRecipes.filter(bookmark => {
             return bookmark.title
                 .toLowerCase()
                 .includes(searchTerm.toLowerCase());
         });
 
+        console.log(filteredRecipes);
+
         setRecipes(filteredRecipes);
     }, [searchTerm]);
 
     useEffect(() => {
-        const value = selectedDate?.value;
-        console.log(value);
+        const value = selectedSort?.value;
+
         if (value === "newest") {
             setRecipes(prevRecipes => sortByNewest(prevRecipes));
         } else if (value === "oldest") {
             setRecipes(prevRecipes => sortByOldest(prevRecipes));
-        } else if (value === null) {
-            setRecipes(allUserStoredRecipes);
+        } else if (value === "default") {
+
+            if (searchTerm) {
+                const filteredRecipes = allUserRecipes.filter(bookmark => {
+                    return bookmark.title
+                        .toLowerCase()
+                        .includes(searchTerm.toLowerCase());
+                });
+                setRecipes(filteredRecipes);
+            } else {
+                setRecipes(allUserRecipes);
+            }
+            setSelectedSort(null);
         }
-    }, [selectedDate, searchTerm]);
+    }, [selectedSort, searchTerm]);
 
     useEffect(() => {
         const value = selectedFilter?.value;
 
         if (value === "bookmarks") {
-            setRecipes(prevRecipes => getBookmarks(prevRecipes));
+            setRecipes(prevRecipes => {
+                if(searchTerm) {
+                    return getBookmarks(prevRecipes)
+                } else {
+                    return userBookmarks
+                }
+            });
         } else if (value === "myRecipes") {
-            setRecipes(prevRecipes => getUserRecipes(prevRecipes));
-        } else if (value === null) {
-            setRecipes(allUserStoredRecipes);
+            setRecipes(prevRecipes => {
+                if(searchTerm) {
+                    return getUserRecipes(prevRecipes)
+                } else {
+                    return userRecipes
+                }
+            });
+        } else if (value === "default") {
+            if (searchTerm) {
+                const filteredRecipes = allUserRecipes.filter(bookmark => {
+                    return bookmark.title
+                        .toLowerCase()
+                        .includes(searchTerm.toLowerCase());
+                });
+                setRecipes(filteredRecipes);
+            } else {
+                setRecipes(allUserRecipes);
+            }
+            setSelectedFilter(null);
         }
     }, [selectedFilter, searchTerm]);
 
@@ -85,7 +119,6 @@ const UserRecipesPage = () => {
     };
 
     const getUserRecipes = arr => {
-        console.log(arr);
         return arr.filter(recipe => recipe.isUserRecipe);
     };
 
@@ -94,7 +127,7 @@ const UserRecipesPage = () => {
     };
 
     const handleSelectDateChange = option => {
-        setSelectedDate(option);
+        setSelectedSort(option);
     };
 
     const handleSearchChange = e => {
@@ -147,9 +180,9 @@ const UserRecipesPage = () => {
                                 label="Filter by"
                             />
                             <Select
-                                options={dateOptions}
+                                options={sortOptions}
                                 onChange={handleSelectDateChange}
-                                value={selectedDate}
+                                value={selectedSort}
                                 label="Sort by"
                             />
                         </div>

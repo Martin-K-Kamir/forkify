@@ -41,8 +41,8 @@ const Select = ({ label, options, value, onChange }) => {
 
     function handleChange(option) {
         if (option.value === currentValue?.value) {
-            onChange(null);
-            setCurrentValue(null);
+            onChange({value: "default"});
+            setCurrentValue({value: "default"});
         } else {
             onChange(option);
             setCurrentValue(option);
