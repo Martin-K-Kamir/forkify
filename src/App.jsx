@@ -2,7 +2,6 @@ import { Navigate, Route, Routes } from "react-router-dom";
 import SearchRecipesPage from "./features/recipes/SearchRecipesPage.jsx";
 import AlertList from "./features/alert/AlertList.jsx";
 import UserRecipesPage from "./features/user/UserRecipesPage.jsx";
-import HistoryPage from "./features/history/HistoryPage.jsx";
 import AddRecipeForm from "./features/recipes/AddRecipeForm.jsx";
 import RecipesPage from "./features/recipes/RecipesPage.jsx";
 import Layout from "./components/Layout.jsx";
@@ -12,27 +11,27 @@ const App = () => {
     return (
         <>
             <Routes>
-                <Route path="/">
-                    <Route index element={<SearchRecipesPage />} />
+                <Route element={<Layout />}>
+                    <Route path="/" index element={<SearchRecipesPage />} />
+                    <Route path="search/:recipesId" element={<RecipesPage />} />
+                    <Route
+                        path="search/:recipesId/:recipeId"
+                        element={<SingleRecipePage />}
+                    />
+                    <Route path="my-recipes" element={<UserRecipesPage />} />
+                    <Route
+                        path="my-recipes/:recipeId"
+                        element={<SingleRecipePage />}
+                    />
 
-                    <Route element={<Layout />}>
-                        <Route path=":recipesId" element={<RecipesPage />} />
-                        <Route
-                            path="my-recipes"
-                            element={<UserRecipesPage />}
-                        />
-                        <Route
-                            path=":recipesId/:recipeId"
-                            element={<SingleRecipePage />}
-                        />
-
-                        <Route path="add-recipe" element={<AddRecipeForm />} />
-
-                        <Route path="history" element={<HistoryPage />} />
-                    </Route>
-
-                    <Route path="*" element={<Navigate to="/" replace />} />
+                    <Route path="add-recipe" element={<AddRecipeForm />} />
+                    <Route
+                        path="add-recipe/:recipeId"
+                        element={<SingleRecipePage />}
+                    />
                 </Route>
+
+                <Route path="*" element={<Navigate to="/" replace />} />
             </Routes>
 
             <AlertList />

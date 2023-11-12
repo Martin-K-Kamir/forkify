@@ -1,9 +1,9 @@
-import { useGetSearchRecipesQuery } from "./recipiesSlice.js";
+import { useGetSearchQueriesQuery } from "./recipiesSlice.js";
 import { Link } from "react-router-dom";
 import React from "react";
 
-let SearchRecipesButtons = () => {
-    const { data } = useGetSearchRecipesQuery();
+let SearchRecipeQueriesButtons = () => {
+    const { data } = useGetSearchQueriesQuery();
 
     const randomizeArray = (data, count = 8) => {
         if (!data || data.length === 0) return [];
@@ -23,7 +23,7 @@ let SearchRecipesButtons = () => {
     const renderedRecipes = randomizeArray(data)?.map(recipe => {
         return (
             <Link
-                to={recipe}
+                to={`/search/${recipe}`}
                 className="bg-zinc-800 text-zinc-200 px-m py-xs f-size--1 line-height-1 text-no-decoration radius-pill"
                 key={recipe}
             >
@@ -39,6 +39,6 @@ let SearchRecipesButtons = () => {
     );
 };
 
-SearchRecipesButtons = React.memo(SearchRecipesButtons);
+SearchRecipeQueriesButtons = React.memo(SearchRecipeQueriesButtons);
 
-export default SearchRecipesButtons;
+export default SearchRecipeQueriesButtons;

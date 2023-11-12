@@ -4,7 +4,7 @@ import Icon from "../../components/Icon.jsx";
 import { addAlert, removeAlert } from "../alert/alertSlice.js";
 import { useDispatch } from "react-redux";
 import Modal from "../../components/Modal.jsx";
-import useModal from "../../hooks/useModal.jsx";
+import useModal from "../../hooks/useModal.js";
 import SingleRecipe from "./SingleRecipe.jsx";
 import { Link } from "react-router-dom";
 import { wait } from "../../utilities.js";
@@ -375,12 +375,11 @@ const AddRecipeForm = () => {
 
     const handleSubmit = async e => {
         e.preventDefault();
-
         try {
             await addRecipe(formatForm(form)).unwrap();
+            await wait(100); // Pause between submitting and showing success modal re-renders to make transition smoother
 
             showSuccessModal();
-            await wait(200); // Wait for modal to render before resetting form
             setForm(originalForm);
         } catch (err) {
             console.error(err);

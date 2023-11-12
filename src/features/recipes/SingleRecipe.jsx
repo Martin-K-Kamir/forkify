@@ -1,30 +1,37 @@
 import Fraction from "fraction.js";
 import Icon from "../../components/Icon.jsx";
-import { capitalazeForEach } from "../../utilities.js";
-import { useSelector } from "react-redux";
-import { useEffect, useState } from "react";
-import { useParams } from "react-router-dom";
+import { capitalizedForEach, wait } from "../../utilities.js";
+import { useDispatch, useSelector } from "react-redux";
+import React, { useEffect, useState } from "react";
+import { useNavigate, useParams } from "react-router-dom";
 import {
     selectUserBookmarkById,
+    useRemoveRecipeMutation,
     useUpdateBookmarkMutation,
 } from "../user/userSlice.js";
+import useModal from "../../hooks/useModal.js";
+import Modal from "../../components/Modal.jsx";
+import { addAlert } from "../alert/alertSlice.js";
+import RecipeActionButtons from "./RecipeActionButtons.jsx";
+import Breadcrumbs from "../../components/Breadcrumbs.jsx";
 
 const SingleRecipe = ({ recipe, isPreview }) => {
+    const dispatch = useDispatch();
+    const navigate = useNavigate();
     const { recipeId } = useParams();
 
-    const [updateBookmark] = useUpdateBookmarkMutation({
-        selectFromResult: () => ({}),
-    });
+    const {
+        isModalVisible: isDeleteModalVisible,
+        isModalRendered: isDeleteModalRendered,
+        showModal: showDeleteModal,
+        closeModal: closeDeleteModal,
+    } = useModal();
 
-    const bookmarkRecipe = useSelector(state =>
-        selectUserBookmarkById(state, recipeId)
-    );
+    const [removeRecipe, { isLoading }] = useRemoveRecipeMutation();
 
     const [servings, setServings] = useState(0);
     const [prevServings, setPrevServings] = useState(0);
     const [ingredients, setIngredients] = useState(null);
-
-    const isBookmarked = bookmarkRecipe?.isBookmarked ?? recipe?.isBookmarked;
 
     useEffect(() => {
         if (recipe) {
@@ -65,8 +72,29 @@ const SingleRecipe = ({ recipe, isPreview }) => {
         setPrevServings(servings);
     };
 
-    const handleBookmarkClick = () => {
-        updateBookmark({ id: recipeId, isBookmarked: !isBookmarked });
+    const handleRemoveRecipeClick = async () => {
+        try {
+            await removeRecipe(recipeId).unwrap();
+            closeDeleteModal();
+
+            await wait(300);
+            navigate(-1);
+
+            dispatch(
+                addAlert({
+                    message: "Recipe deleted successfully",
+                    isSuccess: true,
+                    timeout: 5000,
+                })
+            );
+        } catch (error) {
+            dispatch(
+                addAlert({
+                    message: error.message,
+                    isDanger: true,
+                })
+            );
+        }
     };
 
     const renderedIngredients = (ingredients ?? recipe.ingredients).map(
@@ -88,6 +116,10 @@ const SingleRecipe = ({ recipe, isPreview }) => {
 
     return (
         <div className="bg-zinc-800//above-sm radius-1 max-w-xl mx-auto p-fluid-m-l//above-sm">
+            <div className="mb-s">
+                <Breadcrumbs title={recipe.title} />
+            </div>
+
             <div className="relative">
                 <img
                     className="w-full aspect-ratio-16x9 object-cover radius-1"
@@ -96,32 +128,18 @@ const SingleRecipe = ({ recipe, isPreview }) => {
                 />
 
                 {!isPreview && (
-                    <div className="flex absolute top-2xs top-xs//above-sm right-2xs right-s//above-sm align-items-center gap-3xs gap-2xs//above-sm bg-zinc-800//above-sm px-xs//above-sm py-2xs//above-sm radius-pill">
-                        <button className="flex justify-content-center align-items-center p-2xs radius-circle bg-red-700">
-                            <Icon type="delete" className="f-size-1" />
-                        </button>
-                        <button
-                            onClick={handleBookmarkClick}
-                            className="flex justify-content-center align-items-center p-2xs radius-circle bg-blue-700"
-                        >
-                            <Icon
-                                type={
-                                    isBookmarked
-                                        ? "bookmarkRemove"
-                                        : "bookmarkAdd"
-                                }
-                                className="f-size-1"
-                                fill={isBookmarked}
-                            />
-                        </button>
-                    </div>
+                    <RecipeActionButtons
+                        recipe={recipe}
+                        onDeleteClick={showDeleteModal}
+                        className="absolute top-3xs top-xs//above-sm right-3xs right-s//above-sm"
+                    />
                 )}
             </div>
 
             <div className="stack s-l mt-fluid-s-m">
                 <header>
                     <h1 className="f-family-secondary f-size-fluid-4 f-weight-bold line-height-2">
-                        {capitalazeForEach(recipe.title)}
+                        {capitalizedForEach(recipe.title)}
                     </h1>
                     <div className="flex flex-wrap align-items-center gap-2xs text-zinc-300 mt-2xs">
                         <div className="flex align-items-center f-weight-medium mr-xs">
@@ -188,6 +206,45 @@ const SingleRecipe = ({ recipe, isPreview }) => {
                     </a>
                 </section>
             </div>
+
+            {isDeleteModalRendered && (
+                <Modal
+                    isCloseRendered
+                    isVisible={isDeleteModalVisible}
+                    onClose={closeDeleteModal}
+                >
+                    <div className="stack text-center//above-sm">
+                        <h2 className="f-family-secondary f-size-fluid-3 f-weight-bold line-height-2">
+                            Delete Recipe
+                        </h2>
+                        <p className="text-zinc-200 text-balance">
+                            Are you sure you want to delete this recipe? This
+                            action cannot be undone.
+                        </p>
+                        <div className="flex justify-content-center gap-s w-full flex-direction-column//below-sm mt-l">
+                            <button
+                                className="bg-zinc-800 f-weight-medium f-size-1 line-height-1 radius-1 px-m py-s w-full//below-sm"
+                                onClick={closeDeleteModal}
+                            >
+                                Go Back
+                            </button>
+                            <button
+                                className="bg-red-800 f-weight-medium f-size-1 line-height-1 radius-1 px-m py-s w-full//below-sm"
+                                onClick={handleRemoveRecipeClick}
+                            >
+                                {isLoading ? (
+                                    <Icon
+                                        type="progressActivity"
+                                        className="animation-spin f-size-1"
+                                    />
+                                ) : (
+                                    "Delete Recipe"
+                                )}
+                            </button>
+                        </div>
+                    </div>
+                </Modal>
+            )}
         </div>
     );
 };

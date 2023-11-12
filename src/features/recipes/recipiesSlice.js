@@ -16,6 +16,13 @@ const extendedApi = api.injectEndpoints({
                     );
                 },
             }),
+            providesTags: (result, error) => {
+                if (error || !result) return [{ type: "Recipe", id: "LIST" }];
+                return [
+                    ...result.ids.map(id => ({ type: "Recipe", id })),
+                    { type: "Recipe", id: "LIST" },
+                ];
+            },
             transformResponse: result => {
                 let min = 1;
                 let hour = 1;
@@ -67,7 +74,7 @@ const extendedApi = api.injectEndpoints({
                 return recipe;
             },
         }),
-        getSearchRecipes: builder.query({
+        getSearchQueries: builder.query({
             queryFn: async () => {
                 try {
                     // Fake fetching data from an API
@@ -87,5 +94,5 @@ export const {
     useGetRecipesQuery,
     useLazyGetRecipesQuery,
     useGetRecipeQuery,
-    useGetSearchRecipesQuery,
+    useGetSearchQueriesQuery,
 } = extendedApi;

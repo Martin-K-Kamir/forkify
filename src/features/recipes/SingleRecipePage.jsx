@@ -25,8 +25,8 @@ const SingleRecipePage = () => {
     } else if (isError) {
         return (
             <div className="text-center f-size-1 f-weight-medium text-red-100 flex align-items-center justify-content-center flex-direction-column gap-2xs">
-                <Icon type="warning" className="f-size-3" />
-                {error?.message || "Something went wrong! Please try again."}
+                <Icon type="warning" className="f-size-3" fill />
+                {error?.message || "Recipe not found"}
             </div>
         );
     } else if (isSuccess) {

@@ -83,7 +83,7 @@
     --f-size-6            : 3.0519rem; /* 48.83px */
 
     /* Fluid type scale values for font sizes and spaces */
-    /* Min viewport: width - 360px | size 15px | scale 1.2 */
+    /* Min viewport: width - 375px | size 15px | scale 1.2 */
     /* Max viewport: width - 1240px | size 16px | scale 1.25 */
 
     --f-size-fluid--2     : clamp(0.64rem, 0.6559rem + -0.0205vw, 0.6513rem); /* 10.42px → 10.24px */
@@ -132,6 +132,10 @@
     --space-fluid-5xl-6xl : clamp(9.375rem, 6.9364rem + 10.4046vw, 15rem); /* 150px → 240px */
     --space-fluid-6xl-7xl : clamp(14.0625rem, 11.4884rem + 10.9827vw, 20rem); /* 225px → 320px */
 
+    /* Custom pairs */
+    --space-fluid-l-4xl   : clamp(1.875rem, -0.7803rem + 11.3295vw, 8rem); /* 30px → 128px */
+
+
     --radius-1            : 0.625rem;
     --radius-2            : 1rem;
     --radius-3            : 1.25rem;
@@ -151,7 +155,7 @@ body {
     font-synthesis           : none;
     -moz-osx-font-smoothing  : grayscale;
     -webkit-text-size-adjust : 100%;
-    color-scheme: light dark;
+    color-scheme             : light dark;
 }
 
 .animation-spin {

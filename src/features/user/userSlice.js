@@ -51,6 +51,7 @@ const extendedApi = api.injectEndpoints({
                 method: "POST",
                 body: recipe,
             }),
+            invalidatesTags: [{ type: "Recipe", id: "LIST" }],
             transformResponse: result => {
                 const recipe = result.data.recipe;
 
@@ -88,10 +89,54 @@ const extendedApi = api.injectEndpoints({
                 } catch {}
             },
         }),
+        removeRecipe: builder.mutation({
+            query: recipeId => ({
+                url: `/${recipeId}?key=${API_KEY}`,
+                method: "DELETE",
+            }),
+            invalidatesTags: (result, error, arg) => [
+                { type: "Recipe", id: arg },
+                { type: "Recipe", id: "LIST" },
+            ],
+            transformErrorResponse: result => {
+                if ([401].includes(result.status)) {
+                    return {
+                        message:
+                            "Oops! Something went wrong on our end. Please try again later.",
+                    };
+                }
+
+                if ([500, 501, 502, 503, 504, 505].includes(result.status)) {
+                    return {
+                        message:
+                            "Our server needs a coffee break. Try again later.",
+                    };
+                }
+
+                return result.data;
+            },
+            async onQueryStarted(id, { dispatch, queryFulfilled, getState }) {
+                const { data: recipe } = api.endpoints.getRecipe.select(id)(
+                    getState()
+                );
+
+                dispatch(removeUserRecipe(recipe.id));
+
+                try {
+                    await queryFulfilled;
+                } catch {
+                    dispatch(addUserRecipe(recipe));
+                }
+            },
+        }),
     }),
 });
 
-export const { useUpdateBookmarkMutation, useAddRecipeMutation } = extendedApi;
+export const {
+    useUpdateBookmarkMutation,
+    useAddRecipeMutation,
+    useRemoveRecipeMutation,
+} = extendedApi;
 
 const userRecipesAdapter = createEntityAdapter({
     sortComparer: (a, b) => b.sortDate.localeCompare(a.sortDate),

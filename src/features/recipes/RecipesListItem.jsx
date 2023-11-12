@@ -1,6 +1,6 @@
 import React from "react";
 import { Link } from "react-router-dom";
-import { capitalazeForEach } from "../../utilities.js";
+import { capitalizedForEach } from "../../utilities.js";
 let RecipesListItem = ({ image_url: image, title, publisher, id }) => {
     return (
         <li className="container flex flex-direction-column justify-self-center bg-zinc-800 radius-1 overflow-hidden w-full max-w-s//below-md mb-xs//below-sm">
@@ -12,7 +12,7 @@ let RecipesListItem = ({ image_url: image, title, publisher, id }) => {
             <div className="flex flex-direction-column justify-content-between align-items-start h-full p-m pt-s">
                 <div>
                     <h2 className="f-family-secondary f-size-2 f-size-1//above-sm f-size-2//container-above-sm f-weight-medium">
-                        {capitalazeForEach(title)}
+                        {capitalizedForEach(title)}
                     </h2>
                     <p className="f-size-1 f-size--1//above-sm f-size-1//container-above-sm mt-2xs text-zinc-300">
                         by {publisher}

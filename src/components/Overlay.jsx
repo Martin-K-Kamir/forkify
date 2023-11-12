@@ -11,7 +11,7 @@ const Overlay = ({
     className,
     center,
 }) => {
-    const overlayRef = useRef(null);
+    const ref = useRef(null);
 
     const classes = classNames(
         "fixed inset-0 z-index-800 backdrop-blur-md bg-zinc-950/90 overflow-auto px-m pb-m flex justify-content-center transition-opacity",
@@ -44,7 +44,7 @@ const Overlay = ({
     }, [isVisible]);
 
     const handleClick = e => {
-        if (e.target === overlayRef.current) {
+        if (e.target === ref.current) {
             onClose();
         }
     };
@@ -56,7 +56,7 @@ const Overlay = ({
     };
 
     return createPortal(
-        <div ref={overlayRef} className={classes} data-opacity={isVisible}>
+        <div ref={ref} className={classes} data-opacity={isVisible}>
             {isCloseRendered && (
                 <button
                     className="absolute z-index-1 top-xs right-xs text-zinc-200"

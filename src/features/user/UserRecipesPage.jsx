@@ -4,19 +4,17 @@ import { useEffect, useRef, useState } from "react";
 import Icon from "../../components/Icon.jsx";
 import Select from "../../components/Select.jsx";
 import {
-    selectAllUserBookmarks,
-    selectAllUserRecipes,
     selectTotalUserBookmarks,
     selectTotalUserRecipes,
     selectAllUserStoredRecipes,
 } from "./userSlice.js";
 
 const UserRecipesPage = () => {
-    const userBookmarks = useSelector(selectAllUserBookmarks);
-    const userBookmarksTotal = useSelector(selectTotalUserBookmarks);
-    const userRecipes = useSelector(selectAllUserRecipes);
-    const userRecipesTotal = useSelector(selectTotalUserRecipes);
     const allUserRecipes = useSelector(selectAllUserStoredRecipes);
+    const userBookmarksTotal = useSelector(selectTotalUserBookmarks);
+    const userRecipesTotal = useSelector(selectTotalUserRecipes);
+
+    const areUserRecipesEmpty = allUserRecipes.length === 0;
 
     const [selectedFilter, setSelectedFilter] = useState(null);
     const [selectedSort, setSelectedSort] = useState(null);
@@ -35,76 +33,38 @@ const UserRecipesPage = () => {
         { label: "My Recipes", value: "myRecipes" },
     ];
 
-    const areBookmarksEmpty = userBookmarks.length === 0;
-
     useEffect(() => {
-        const filteredRecipes = allUserRecipes.filter(bookmark => {
-            return bookmark.title
-                .toLowerCase()
-                .includes(searchTerm.toLowerCase());
+        const sortValue = selectedSort?.value;
+        const filterValue = selectedFilter?.value;
+
+        setRecipes(() => {
+            let recipes = allUserRecipes;
+            if (searchTerm) {
+                recipes = allUserRecipes.filter(recipe =>
+                    recipe.title
+                        .toLowerCase()
+                        .includes(searchTerm.toLowerCase())
+                );
+            }
+
+            const filteredRecipes = recipes.filter(recipe => {
+                if (filterValue === "bookmarks") {
+                    return recipe.isBookmarked;
+                } else if (filterValue === "myRecipes") {
+                    return recipe.isUserRecipe;
+                } else {
+                    return true;
+                }
+            });
+
+            const sortedRecipes =
+                sortValue === "oldest"
+                    ? sortByOldest(filteredRecipes)
+                    : sortByNewest(filteredRecipes);
+
+            return sortedRecipes;
         });
-
-        console.log(filteredRecipes);
-
-        setRecipes(filteredRecipes);
-    }, [searchTerm]);
-
-    useEffect(() => {
-        const value = selectedSort?.value;
-
-        if (value === "newest") {
-            setRecipes(prevRecipes => sortByNewest(prevRecipes));
-        } else if (value === "oldest") {
-            setRecipes(prevRecipes => sortByOldest(prevRecipes));
-        } else if (value === "default") {
-
-            if (searchTerm) {
-                const filteredRecipes = allUserRecipes.filter(bookmark => {
-                    return bookmark.title
-                        .toLowerCase()
-                        .includes(searchTerm.toLowerCase());
-                });
-                setRecipes(filteredRecipes);
-            } else {
-                setRecipes(allUserRecipes);
-            }
-            setSelectedSort(null);
-        }
-    }, [selectedSort, searchTerm]);
-
-    useEffect(() => {
-        const value = selectedFilter?.value;
-
-        if (value === "bookmarks") {
-            setRecipes(prevRecipes => {
-                if(searchTerm) {
-                    return getBookmarks(prevRecipes)
-                } else {
-                    return userBookmarks
-                }
-            });
-        } else if (value === "myRecipes") {
-            setRecipes(prevRecipes => {
-                if(searchTerm) {
-                    return getUserRecipes(prevRecipes)
-                } else {
-                    return userRecipes
-                }
-            });
-        } else if (value === "default") {
-            if (searchTerm) {
-                const filteredRecipes = allUserRecipes.filter(bookmark => {
-                    return bookmark.title
-                        .toLowerCase()
-                        .includes(searchTerm.toLowerCase());
-                });
-                setRecipes(filteredRecipes);
-            } else {
-                setRecipes(allUserRecipes);
-            }
-            setSelectedFilter(null);
-        }
-    }, [selectedFilter, searchTerm]);
+    }, [selectedSort, selectedFilter, searchTerm]);
 
     const sortByNewest = arr => {
         return [...arr].sort((a, b) => b.sortDate.localeCompare(a.sortDate));
@@ -112,14 +72,6 @@ const UserRecipesPage = () => {
 
     const sortByOldest = arr => {
         return [...arr].sort((a, b) => a.sortDate.localeCompare(b.sortDate));
-    };
-
-    const getBookmarks = arr => {
-        return arr.filter(recipe => recipe.isBookmarked);
-    };
-
-    const getUserRecipes = arr => {
-        return arr.filter(recipe => recipe.isUserRecipe);
     };
 
     const handleSelectFilterChange = option => {
@@ -140,15 +92,15 @@ const UserRecipesPage = () => {
 
     return (
         <div>
-            {!areBookmarksEmpty && (
+            {!areUserRecipesEmpty && (
                 <div className="relative flex flex-direction-column//below-lg align-items-center align-items-start//above-sm align-items-center//above-lg justify-content-between gap-m gap-s//above-sm z-index-100">
                     <header className="text-center text-left//above-sm">
                         <h1 className="f-size-fluid-2 f-weight-medium">
                             Your Recipes and Bookmarks
                         </h1>
                         <p className="f-size-fluid-1 mt-3xs text-zinc-200">
-                            {userRecipesTotal} recipes and {userBookmarksTotal}{" "}
-                            bookmarks
+                            You have {userRecipesTotal} recipes and{" "}
+                            {userBookmarksTotal} bookmarks.
                         </p>
                     </header>
 
@@ -190,11 +142,11 @@ const UserRecipesPage = () => {
                 </div>
             )}
             <div className="mt-fluid-m-l">
-                {!areBookmarksEmpty && <RecipesList recipes={recipes} />}
-                {areBookmarksEmpty && (
+                {!areUserRecipesEmpty && <RecipesList recipes={recipes} />}
+                {areUserRecipesEmpty && (
                     <p className="text-center f-size-1 f-weight-medium text-blue-100 flex align-items-center justify-content-center flex-direction-column gap-2xs">
                         <Icon type="bookmarkAdd" className="f-size-4" />
-                        You haven't added any bookmarks to your list.
+                        You don't have any recipes or bookmarks yet.
                     </p>
                 )}
             </div>

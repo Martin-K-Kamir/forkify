@@ -1,7 +1,7 @@
 import SearchForm from "../features/recipes/SearchForm.jsx";
 import Icon from "./Icon.jsx";
 import Overlay from "./Overlay.jsx";
-import useModal from "../hooks/useModal.jsx";
+import useModal from "../hooks/useModal.js";
 import Modal from "./Modal.jsx";
 import React, { useEffect } from "react";
 import { Link, useLocation } from "react-router-dom";
@@ -46,7 +46,6 @@ const Navigation = ({
     filterItems,
     hideItemsLabel,
     className,
-    itemClassName,
 }) => {
     const location = useLocation();
 
@@ -157,7 +156,6 @@ const Navigation = ({
                 key={item.id}
                 {...item}
                 isLabelVisible={hideItemsLabel}
-                className={itemClassName}
             />
         ));
 
