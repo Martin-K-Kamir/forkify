@@ -3,9 +3,9 @@ import { useLocation, useParams, Link } from "react-router-dom";
 import { capitalizeWords } from "../utilities.js";
 import Icon from "./Icon.jsx";
 
-const Breadcrumbs = ({title}) => {
-    const {pathname} = useLocation();
-    const {recipeId} = useParams();
+const Breadcrumbs = ({ title }) => {
+    const { pathname } = useLocation();
+    const { recipeId, recipesId } = useParams();
 
     const blacklist = ["search"];
 
@@ -28,25 +28,36 @@ const Breadcrumbs = ({title}) => {
 
     const renderedCrumbs = ["home", ...crumbs].map((crumb, index, arr) => {
         const isLastIndex = index === arr.length - 1;
+        const isHome = crumb === "home";
 
         let title = crumb;
         if (crumb !== "home") {
             title = capitalizeWords(removeHyphens(crumb));
         }
 
+        let url = `/${crumb}`;
+        if (recipesId && crumb === recipesId) {
+            url = `/search/${crumb}`;
+        }
+        if (isHome) {
+            url = "/";
+        }
+
         return (
             <Fragment key={index}>
                 {isLastIndex ? (
-                    <span className="line-height-1">{crumb}</span>
+                    <span className="text-ellipsis">{crumb}</span>
                 ) : (
-                    <Link to={`/${crumb}`} className="text-blue-500 flex line-height-1">
-                        {crumb === "home" ? (
-                            <Icon type={crumb} className="f-size-2"/>
-                        ) : title}
+                    <Link to={url} className="text-blue-500 flex">
+                        {isHome ? (
+                            <Icon type={crumb} className="f-size-2" />
+                        ) : (
+                            title
+                        )}
                     </Link>
                 )}
                 {!isLastIndex && (
-                    <span className="text-zinc-050 flex">
+                    <span className="flex">
                         <Icon type="chevronRight" className="f-size-1 mx-3xs" />
                     </span>
                 )}
@@ -54,7 +65,11 @@ const Breadcrumbs = ({title}) => {
         );
     });
 
-    return <div className="flex align-items-center f-size--1">{renderedCrumbs}</div>;
+    return (
+        <div className="flex align-items-center f-size--1 line-height-1">
+            {renderedCrumbs}
+        </div>
+    );
 };
 
 export default Breadcrumbs;

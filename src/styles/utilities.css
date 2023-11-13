@@ -765,9 +765,13 @@
 .text-balance {
     text-wrap: balance;
 }
-
 .text-nowrap {
     white-space : nowrap;
+}
+.text-ellipsis {
+    white-space   : nowrap;
+    overflow      : hidden;
+    text-overflow : ellipsis;
 }
 
 /* /////////////// Radius  /////////////// */
@@ -808,6 +812,16 @@
 
 .radius-pill {
     border-radius : var(--radius-pill);
+}
+
+.radius-top-0 {
+    border-top-left-radius  : 0;
+    border-top-right-radius : 0;
+}
+
+.radius-bottom-0 {
+    border-bottom-left-radius  : 0;
+    border-bottom-right-radius : 0;
 }
 
 /* /////////////// Cursor styles  /////////////// */

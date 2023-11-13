@@ -18,52 +18,16 @@ const Header = () => {
 
             {isAboveLg && !isLandingPage && (
                 <SearchForm
-                    render={({
-                        value,
-                        disabled,
-                        isLoading,
-                        onSubmit,
-                        onChange,
-                    }) => (
-                        <form
-                            className="form flex max-w-s gap-xs w-full"
-                            onSubmit={onSubmit}
-                        >
-                            <input
-                                type="text"
-                                className="bg-zinc-900 f-size--1 px-xs py-2xs radius-1 w-full"
-                                placeholder="Search over 1,000,000 recipes"
-                                value={value}
-                                onChange={onChange}
-                            />
-                            <button
-                                className="bg-blue-700 px-2xs py-2xs radius-1 flex justify-content-center align-items-center"
-                                disabled={disabled}
-                            >
-                                {isLoading ? (
-                                    <Icon
-                                        type="progressActivity"
-                                        className="animation-spin f-size-fluid-3"
-                                    />
-                                ) : (
-                                    <Icon className="f-size-2" type="search" />
-                                )}
-                            </button>
-                        </form>
-                    )}
+                    submitOptions={{
+                        content: <Icon className="f-size-2" type="search" />,
+                    }}
                 />
             )}
 
             <div className="flex-shrink-0">
                 <Navigation
                     filterItems={isLandingPage ? ["search"] : []}
-                    itemsToRender={
-                        isLandingPage
-                            ? "default"
-                            : isAboveLg
-                            ? "menu"
-                            : "default"
-                    }
+                    itemsToRender={isAboveLg ? "menu" : "default"}
                 />
             </div>
         </header>
