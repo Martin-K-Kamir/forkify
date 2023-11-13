@@ -1,6 +1,6 @@
 import Fraction from "fraction.js";
 import Icon from "../../components/Icon.jsx";
-import { capitalizedForEach, wait } from "../../utilities.js";
+import { capitalizeWords, wait } from "../../utilities.js";
 import { useDispatch, useSelector } from "react-redux";
 import React, { useEffect, useState } from "react";
 import { useNavigate, useParams } from "react-router-dom";
@@ -115,7 +115,7 @@ const SingleRecipe = ({ recipe, isPreview }) => {
     );
 
     return (
-        <div className="bg-zinc-800//above-sm radius-1 max-w-xl mx-auto p-fluid-m-l//above-sm">
+        <div className="bg-zinc-800//above-sm radius-1 max-w-xl mx-auto p-fluid-m-l//above-sm pt-xs//above-sm">
             <div className="mb-s">
                 <Breadcrumbs title={recipe.title} />
             </div>
@@ -138,17 +138,17 @@ const SingleRecipe = ({ recipe, isPreview }) => {
 
             <div className="stack s-l mt-fluid-s-m">
                 <header>
-                    <h1 className="f-family-secondary f-size-fluid-4 f-weight-bold line-height-2">
-                        {capitalizedForEach(recipe.title)}
+                    <h1 className="f-family-secondary f-size-fluid-3 f-weight-medium line-height-2">
+                        {capitalizeWords(recipe.title)}
                     </h1>
-                    <div className="flex flex-wrap align-items-center gap-2xs text-zinc-300 mt-2xs">
+                    <div className="flex flex-wrap align-items-center gap-2xs text-zinc-300 mt-xs">
                         <div className="flex align-items-center f-weight-medium mr-xs">
                             <Icon
                                 type="person"
                                 className="f-size-2 mr-3xs"
                                 fill
                             />
-                            <p>by {recipe.publisher}</p>
+                            <p>by {capitalizeWords(recipe.publisher)}</p>
                         </div>
                         <div className="flex align-items-center f-weight-medium mr-xs">
                             <Icon type="schedule" className="f-size-2 mr-3xs" />
@@ -181,7 +181,7 @@ const SingleRecipe = ({ recipe, isPreview }) => {
                     </div>
                 </header>
                 <section>
-                    <h2 className="f-family-secondary f-size-fluid-3 f-weight-bold line-height-2">
+                    <h2 className="f-family-secondary f-size-fluid-2 f-weight-medium line-height-2">
                         Recipe ingredients
                     </h2>
                     <ul className="list-style-inside mt-2xs stack s-3xs text-zinc-300">
@@ -189,7 +189,7 @@ const SingleRecipe = ({ recipe, isPreview }) => {
                     </ul>
                 </section>
                 <section>
-                    <h2 className="f-family-secondary f-size-fluid-3 f-weight-bold line-height-2">
+                    <h2 className="f-family-secondary f-size-fluid-2 f-weight-medium line-height-2">
                         How to cook it
                     </h2>
                     <p className="mt-2xs text-zinc-300">
@@ -214,7 +214,7 @@ const SingleRecipe = ({ recipe, isPreview }) => {
                     onClose={closeDeleteModal}
                 >
                     <div className="stack text-center//above-sm">
-                        <h2 className="f-family-secondary f-size-fluid-3 f-weight-bold line-height-2">
+                        <h2 className="f-family-secondary f-size-fluid-2 f-weight-medium line-height-2">
                             Delete Recipe
                         </h2>
                         <p className="text-zinc-200 text-balance">

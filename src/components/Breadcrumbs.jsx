@@ -1,17 +1,18 @@
 import React, { Fragment } from "react";
 import { useLocation, useParams, Link } from "react-router-dom";
-import { capitalizedForEach } from "../utilities.js";
+import { capitalizeWords } from "../utilities.js";
+import Icon from "./Icon.jsx";
 
-const Breadcrumbs = ({ title }) => {
-    const { pathname } = useLocation();
-    const { recipeId, recipesId } = useParams();
+const Breadcrumbs = ({title}) => {
+    const {pathname} = useLocation();
+    const {recipeId} = useParams();
 
-    const ignoreCrumbs = ["search"];
+    const blacklist = ["search"];
 
     const crumbs = pathname
         .split("/")
         .filter(crumb => {
-            return !ignoreCrumbs.includes(crumb) && crumb !== "";
+            return !blacklist.includes(crumb) && crumb !== "";
         })
         .map(crumb => {
             if (recipeId && crumb === recipeId) {
@@ -21,33 +22,39 @@ const Breadcrumbs = ({ title }) => {
             return crumb;
         });
 
-    const formatCrumb = crumb => {
+    const removeHyphens = crumb => {
         return crumb.split("-").join(" ");
     };
 
     const renderedCrumbs = ["home", ...crumbs].map((crumb, index, arr) => {
         const isLastIndex = index === arr.length - 1;
 
-        const formattedCrumb = formatCrumb(crumb);
-        const capitalazedCrumb = capitalizedForEach(crumb);
+        let title = crumb;
+        if (crumb !== "home") {
+            title = capitalizeWords(removeHyphens(crumb));
+        }
 
         return (
             <Fragment key={index}>
                 {isLastIndex ? (
-                    <span>{capitalazedCrumb}</span>
+                    <span className="line-height-1">{crumb}</span>
                 ) : (
-                    <Link to={`/${crumb}`} className="text-zinc-050">
-                        {capitalazedCrumb}
+                    <Link to={`/${crumb}`} className="text-blue-500 flex line-height-1">
+                        {crumb === "home" ? (
+                            <Icon type={crumb} className="f-size-2"/>
+                        ) : title}
                     </Link>
                 )}
                 {!isLastIndex && (
-                    <span className="text-zinc-050 mx-2xs">/</span>
+                    <span className="text-zinc-050 flex">
+                        <Icon type="chevronRight" className="f-size-1 mx-3xs" />
+                    </span>
                 )}
             </Fragment>
         );
     });
 
-    return <div className="f-size--1">{renderedCrumbs}</div>;
+    return <div className="flex align-items-center f-size--1">{renderedCrumbs}</div>;
 };
 
 export default Breadcrumbs;

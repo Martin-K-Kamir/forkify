@@ -397,7 +397,7 @@ const AddRecipeForm = () => {
     return (
         <div className="bg-zinc-800//above-sm radius-1 stack s-l max-w-xl mx-auto p-fluid-m-l//above-sm">
             <header>
-                <h1 className="f-family-secondary f-size-fluid-4 f-weight-bold line-height-2">
+                <h1 className="f-family-secondary f-size-fluid-4 f-weight-medium line-height-2">
                     Add Recipe
                 </h1>
                 <p className="mt-2xs text-zinc-200">
@@ -411,7 +411,7 @@ const AddRecipeForm = () => {
                 onSubmit={handleSubmit}
             >
                 <section>
-                    <h2 className="f-family-secondary f-size-fluid-3 f-weight-bold line-height-2">
+                    <h2 className="f-family-secondary f-size-fluid-3 f-weight-medium line-height-2">
                         Details
                     </h2>
                     <div className="form-details grid gap-m mt-s">
@@ -422,7 +422,7 @@ const AddRecipeForm = () => {
                     </div>
                 </section>
                 <section>
-                    <h2 className="f-family-secondary f-size-fluid-3 f-weight-bold line-height-2">
+                    <h2 className="f-family-secondary f-size-fluid-3 f-weight-medium line-height-2">
                         Images
                     </h2>
                     <div className="grid gap-m mt-s">
@@ -438,7 +438,7 @@ const AddRecipeForm = () => {
                     </div>
                 </section>
                 <section>
-                    <h2 className="f-family-secondary f-size-fluid-3 f-weight-bold line-height-2">
+                    <h2 className="f-family-secondary f-size-fluid-3 f-weight-medium line-height-2">
                         Ingredients
                     </h2>
                     <div className="grid gap-m mt-s">
@@ -455,7 +455,7 @@ const AddRecipeForm = () => {
                     </div>
                 </section>
                 <section>
-                    <h2 className="f-family-secondary f-size-fluid-3 f-weight-bold line-height-2">
+                    <h2 className="f-family-secondary f-size-fluid-3 f-weight-medium line-height-2">
                         How to Cook It
                     </h2>
                     <div className="grid gap-m mt-s">
@@ -510,7 +510,7 @@ const AddRecipeForm = () => {
                     onClose={closeSuccessModal}
                 >
                     <div className="stack text-center//above-sm">
-                        <h2 className="f-family-secondary f-size-fluid-3 f-weight-bold line-height-2">
+                        <h2 className="f-family-secondary f-size-fluid-3 f-weight-medium line-height-2">
                             Recipe Submitted
                         </h2>
                         <p className="text-zinc-200 text-balance">
