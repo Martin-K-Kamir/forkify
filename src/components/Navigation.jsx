@@ -9,14 +9,14 @@ import className from "classnames";
 import { useLocalStorage, useMediaQuery } from "@uidotdev/usehooks";
 
 const NavigationItem = ({
-                            url,
-                            onClick,
-                            icon,
-                            label,
-                            ariaOptions,
-                            isLabelVisible,
-                            ...rest
-                        }) => {
+    url,
+    onClick,
+    icon,
+    label,
+    ariaOptions,
+    isLabelVisible,
+    ...rest
+}) => {
     const ButtonType = Boolean(url) ? Link : "button";
 
     const buttonClasses = className(
@@ -34,7 +34,7 @@ const NavigationItem = ({
                 onClick={onClick}
                 {...ariaOptions}
             >
-                <Icon className="f-size-2" type={icon}/>
+                <Icon className="f-size-2" type={icon} />
                 {labelRendered && label}
             </ButtonType>
         </li>
@@ -42,11 +42,11 @@ const NavigationItem = ({
 };
 
 const Navigation = ({
-                        itemsToRender,
-                        filterItems,
-                        hideItemsLabel,
-                        className,
-                    }) => {
+    itemsToRender,
+    filterItems,
+    hideItemsLabel,
+    className,
+}) => {
     const location = useLocation();
 
     const isDarkThemePreferred = useMediaQuery("(prefers-color-scheme: dark)");
@@ -211,7 +211,7 @@ const Navigation = ({
                     <SearchRecipes
                         formOptions={{
                             id: "search-modal",
-                            className: "mx-auto mt-s flex-direction-column"
+                            className: "mx-auto mt-s flex-direction-column",
                         }}
                         autocompleteOptions={{
                             shouldOverlay: false,

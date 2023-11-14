@@ -1,6 +1,7 @@
 import { useGetSearchQueriesQuery } from "./recipiesSlice.js";
 import { Link } from "react-router-dom";
 import React from "react";
+import { capitalizeWords } from "../../utilities.js";
 
 let SearchRecipeQueriesButtons = () => {
     const { data } = useGetSearchQueriesQuery();
@@ -27,7 +28,7 @@ let SearchRecipeQueriesButtons = () => {
                 className="bg-zinc-800 text-zinc-200 px-m py-xs f-size--1 line-height-1 text-no-decoration radius-pill"
                 key={recipe}
             >
-                {recipe}
+                {capitalizeWords(recipe)}
             </Link>
         );
     });

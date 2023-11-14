@@ -435,6 +435,9 @@
 .bg-zinc-800 {
     background-color : var(--clr-zinc-800);
 }
+.bg-zinc-850 {
+    background-color : var(--clr-zinc-850);
+}
 .bg-zinc-900 {
     background-color : var(--clr-zinc-900);
 }
@@ -2144,6 +2147,9 @@
 .gap-0 {
     gap : 0;
 }
+.gap-inherit {
+    gap : inherit;
+}
 
 .gap-3xs {
     gap : var(--space-3xs);
@@ -2768,6 +2774,32 @@
 }
 .z-index-900 {
     z-index : 900;
+}
+
+/* /////////////// opacity & visibility /////////////// */
+
+.opacity-0 {
+    opacity : 0;
+}
+.opacity-25 {
+    opacity : 0.25;
+}
+.opacity-50 {
+    opacity : 0.5;
+}
+.opacity-75 {
+    opacity : 0.75;
+}
+.opacity-100 {
+    opacity : 1;
+}
+
+.visible {
+    visibility : visible;
+}
+
+.invisible {
+    visibility : hidden;
 }
 
 /* /////////////// Display /////////////// */

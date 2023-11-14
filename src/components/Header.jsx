@@ -19,7 +19,7 @@ const Header = () => {
                 <SearchRecipes
                     variant="compact"
                     inputOptions={{
-                        className: "bg-zinc-900"
+                        className: "bg-zinc-850",
                     }}
                     autocompleteOptions={{
                         shouldOverlay: true,

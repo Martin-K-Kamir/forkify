@@ -2,15 +2,32 @@ import Icon from "./Icon.jsx";
 import React, { useEffect, useRef } from "react";
 import classnames from "classnames";
 
-const Dropdown = ({ children, render, isVisible, onOutsideClick, align }) => {
+const Dropdown = ({
+    children,
+    render,
+    isVisible,
+    onOutsideClick,
+    align,
+    bgColor,
+}) => {
     const ref = useRef(null);
     const childrenRef = useRef(null);
+    const arrowRef = useRef(null);
+    const contentRef = useRef(null);
 
     const wrapperClasses = classnames("relative flex", {
         "justify-content-center": !align || align === "center",
         "justify-content-start": align === "left",
         "justify-content-end": align === "right",
     });
+
+    const contentClasses = classnames(
+        "stack s-xs px-s py-xs  radius-1 text-zinc-100 f-size--1",
+        {
+            "bg-zinc-850": !bgColor,
+        },
+        bgColor
+    );
 
     const arrowWrapperClasses = classnames("w-full flex ", {
         "justify-content-center": !align || align === "center",
@@ -19,7 +36,7 @@ const Dropdown = ({ children, render, isVisible, onOutsideClick, align }) => {
     });
 
     const arrowIconClasses = classnames(
-        "text-zinc-800 absolute top translate--y-half pointer-events-none z-index--1",
+        "absolute top translate--y-half pointer-events-none z-index--1",
         {
             "translate--x-15": align === "left",
             "translate-x-15": align === "right",
@@ -27,9 +44,14 @@ const Dropdown = ({ children, render, isVisible, onOutsideClick, align }) => {
     );
 
     useEffect(() => {
-        if (isVisible) {
-            document.addEventListener("click", handleClick, true);
-        }
+        if (!isVisible) return;
+        const { backgroundColor } = getComputedStyle(contentRef.current);
+
+        Object.assign(arrowRef.current.style, {
+            color: backgroundColor,
+        });
+
+        document.addEventListener("click", handleClick, true);
 
         return () => {
             document.removeEventListener("click", handleClick);
@@ -55,7 +77,7 @@ const Dropdown = ({ children, render, isVisible, onOutsideClick, align }) => {
                     ref={ref}
                     className="flex flex-direction-column absolute bottom--s w-full min-w-max shadow-2xl translate-y-full"
                 >
-                    <div className={arrowWrapperClasses}>
+                    <div ref={arrowRef} className={arrowWrapperClasses}>
                         <Icon
                             type="arrowDropUp"
                             className={arrowIconClasses}
@@ -63,7 +85,7 @@ const Dropdown = ({ children, render, isVisible, onOutsideClick, align }) => {
                             height="2.5rem"
                         />
                     </div>
-                    <div className=" stack s-xs px-s py-xs bg-zinc-800 radius-1 text-zinc-100 f-size--1">
+                    <div ref={contentRef} className={contentClasses}>
                         {render()}
                     </div>
                 </div>

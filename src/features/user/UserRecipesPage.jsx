@@ -90,6 +90,16 @@ const UserRecipesPage = () => {
         searchRef.current.focus();
     };
 
+    const handleClearSearch = () => {
+        setSearchTerm("");
+    };
+
+    const handleKeyUp = e => {
+        if (e.key === "Escape") {
+            setSearchTerm("");
+        }
+    };
+
     return (
         <div>
             {!areUserRecipesEmpty && (
@@ -121,7 +131,21 @@ const UserRecipesPage = () => {
                                 placeholder="Search recipes"
                                 onChange={handleSearchChange}
                                 value={searchTerm}
+                                onKeyUp={handleKeyUp}
                             />
+
+                            <button
+                                className={`flex ${
+                                    searchTerm ? "" : "opacity-0 invisible"
+                                }`}
+                                onClick={handleClearSearch}
+                                type="button"
+                            >
+                                <Icon
+                                    className="f-size-1 flex-shrink-0"
+                                    type="close"
+                                />
+                            </button>
                         </div>
 
                         <div className="flex gap-xs gap-m//above-sm">
