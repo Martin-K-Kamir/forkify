@@ -1,4 +1,4 @@
-import SearchForm from "../features/recipes/SearchForm.jsx";
+import SearchRecipes from "../features/recipes/SearchRecipes.jsx";
 import Icon from "./Icon.jsx";
 import Overlay from "./Overlay.jsx";
 import useModal from "../hooks/useModal.js";
@@ -208,10 +208,15 @@ const Navigation = ({
                     isVisible={isSearchModalVisible}
                     onClose={closeSearchModal}
                 >
-                    <SearchForm formOptions={{
-                        id: "search-modal",
-                        className: "mx-auto mt-s flex-direction-column"
-                    }}/>
+                    <SearchRecipes
+                        formOptions={{
+                            id: "search-modal",
+                            className: "mx-auto mt-s flex-direction-column"
+                        }}
+                        autocompleteOptions={{
+                            shouldOverlay: false,
+                        }}
+                    />
                 </Overlay>
             )}
         </>

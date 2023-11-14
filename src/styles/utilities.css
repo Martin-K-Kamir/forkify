@@ -628,6 +628,24 @@
     backdrop-filter : blur(12px);
 }
 
+/* /////////////// Filter /////////////// */
+
+.brightness-50 {
+    filter : brightness(50%);
+}
+
+.brightness-100 {
+    filter : brightness(100%);
+}
+
+.brightness-150 {
+    filter : brightness(150%);
+}
+
+.brightness-200 {
+    filter : brightness(200%);
+}
+
 /* /////////////// Font styles /////////////// */
 
 /* font-family */
@@ -812,16 +830,6 @@
 
 .radius-pill {
     border-radius : var(--radius-pill);
-}
-
-.radius-top-0 {
-    border-top-left-radius  : 0;
-    border-top-right-radius : 0;
-}
-
-.radius-bottom-0 {
-    border-bottom-left-radius  : 0;
-    border-bottom-right-radius : 0;
 }
 
 /* /////////////// Cursor styles  /////////////// */
