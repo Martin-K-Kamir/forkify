@@ -1,0 +1,124 @@
+
+.form {
+    accent-color: var(--clr-blue-300);
+
+    & :where(input, textarea, select) {
+        border  : none;
+        outline : none;
+        color   : inherit;
+    }
+
+    & input::placeholder {
+        color : color-mix(in hsl, currentColor 50%, transparent);
+    }
+
+    & .select {
+        min-inline-size : 15ch;
+    }
+
+    & .field:has(input) {
+        height : 3.3rem;
+    }
+
+    & .field textarea {
+        resize     : none;
+        min-height : fit-content;
+        margin-top : 0.7rem;
+    }
+
+    & .field label {
+        position   : absolute;
+        transition : transform 0.2s ease-in-out, font-size 0.2s ease-in-out;
+        left       : 0;
+        top        : 50%;
+        transform  : translateY(-50%);
+        font-size  : 100%;
+        color      : var(--clr-zinc-400);
+    }
+
+    & .field:has(textarea) label {
+        top       : 0;
+        transform : translateY(1.15rem);
+    }
+
+    & .field input {
+        transform : translateY(0.25rem);
+    }
+
+    & .field input[type=number] {
+        -moz-appearance : textfield;
+    }
+
+    & .field input[type=number]::-webkit-outer-spin-button,
+    & .field input[type=number]::-webkit-inner-spin-button {
+        -webkit-appearance : none;
+    }
+
+    & .field:has(:is(input:not([value=""]), input:focus, textarea:not([data-value=""]), textarea:focus)) label {
+        transform : translateY(-150%);
+        color     : var(--clr-blue-200);
+        font-size : var(--f-size--1);
+    }
+
+    & .field:has(:is(textarea:not([data-value=""]), textarea:focus)) label {
+        transform : translateY(0.44rem);
+    }
+
+    & .field:has(input:not(:focus, :valid, [value=""])) label {
+        color : var(--clr-red-200);
+    }
+}
+
+.form-details {
+    @media (width >= 48em) {
+        grid-template-columns : repeat(2, 1fr);
+    }
+
+    & div:has(input[id*="source"]) {
+        @media (width >= 48em) {
+            grid-column : span 2;
+        }
+    }
+}
+
+.form-row {
+    &:has(textarea) > button {
+        align-self : start;
+    }
+
+    &:has( > .field:nth-child(1) + button) {
+        grid-template-columns : 1fr min-content;
+    }
+
+    &:has( > .field:nth-child(3)) {
+        grid-template-columns : 1fr repeat(2, 7fr) 1fr;
+        grid-template-areas   : "input1 input1 input2 input2"
+                             "input3 input3 input3 input3";
+
+        @media (width >= 48em) {
+            grid-template-columns : repeat(2, 7rem) 1fr min-content;
+            grid-template-areas   : "input1 input2 input3 input3"
+        }
+    }
+
+    &:has( > .field:nth-child(3) + button) {
+        grid-template-areas : "input1 input1 input2 input2"
+                             "input3 input3 input3 button";
+
+        @media (width >= 48em) {
+            grid-template-areas : "input1 input2 input3 button"
+        }
+    }
+
+    & .field:has(input[id*="quantity"]) {
+        grid-area : input1;
+    }
+
+    & .field:has(input[id*="unit"]) {
+        grid-area : input2;
+    }
+
+    & .field:has(input[id*="description"]) {
+        grid-area : input3;
+    }
+}

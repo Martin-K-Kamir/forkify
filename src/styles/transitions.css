@@ -1,0 +1,56 @@
+
+[class*="transition-"] {
+    transition-duration        : 300ms;
+    transition-timing-function : ease-in-out;
+}
+
+.transition-zoom {
+    transition-property : visibility, opacity, transform;
+}
+
+.transition-zoom[data-zoom="false"] {
+    transform  : scale(0.65);
+    opacity    : 0;
+    visibility : hidden;
+}
+
+.transition-zoom[data-zoom="true"] {
+    transform  : scale(1);
+    opacity    : 1;
+    visibility : visible;
+}
+
+.transition-opacity {
+    transition-property : visibility, opacity;
+}
+
+.transition-opacity[data-opacity="false"] {
+    opacity    : 0;
+    visibility : hidden;
+}
+
+.transition-opacity[data-opacity="true"] {
+    opacity    : 1;
+    visibility : visible;
+}
+
+.transition-fade-up {
+    transition-property : visibility, opacity, transform;
+}
+
+.transition-fade-up[data-fade-up="false"] {
+    transform  : translateY(5%);
+    opacity    : 0;
+    visibility : hidden;
+}
+
+.transition-fade-up[data-fade-up="true"] {
+    transform  : translateY(0);
+    opacity    : 1;
+    visibility : visible;
+}
+
+.transition-expand[data-expand="false"] {
+    margin              : 0 !important;
+    transition-property : margin, max-height, visibility, opacity, transform;
+}
