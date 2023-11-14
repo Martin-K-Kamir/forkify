@@ -1,13 +1,11 @@
 import Fraction from "fraction.js";
 import Icon from "../../components/Icon.jsx";
 import { capitalizeWords, wait } from "../../utilities.js";
-import { useDispatch, useSelector } from "react-redux";
+import { useDispatch } from "react-redux";
 import React, { useEffect, useState } from "react";
 import { useNavigate, useParams } from "react-router-dom";
 import {
-    selectUserBookmarkById,
     useRemoveRecipeMutation,
-    useUpdateBookmarkMutation,
 } from "../user/userSlice.js";
 import useModal from "../../hooks/useModal.js";
 import Modal from "../../components/Modal.jsx";

@@ -70,7 +70,7 @@ const AlertListItem = ({ alertId }) => {
                 {icon}
                 {message}
                 <button
-                    className="button-close ml-auto line-height-1"
+                    className="flex justify-content-center align-items-center ml-auto line-height-1"
                     onClick={hideAlert}
                 >
                     <Icon

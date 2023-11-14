@@ -8,6 +8,7 @@ import classnames from "classnames";
 
 const SearchForm = ({
     render,
+    variant,
     formOptions,
     inputOptions,
     submitOptions,
@@ -21,33 +22,58 @@ const SearchForm = ({
         selectFromResult: ({ isLoading }) => isLoading,
     });
 
-    const renderAutocomplete =
+    const showAutocomplete =
         searchTerm.length >= (autocompleteOptions?.treshold ?? 1) &&
         (autocompleteOptions?.isEnabled ?? true) &&
         !isLoading;
 
+    const canSubmit = searchTerm.length > 0 && !isLoading;
+
+    let submitContent = "Search";
+    if (variant === "compact") {
+        submitContent = <Icon className="f-size-2" type="search"/>;
+    } else if (submitOptions?.content) {
+        submitContent = submitOptions.content;
+    }
+
+    const includesBackground = str => {
+        return str.includes("bg-");
+    }
+
     const formClasses = classnames(
-        "form flex max-w-s gap-xs w-full",
+        "form flex w-full",
+        {
+            "max-w-l gap-s flex-direction-column//below-md": !variant,
+            "max-w-s gap-xs": variant === "compact",
+        },
         formOptions?.className
     );
 
     const inputClasses = classnames(
-        "bg-zinc-900 f-size--1 px-xs py-2xs radius-1 w-full",
-        inputOptions?.className,
+        "radius-1 w-full",
         {
-            "radius-bottom-0 shadow-2xl": renderAutocomplete,
-        }
+            "bg-zinc-800": !includesBackground(inputOptions?.className ?? ""),
+            "f-size-1 p-s": !variant,
+            "f-size--1 px-xs py-2xs": variant === "compact",
+            "radius-bottom-0 shadow-2xl": showAutocomplete,
+        },
+        inputOptions?.className
     );
 
     const submitClasses = classnames(
-        "bg-blue-700 px-2xs py-2xs radius-1 flex justify-content-center align-items-center",
+        "flex justify-content-center align-items-center radius-1 f-weight-medium",
+        {
+            "bg-blue-700": !includesBackground(submitOptions?.className ?? ""),
+            "f-size-1 px-xl py-s": !variant,
+            "f-size--1 px-2xs py-2xs": variant === "compact",
+        },
         submitOptions?.className
     );
 
     const autocompleteClasses = classnames(
         "absolute z-index-800 bg-zinc-900 w-full f-size--1 px-xs pb-2xs radius-1",
         {
-            "radius-top-0 shadow-2xl": renderAutocomplete,
+            "radius-top-0 shadow-2xl": showAutocomplete,
         }
     );
 
@@ -79,65 +105,52 @@ const SearchForm = ({
         }
     };
 
-    const canSubmit = searchTerm.length > 0 && !isLoading;
-
     return (
-        <>
-            {render ? (
-                render({
-                    isLoading,
-                    value: searchTerm,
-                    disabled: !canSubmit,
-                    onChange: handleChange,
-                    onSubmit: handleSubmit,
-                })
-            ) : (
-                <form className={formClasses} onSubmit={handleSubmit}>
-                    <div className="relative w-full">
-                        <div className="relative w-full grid align-items-center">
-                            <input
-                                type="text"
-                                className={inputClasses}
-                                placeholder="Search over 1,000,000 recipes"
-                                value={searchTerm}
-                                onChange={handleChange}
-                            />
-                            {searchTerm.length > 0 && (
-                                <button
-                                    className="absolute bg-zinc-900 flex justify-self-end px-2xs"
-                                    onClick={handleClear}
-                                >
-                                    <Icon type="close" className="f-size-1" />
-                                </button>
-                            )}
-                        </div>
-                        {renderAutocomplete && (
-                            <div className={autocompleteClasses}>
-                                <div className="bg-zinc-700 h-px w-full mb-2xs" />
-                                <ul role="list" className="stack s-2xs">
-                                    <li>Pizza</li>
-                                    <li>Pasta</li>
-                                    <li>Chicken</li>
-                                    <li>Chicken</li>
-                                    <li>Chicken</li>
-                                    <li>Chicken</li>
-                                </ul>
-                            </div>
-                        )}
+        <form id={formOptions?.id} className={formClasses} onSubmit={handleSubmit}>
+            <div className="relative w-full">
+                <div className="relative w-full grid align-items-center">
+                    <input
+                        id={inputOptions?.id}
+                        type="text"
+                        className={inputClasses}
+                        placeholder="Search over 1,000,000 recipes"
+                        value={searchTerm}
+                        onChange={handleChange}
+                    />
+                    {searchTerm.length > 0 && (
+                        <button
+                            className="absolute bg-zinc-900 flex justify-self-end px-2xs"
+                            onClick={handleClear}
+                        >
+                            <Icon type="close" className="f-size-1"/>
+                        </button>
+                    )}
+                </div>
+                {showAutocomplete && (
+                    <div className={autocompleteClasses}>
+                        <div className="bg-zinc-700 h-px w-full mb-2xs"/>
+                        <ul role="list" className="stack s-2xs">
+                            <li>Pizza</li>
+                            <li>Pasta</li>
+                            <li>Chicken</li>
+                            <li>Chicken</li>
+                            <li>Chicken</li>
+                            <li>Chicken</li>
+                        </ul>
                     </div>
-                    <button className={submitClasses} disabled={!canSubmit}>
-                        {isLoading ? (
-                            <Icon
-                                type="progressActivity"
-                                className="animation-spin f-size-fluid-3"
-                            />
-                        ) : (
-                            submitOptions?.content ?? "Search"
-                        )}
-                    </button>
-                </form>
-            )}
-        </>
+                )}
+            </div>
+            <button id={submitOptions?.id} className={submitClasses} disabled={!canSubmit}>
+                {isLoading ? (
+                    <Icon
+                        type="progressActivity"
+                        className="animation-spin f-size-fluid-3"
+                    />
+                ) : (
+                    submitContent
+                )}
+            </button>
+        </form>
     );
 };
 

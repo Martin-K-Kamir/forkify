@@ -9,14 +9,14 @@ import className from "classnames";
 import { useLocalStorage, useMediaQuery } from "@uidotdev/usehooks";
 
 const NavigationItem = ({
-    url,
-    onClick,
-    icon,
-    label,
-    ariaOptions,
-    isLabelVisible,
-    ...rest
-}) => {
+                            url,
+                            onClick,
+                            icon,
+                            label,
+                            ariaOptions,
+                            isLabelVisible,
+                            ...rest
+                        }) => {
     const ButtonType = Boolean(url) ? Link : "button";
 
     const buttonClasses = className(
@@ -34,7 +34,7 @@ const NavigationItem = ({
                 onClick={onClick}
                 {...ariaOptions}
             >
-                <Icon className="f-size-2" type={icon} />
+                <Icon className="f-size-2" type={icon}/>
                 {labelRendered && label}
             </ButtonType>
         </li>
@@ -42,11 +42,11 @@ const NavigationItem = ({
 };
 
 const Navigation = ({
-    itemsToRender,
-    filterItems,
-    hideItemsLabel,
-    className,
-}) => {
+                        itemsToRender,
+                        filterItems,
+                        hideItemsLabel,
+                        className,
+                    }) => {
     const location = useLocation();
 
     const isDarkThemePreferred = useMediaQuery("(prefers-color-scheme: dark)");
@@ -208,42 +208,10 @@ const Navigation = ({
                     isVisible={isSearchModalVisible}
                     onClose={closeSearchModal}
                 >
-                    <SearchForm
-                        render={({
-                            value,
-                            disabled,
-                            isLoading,
-                            onSubmit,
-                            onChange,
-                        }) => (
-                            <form
-                                id="search-modal"
-                                className="form flex max-w-l gap-s w-full mx-auto mt-s flex-direction-column"
-                                onSubmit={onSubmit}
-                            >
-                                <input
-                                    type="text"
-                                    className="bg-zinc-800 p-s radius-1 w-full"
-                                    placeholder="Search over 1,000,000 recipes"
-                                    value={value}
-                                    onChange={onChange}
-                                />
-                                <button
-                                    className="button f-weight-medium radius-1 flex justify-content-center align-items-center"
-                                    disabled={disabled}
-                                >
-                                    {isLoading ? (
-                                        <Icon
-                                            type="progressActivity"
-                                            className="animation-spin f-size-fluid-3"
-                                        />
-                                    ) : (
-                                        "Search"
-                                    )}
-                                </button>
-                            </form>
-                        )}
-                    />
+                    <SearchForm formOptions={{
+                        id: "search-modal",
+                        className: "mx-auto mt-s flex-direction-column"
+                    }}/>
                 </Overlay>
             )}
         </>

@@ -1,4 +1,3 @@
-import Icon from "./Icon.jsx";
 import SearchForm from "../features/recipes/SearchForm.jsx";
 import { useMediaQuery } from "@uidotdev/usehooks";
 import Navigation from "./Navigation.jsx";
@@ -17,11 +16,9 @@ const Header = () => {
             </p>
 
             {isAboveLg && !isLandingPage && (
-                <SearchForm
-                    submitOptions={{
-                        content: <Icon className="f-size-2" type="search" />,
-                    }}
-                />
+                <SearchForm variant="compact" inputOptions={{
+                    className: "bg-zinc-900"
+                }}/>
             )}
 
             <div className="flex-shrink-0">

@@ -5,22 +5,3 @@ button {
     cursor           : pointer;
     background-color : transparent;
 }
-
-.button {
-    color            : inherit;
-    border           : none;
-    outline          : none;
-    cursor           : pointer;
-    background-color : var(--clr-blue-700);
-    padding          : var(--space-s) var(--space-xl);
-}
-
-.button-close {
-    display: flex;
-    justify-content: center;
-    align-items: center;
-}
-
-.button-link {
-    background-color : var(--clr-blue-700);
-}
