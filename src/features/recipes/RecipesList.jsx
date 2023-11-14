@@ -1,4 +1,3 @@
-import "./RecipesList.css";
 import { useParams } from "react-router-dom";
 import RecipesListItem from "./RecipesListItem.jsx";
 import { useEffect, useState } from "react";
