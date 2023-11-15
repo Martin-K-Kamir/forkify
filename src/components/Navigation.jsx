@@ -20,7 +20,7 @@ const NavigationItem = ({
     const ButtonType = Boolean(url) ? Link : "button";
 
     const buttonClasses = className(
-        "flex align-items-center gap-3xs f-size--1 text-zinc-050 text-no-decoration line-height-1",
+        "flex align-items-center gap-2xs f-size--1 text-zinc-050 text-no-decoration line-height-1",
         rest.className
     );
 

@@ -1,7 +1,7 @@
 import SearchRecipes from "../features/recipes/SearchRecipes.jsx";
 import { useMediaQuery } from "@uidotdev/usehooks";
 import Navigation from "./Navigation.jsx";
-import { useLocation } from "react-router-dom";
+import { Link, useLocation } from "react-router-dom";
 
 const Header = () => {
     const location = useLocation();
@@ -11,9 +11,9 @@ const Header = () => {
 
     return (
         <header className="flex align-items-center justify-content-between gap-s bg-zinc-800 radius-1 p-m mb-fluid-m-l">
-            <p className="f-family-secondary f-size-2 f-size-3//above-sm f-weight-medium line-height-1">
+            <Link to="/" className="f-family-secondary text-no-decoration text-zinc-050 f-size-2 f-size-3//above-sm f-weight-medium line-height-1">
                 Forkify
-            </p>
+            </Link>
 
             {isAboveLg && !isLandingPage && (
                 <SearchRecipes
