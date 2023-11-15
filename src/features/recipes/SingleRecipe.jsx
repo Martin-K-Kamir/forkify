@@ -4,14 +4,13 @@ import { capitalizeWords, wait } from "../../utilities.js";
 import { useDispatch } from "react-redux";
 import React, { useEffect, useState } from "react";
 import { useNavigate, useParams } from "react-router-dom";
-import {
-    useRemoveRecipeMutation,
-} from "../user/userSlice.js";
+import { useRemoveRecipeMutation } from "../user/userSlice.js";
 import useModal from "../../hooks/useModal.js";
 import Modal from "../../components/Modal.jsx";
 import { addAlert } from "../alert/alertSlice.js";
 import RecipeActionButtons from "./RecipeActionButtons.jsx";
 import Breadcrumbs from "../../components/Breadcrumbs.jsx";
+import Button from "../../components/Button.jsx";
 
 const SingleRecipe = ({ recipe, isPreview }) => {
     const dispatch = useDispatch();
@@ -197,13 +196,15 @@ const SingleRecipe = ({ recipe, isPreview }) => {
                         {recipe.publisher}. Please check out directions at their
                         website.
                     </p>
-                    <a
-                        className="inline-block bg-blue-700 text-zinc-050 text-no-decoration text-center f-weight-medium f-size-1 line-height-1 radius-1 px-m py-s mt-m w-full//below-sm"
+                    <Button
                         href={recipe.source_url}
                         target="_blank"
+                        bold
+                        padSize="lg"
+                        className="text-no-decoration mt-m w-full//below-sm"
                     >
                         Click here for directions
-                    </a>
+                    </Button>
                 </section>
             </div>
 

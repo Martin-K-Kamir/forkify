@@ -3,12 +3,14 @@ import RecipesListItem from "./RecipesListItem.jsx";
 import { useEffect, useState } from "react";
 import { useMediaQuery } from "@uidotdev/usehooks";
 import Icon from "../../components/Icon.jsx";
+import Button from "../../components/Button.jsx";
 
 const RecipesList = ({ recipes }) => {
     const { recipesId } = useParams();
     const isBelowSm = useMediaQuery("(width < 30em)");
     const isBelowMd = useMediaQuery("(width < 48em)");
     const isAboveMd = useMediaQuery("(width >= 48em)");
+    const isAboveSm = useMediaQuery("(width >= 30em)");
 
     const [limit, setLimit] = useState(0);
     const [originalLimit, setOriginalLimit] = useState(0);
@@ -55,12 +57,14 @@ const RecipesList = ({ recipes }) => {
 
             <div className="flex justify-content-center align-items-center gap-s mt-l">
                 {!isLimitReached && !isRecipesListEmpty && (
-                    <button
-                        className="bg-zinc-800 f-weight-medium f-size-1 f-size--1//above-sm radius-1 line-height-1 px-m py-xs"
+                    <Button
+                        bold
+                        fontSize={isAboveSm ? "sm" : "md"}
+                        color="secondary"
                         onClick={handleClick}
                     >
                         More Recipes
-                    </button>
+                    </Button>
                 )}
             </div>
         </div>

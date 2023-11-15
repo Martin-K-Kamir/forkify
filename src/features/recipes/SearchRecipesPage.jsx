@@ -18,9 +18,7 @@ const SearchRecipesPage = () => {
 
             <SearchRecipeQueriesButtons />
 
-            <Button startIcon={<Icon type="home" className="f-size-2 mr-3xs"/>} className="bg-blue-700 text-zinc-050 text-no-decoration text-center f-weight-medium f-size-1 line-height-1 px-m py-xs mt-l">
-                Home
-            </Button>
+            <Button className="mt-l">Search</Button>
         </div>
     );
 };
