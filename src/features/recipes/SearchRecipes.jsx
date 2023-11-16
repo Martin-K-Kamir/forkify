@@ -1,6 +1,6 @@
 import { useDispatch } from "react-redux";
 import { Link, useLocation, useNavigate } from "react-router-dom";
-import { useCallback, useEffect, useRef, useState } from "react";
+import React, { useCallback, useEffect, useRef, useState } from "react";
 import {
     useGetSearchQueriesQuery,
     useLazyGetRecipesQuery,
@@ -10,6 +10,7 @@ import Icon from "../../components/Icon.jsx";
 import classnames from "classnames";
 import { useMediaQuery } from "@uidotdev/usehooks";
 import { capitalizeWords } from "../../utilities.js";
+import Button from "../../components/Button.jsx";
 
 const SearchRecipes = ({
     variant,
@@ -269,22 +270,31 @@ const SearchRecipes = ({
                     </ul>
                 </div>
             </div>
-            <button
-                id={submitOptions?.id}
-                className={submitClasses}
-                disabled={!canSubmit}
-            >
-                {isLoading ? (
-                    <Icon
-                        type="progressActivity"
-                        className="animation-spin f-size-fluid-3"
-                    />
-                ) : variant === "compact" ? (
-                    <Icon className="f-size-2" type="search" />
+            {
+                variant === "compact" ? (
+                    <button
+                        id={submitOptions?.id}
+                        className={submitClasses}
+                        disabled={!canSubmit}
+                    >
+                        <Icon className="f-size-2" type="search"/>
+                    </button>
                 ) : (
-                    submitOptions?.content || "Search"
-                )}
-            </button>
+                    <Button
+                        bold
+                        id={submitOptions?.id}
+                        disabled={!canSubmit}
+                        loading={isLoading}
+                        loadingIconSize={submitOptions?.loadingIconSize ?? "f-size-3"}
+                        color={submitOptions?.color ?? "primary"}
+                        fontSize={submitOptions?.fontSize ?? "md"}
+                        padSize={submitOptions?.padSize ?? "px-xl py-s"}
+                        className={submitOptions?.className}
+                    >
+                        {submitOptions?.content || "Search"}
+                    </Button>
+                )
+            }
         </form>
     );
 };

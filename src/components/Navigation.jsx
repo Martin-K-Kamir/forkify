@@ -7,17 +7,18 @@ import React, { useEffect } from "react";
 import { Link, useLocation } from "react-router-dom";
 import className from "classnames";
 import { useLocalStorage, useMediaQuery } from "@uidotdev/usehooks";
+import Button from "./Button.jsx";
 
 const NavigationItem = ({
-    url,
-    onClick,
-    icon,
-    label,
-    ariaOptions,
-    isLabelVisible,
-    ...rest
-}) => {
-    const ButtonType = Boolean(url) ? Link : "button";
+                            to,
+                            onClick,
+                            icon,
+                            label,
+                            ariaOptions,
+                            isLabelVisible,
+                            ...rest
+                        }) => {
+    const ButtonType = Boolean(to) ? Link : "button";
 
     const buttonClasses = className(
         "flex align-items-center gap-2xs f-size--1 text-zinc-050 text-no-decoration line-height-1",
@@ -30,11 +31,11 @@ const NavigationItem = ({
         <li key={label}>
             <ButtonType
                 className={buttonClasses}
-                to={url}
+                to={to}
                 onClick={onClick}
                 {...ariaOptions}
             >
-                <Icon className="f-size-2" type={icon} />
+                <Icon className="f-size-2" type={icon}/>
                 {labelRendered && label}
             </ButtonType>
         </li>
@@ -42,11 +43,11 @@ const NavigationItem = ({
 };
 
 const Navigation = ({
-    itemsToRender,
-    filterItems,
-    hideItemsLabel,
-    className,
-}) => {
+                        itemsToRender,
+                        filterItems,
+                        hideItemsLabel,
+                        className,
+                    }) => {
     const location = useLocation();
 
     const isDarkThemePreferred = useMediaQuery("(prefers-color-scheme: dark)");
@@ -101,10 +102,10 @@ const Navigation = ({
         }
     };
 
-    const navigationItems = [
+    const navigationButtons = [
         {
             id: "search",
-            label: "Search",
+            content: "Search",
             icon: "search",
             onClick: showSearchModal,
             ariaOptions: {
@@ -115,7 +116,7 @@ const Navigation = ({
         },
         {
             id: "menu",
-            label: "Menu",
+            content: "Menu",
             icon: "menu",
             onClick: showMenuModal,
             ariaOptions: {
@@ -126,40 +127,59 @@ const Navigation = ({
         },
     ];
 
-    const menuItems = [
+    const menuButtons = [
         {
             id: "myRecipes",
-            label: "My Recipes",
+            content: "My Recipes",
             icon: "bookmarks",
-            url: "/my-recipes",
+            to: "/my-recipes",
         },
         {
             id: "addRecipe",
-            label: "Add Recipe",
+            content: "Add Recipe",
             icon: "postAdd",
-            url: "/add-recipe",
+            to: "/add-recipe",
         },
         {
             id: "theme",
-            label: theme === "light" ? "Dark Mode" : "Light Mode",
+            content: theme === "light" ? "Dark Mode" : "Light Mode",
             icon: theme === "light" ? "darkMode" : "lightMode",
             onClick: handleThemeClick,
         },
     ];
 
     const renderedNavigationItems = (
-        itemsToRender === "menu" ? menuItems : navigationItems
+        itemsToRender === "menu" ? menuButtons : navigationButtons
     )
         .filter(item => !filterItems?.includes(item.id))
-        .map(item => (
-            <NavigationItem
-                key={item.id}
-                {...item}
-                isLabelVisible={hideItemsLabel}
-            />
+        .map(({id, to, content, icon}) => (
+            <Button
+                key={id}
+                id={id}
+                to={to}
+                fontSize="sm"
+                variant="text"
+                color="secondary"
+                className="text-no-decoration"
+                startIcon={<Icon className="f-size-2" type={icon}/>}
+            >
+                {content}
+            </Button>
         ));
 
-    const renderedMenuItems = menuItems
+    const renderedMenuItems = menuButtons
+        .filter(item => !filterItems?.includes(item.id))
+        .map(({id, to, content, icon}) => (
+            <Button
+                key={id}
+                id={id}
+                to={to}
+            >
+                {content}
+            </Button>
+        ));
+
+    const renderedMenuItems2 = menuButtons
         .filter(item => !filterItems?.includes(item.id))
         .map(item => (
             <NavigationItem

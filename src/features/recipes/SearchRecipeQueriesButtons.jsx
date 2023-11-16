@@ -2,6 +2,7 @@ import { useGetSearchQueriesQuery } from "./recipiesSlice.js";
 import { Link } from "react-router-dom";
 import React from "react";
 import { capitalizeWords } from "../../utilities.js";
+import Button from "../../components/Button.jsx";
 
 let SearchRecipeQueriesButtons = () => {
     const { data } = useGetSearchQueriesQuery();
@@ -23,13 +24,16 @@ let SearchRecipeQueriesButtons = () => {
 
     const renderedRecipes = randomizeArray(data)?.map(recipe => {
         return (
-            <Link
+            <Button
                 to={`/search/${recipe}`}
-                className="bg-zinc-800 text-zinc-200 px-m py-xs f-size--1 line-height-1 text-no-decoration radius-pill"
+                color="bg-zinc-800 text-zinc-200"
+                fontSize="sm"
+                rounded="pill"
+                className="text-no-decoration"
                 key={recipe}
             >
                 {capitalizeWords(recipe)}
-            </Link>
+            </Button>
         );
     });
 
