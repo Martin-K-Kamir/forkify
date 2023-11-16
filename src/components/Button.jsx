@@ -23,7 +23,7 @@ const Button = ({
     ...rest
 }) => {
     const buttonClasses = classnames(
-        "button flex-inline align-items-center justify-content-center line-height-1",
+        "button flex-inline align-items-center justify-content-center",
         {
             "f-weight-medium": bold,
             "radius-1": !rounded,

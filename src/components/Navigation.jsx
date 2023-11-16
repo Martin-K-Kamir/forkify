@@ -152,7 +152,7 @@ const Navigation = ({
         itemsToRender === "menu" ? menuButtons : navigationButtons
     )
         .filter(item => !filterItems?.includes(item.id))
-        .map(({id, to, content, icon}) => (
+        .map(({id, to, content, icon, onClick}) => (
             <Button
                 key={id}
                 id={id}
@@ -160,8 +160,9 @@ const Navigation = ({
                 fontSize="sm"
                 variant="text"
                 color="secondary"
-                className="text-no-decoration"
+                className="text-no-decoration line-height-0"
                 startIcon={<Icon className="f-size-2" type={icon}/>}
+                onClick={onClick}
             >
                 {content}
             </Button>
@@ -169,11 +170,17 @@ const Navigation = ({
 
     const renderedMenuItems = menuButtons
         .filter(item => !filterItems?.includes(item.id))
-        .map(({id, to, content, icon}) => (
+        .map(({id, to, content, icon, onClick}) => (
             <Button
                 key={id}
                 id={id}
                 to={to}
+                fontSize="sm"
+                variant="text"
+                color="secondary"
+                className="text-no-decoration line-height-0"
+                startIcon={<Icon className="f-size-2" type={icon}/>}
+                onClick={onClick}
             >
                 {content}
             </Button>
