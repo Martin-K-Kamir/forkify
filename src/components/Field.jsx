@@ -3,6 +3,8 @@ import React, { useEffect, useRef } from "react";
 
 let Field = ({ field, onChange, className }) => {
     const textareaRef = useRef(null);
+    const inputRef = useRef(null);
+    const fieldRef = useRef(null);
 
     const { id, label, isRequired, type, pattern, min, max, maxLength, value } =
         field;
@@ -12,17 +14,45 @@ let Field = ({ field, onChange, className }) => {
         className
     );
 
+    let keyboardUsed = false;
+
     useEffect(() => {
+        window.addEventListener("keydown", () => {
+            keyboardUsed = true;
+        });
+
+        window.addEventListener("mousedown", () => {
+            keyboardUsed = false;
+        });
+
         if (type === "textarea") {
             textareaRef.current.addEventListener("input", handleSettingHeight);
+            textareaRef.current.addEventListener("focus", handleFocus);
+            textareaRef.current.addEventListener("blur", handleBlur);
+        } else {
+            inputRef.current.addEventListener("focus", handleFocus);
+            inputRef.current.addEventListener("blur", handleBlur);
         }
 
         return () => {
+            window.removeEventListener("keydown", () => {
+                keyboardUsed = true;
+            });
+
+            window.removeEventListener("mousedown", () => {
+                keyboardUsed = false;
+            });
+
             if (type === "textarea") {
                 textareaRef.current?.removeEventListener(
                     "input",
                     handleSettingHeight
                 );
+                textareaRef.current?.removeEventListener("focus", handleFocus);
+                textareaRef.current?.removeEventListener("blur", handleBlur);
+            } else {
+                inputRef.current?.removeEventListener("focus", handleFocus);
+                inputRef.current?.removeEventListener("blur", handleBlur);
             }
         };
     }, []);
@@ -34,20 +64,31 @@ let Field = ({ field, onChange, className }) => {
         textarea.style.height = `${scrollHeight}px`;
     };
 
+    const handleFocus = e => {
+        console.log(keyboardUsed);
+        if (keyboardUsed) {
+            e.target.dataset.focusVisible = "true";
+        }
+    };
+
+    const handleBlur = e => {
+        delete e.target.dataset.focusVisible;
+    };
+
     const handleFocusClick = e => {
         e.target.querySelector("input")?.focus();
         e.target.querySelector("textarea")?.focus();
     };
 
     return (
-        <div className={fieldClasses} onClick={handleFocusClick}>
+        <div ref={fieldRef} className={fieldClasses} onClick={handleFocusClick}>
             <div className="flex h-full w-full">
                 <label
                     htmlFor={name}
-                    className="cursor-text px-s line-height-1"
+                    className="cursor-text px-s line-height-1 text-no-select pointer-events-none"
                 >
                     {label}
-                    {isRequired && "*"}
+                    {isRequired && " *"}
                 </label>
                 {type === "textarea" ? (
                     <textarea
@@ -64,6 +105,7 @@ let Field = ({ field, onChange, className }) => {
                     />
                 ) : (
                     <input
+                        ref={inputRef}
                         id={id}
                         name={id}
                         type={type}

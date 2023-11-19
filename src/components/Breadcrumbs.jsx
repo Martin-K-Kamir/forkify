@@ -1,7 +1,9 @@
 import React, { Fragment } from "react";
-import { useLocation, useParams, Link } from "react-router-dom";
+import { useLocation, useParams } from "react-router-dom";
 import { capitalizeWords } from "../utilities.js";
 import Icon from "./Icon.jsx";
+import Button from "./Button.jsx";
+import IconButton from "./IconButton.jsx";
 
 const Breadcrumbs = ({ title }) => {
     const { pathname } = useLocation();
@@ -47,14 +49,26 @@ const Breadcrumbs = ({ title }) => {
             <Fragment key={index}>
                 {isLastIndex ? (
                     <span className="text-ellipsis">{crumb}</span>
+                ) : isHome ? (
+                    <IconButton
+                        to={url}
+                        variant="text"
+                        srOnly="Go to home page"
+                        hover="none"
+                    >
+                        <Icon type="home" className="f-size-2" />
+                    </IconButton>
                 ) : (
-                    <Link to={url} className="text-blue-500 flex">
-                        {isHome ? (
-                            <Icon type={crumb} className="f-size-2" />
-                        ) : (
-                            title
-                        )}
-                    </Link>
+                    <Button
+                        to={url}
+                        variant="text"
+                        fontSize="sm"
+                        className="text-no-decoration"
+                        srOnly={isHome && "Go to home page"}
+                        hover="none"
+                    >
+                        {title}
+                    </Button>
                 )}
                 {!isLastIndex && (
                     <span className="flex">

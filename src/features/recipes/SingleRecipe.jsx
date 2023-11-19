@@ -11,8 +11,10 @@ import { addAlert } from "../alert/alertSlice.js";
 import RecipeActionButtons from "./RecipeActionButtons.jsx";
 import Breadcrumbs from "../../components/Breadcrumbs.jsx";
 import Button from "../../components/Button.jsx";
+import IconButton from "../../components/IconButton.jsx";
+import classnames from "classnames";
 
-const SingleRecipe = ({ recipe, isPreview }) => {
+const SingleRecipe = ({ recipe, isPreview, backgroundClassName }) => {
     const dispatch = useDispatch();
     const navigate = useNavigate();
     const { recipeId } = useParams();
@@ -29,6 +31,15 @@ const SingleRecipe = ({ recipe, isPreview }) => {
     const [servings, setServings] = useState(0);
     const [prevServings, setPrevServings] = useState(0);
     const [ingredients, setIngredients] = useState(null);
+
+    const classes = classnames(
+        "radius-1 max-w-xl mx-auto p-fluid-m-l//above-sm",
+        {
+            "pt-fluid-s-m//above-sm": !isPreview,
+            "bg-zinc-800//above-sm": !backgroundClassName,
+        },
+        backgroundClassName
+    );
 
     useEffect(() => {
         if (recipe) {
@@ -112,7 +123,7 @@ const SingleRecipe = ({ recipe, isPreview }) => {
     );
 
     return (
-        <div className="bg-zinc-800//above-sm radius-1 max-w-xl mx-auto p-fluid-m-l//above-sm pt-fluid-s-m//above-sm">
+        <div className={classes}>
             {!isPreview && (
                 <div className="mb-s">
                     <Breadcrumbs title={recipe.title} />
@@ -135,7 +146,7 @@ const SingleRecipe = ({ recipe, isPreview }) => {
                 )}
             </div>
 
-            <div className="stack s-l mt-fluid-s-m">
+            <div className="stack s-l mt-m">
                 <header>
                     <h1 className="f-family-secondary f-size-fluid-4 f-weight-medium line-height-2">
                         {capitalizeWords(recipe.title)}
@@ -160,21 +171,33 @@ const SingleRecipe = ({ recipe, isPreview }) => {
                                 className="f-size-2 mr-3xs"
                             />
                             <p>{servings || recipe.servings} servings</p>
-                            <div className="flex align-items-center gap-3xs f-size-2 ml-xs">
-                                <button
+                            <div className="flex align-items-center gap-2xs f-size-2 ml-xs">
+                                <IconButton
+                                    disableRipple
+                                    variant="text"
+                                    srOnly="Decrease the number of servings"
+                                    title="Decrease the number of servings"
                                     onClick={handleDecreaseServingsClick}
-                                    className="flex justify-content-center align-items-center text-blue-500"
-                                    aria-label="Decrease the number of servings"
+                                    hover="absolute"
                                 >
-                                    <Icon type="downCircle" />
-                                </button>
-                                <button
+                                    <Icon
+                                        type="downCircle"
+                                        className="f-size-2"
+                                    />
+                                </IconButton>
+                                <IconButton
+                                    disableRipple
+                                    variant="text"
+                                    srOnly="Increase the number of servings"
+                                    title="Increase the number of servings"
                                     onClick={handleIncreaseServingsClick}
-                                    className="flex justify-content-center align-items-center text-blue-500"
-                                    aria-label="Increase the number of servings"
+                                    hover="absolute"
                                 >
-                                    <Icon type="upCircle" />
-                                </button>
+                                    <Icon
+                                        type="upCircle"
+                                        className="f-size-2"
+                                    />
+                                </IconButton>
                             </div>
                         </div>
                     </div>
@@ -211,37 +234,41 @@ const SingleRecipe = ({ recipe, isPreview }) => {
             {isDeleteModalRendered && (
                 <Modal
                     isCloseRendered
+                    clearClassName
                     isVisible={isDeleteModalVisible}
                     onClose={closeDeleteModal}
+                    className="max-w-m bg-zinc-900 mt-m p-fluid-l-xl"
                 >
                     <div className="stack text-center//above-sm">
-                        <h2 className="f-family-secondary f-size-fluid-3 f-weight-medium line-height-2">
+                        <h2
+                            id="modal-title"
+                            className="f-family-secondary f-size-fluid-3 f-weight-bold line-height-2"
+                        >
                             Delete Recipe
                         </h2>
-                        <p className="text-zinc-200 text-balance">
-                            Are you sure you want to delete this recipe? This
-                            action cannot be undone.
+                        <p className="text-zinc-200">
+                            Are you sure you want to delete this recipe?
                         </p>
                         <div className="flex justify-content-center gap-s w-full flex-direction-column//below-sm mt-l">
-                            <button
-                                className="bg-zinc-800 f-weight-medium f-size-1 line-height-1 radius-1 px-m py-s w-full//below-sm"
+                            <Button
+                                bold
+                                padSize="lg"
+                                color="secondary"
+                                className="w-full//below-sm"
                                 onClick={closeDeleteModal}
                             >
                                 Go Back
-                            </button>
-                            <button
-                                className="bg-red-800 f-weight-medium f-size-1 line-height-1 radius-1 px-m py-s w-full//below-sm"
+                            </Button>
+                            <Button
+                                bold
+                                padSize="lg"
+                                color="error"
+                                className="w-full//below-sm"
+                                loading={isLoading}
                                 onClick={handleRemoveRecipeClick}
                             >
-                                {isLoading ? (
-                                    <Icon
-                                        type="progressActivity"
-                                        className="animation-spin f-size-1"
-                                    />
-                                ) : (
-                                    "Delete Recipe"
-                                )}
-                            </button>
+                                Delete Recipe
+                            </Button>
                         </div>
                     </div>
                 </Modal>

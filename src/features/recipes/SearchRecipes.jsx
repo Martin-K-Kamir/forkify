@@ -1,5 +1,5 @@
 import { useDispatch } from "react-redux";
-import { Link, useLocation, useNavigate } from "react-router-dom";
+import { useLocation, useNavigate } from "react-router-dom";
 import React, { useCallback, useEffect, useRef, useState } from "react";
 import {
     useGetSearchQueriesQuery,
@@ -11,6 +11,8 @@ import classnames from "classnames";
 import { useMediaQuery } from "@uidotdev/usehooks";
 import { capitalizeWords } from "../../utilities.js";
 import Button from "../../components/Button.jsx";
+import IconButton from "../../components/IconButton.jsx";
+import { nanoid } from "@reduxjs/toolkit";
 
 const SearchRecipes = ({
     variant,
@@ -19,6 +21,7 @@ const SearchRecipes = ({
     submitOptions,
     autocompleteOptions,
 }) => {
+    const idRef = useRef(nanoid());
     const dispatch = useDispatch();
     const navigate = useNavigate();
     const location = useLocation();
@@ -28,10 +31,8 @@ const SearchRecipes = ({
     const [isInputFocused, setIsInputFocused] = useState(false);
 
     const inputRef = useRef(null);
-    const clearRef = useRef(null);
     const autocompleteRef = useRef(null);
     const autocompleteDividerRef = useRef(null);
-    const autocompleteListRef = useRef(null);
 
     const { data: queries } = useGetSearchQueriesQuery();
 
@@ -49,21 +50,33 @@ const SearchRecipes = ({
             return query.includes(searchTerm.toLowerCase().trim());
         })
         .slice(0, 6)
-        .map(query => {
+        .map((query, i, arr) => {
             return (
                 <li
                     key={query}
                     role="option"
-                    className="gap-inherit"
                     aria-selected="false"
+                    aria-posinset={i + 1}
+                    aria-setsize={arr.length}
+                    tabIndex={-1}
                 >
-                    <Link
+                    <Button
                         to={`/search/${query}`}
-                        className="flex align-items-center gap-inherit text-inherit text-no-decoration"
+                        variant="text"
+                        color="secondary"
+                        fontSize="f-size-inherit"
+                        className="text-inherit gap-em text-no-decoration line-height-0 w-full"
+                        align="start"
+                        startIcon={
+                            <Icon
+                                type="search"
+                                width="1.25em"
+                                height="1.25em"
+                            />
+                        }
                     >
-                        <Icon type="search" width="1.25em" height="1.25em" />
                         {capitalizeWords(query)}
-                    </Link>
+                    </Button>
                 </li>
             );
         });
@@ -85,7 +98,7 @@ const SearchRecipes = ({
     );
 
     const inputClasses = classnames(
-        "flex align-items-center w-full",
+        "input-wrapper flex align-items-center w-full",
         {
             "bg-zinc-800": !includesBackground(inputOptions?.className ?? ""),
             "f-size-1 p-s": !variant,
@@ -98,16 +111,6 @@ const SearchRecipes = ({
                 (autocompleteOptions?.shouldOverlay ?? true),
         },
         inputOptions?.className
-    );
-
-    const submitClasses = classnames(
-        "flex justify-content-center align-items-center radius-1 f-weight-medium",
-        {
-            "bg-blue-700": !includesBackground(submitOptions?.className ?? ""),
-            "f-size-1 px-xl py-s": !variant,
-            "f-size--1 px-2xs py-2xs": variant === "compact",
-        },
-        submitOptions?.className
     );
 
     const autocompleteClasses = classnames("w-full radius-bottom-1", {
@@ -142,10 +145,6 @@ const SearchRecipes = ({
 
         Object.assign(autocompleteDividerRef.current.style, {
             marginBlockEnd: convertPxToRem(paddingBlock),
-        });
-
-        Object.assign(autocompleteListRef.current.style, {
-            gap: convertPxToRem(paddingInline),
         });
     }, []);
 
@@ -231,9 +230,13 @@ const SearchRecipes = ({
         >
             <div className="relative w-full" onBlur={handleBlur}>
                 <div ref={inputRef} className={inputClasses}>
+                    <label htmlFor="search-input" className="sr-only">
+                        Search for recipes
+                    </label>
                     <input
-                        id={inputOptions?.id}
+                        id="search-input"
                         type="text"
+                        name="search"
                         className="bg-inherit w-full"
                         placeholder={
                             inputOptions?.placeholder ??
@@ -243,16 +246,29 @@ const SearchRecipes = ({
                         onChange={handleChange}
                         onFocus={handleFocus}
                         onKeyUp={handkeKeyUp}
+                        role="combobox"
+                        aria-expanded={showAutocomplete}
+                        aria-autocomplete="list"
+                        aria-owns={`autocomplete-${idRef.current}`}
                     />
                     {searchTerm.length > 0 && (
-                        <button
-                            ref={clearRef}
-                            className="flex"
-                            onClick={handleClear}
+                        <IconButton
+                            color="secondary"
+                            variant="text"
                             type="button"
+                            onClick={handleClear}
+                            srOnly="Clear search"
+                            hover="absolute"
                         >
-                            <Icon type="close" width="1.25em" height="1.25em" />
-                        </button>
+                            <Icon
+                                type="close"
+                                className={
+                                    variant === "compact"
+                                        ? "f-size-1"
+                                        : "f-size-2"
+                                }
+                            />
+                        </IconButton>
                     )}
                 </div>
                 <div ref={autocompleteRef} className={autocompleteClasses}>
@@ -262,39 +278,43 @@ const SearchRecipes = ({
                         aria-hidden="true"
                     />
                     <ul
-                        ref={autocompleteListRef}
                         role="listbox"
-                        className="stack s-2xs"
+                        className="stack s-3xs"
+                        id={`autocomplete-${idRef.current}`}
                     >
                         {renderedAutocompleteItems}
                     </ul>
                 </div>
             </div>
-            {
-                variant === "compact" ? (
-                    <button
-                        id={submitOptions?.id}
-                        className={submitClasses}
-                        disabled={!canSubmit}
-                    >
-                        <Icon className="f-size-2" type="search"/>
-                    </button>
-                ) : (
-                    <Button
-                        bold
-                        id={submitOptions?.id}
-                        disabled={!canSubmit}
-                        loading={isLoading}
-                        loadingIconSize={submitOptions?.loadingIconSize ?? "f-size-3"}
-                        color={submitOptions?.color ?? "primary"}
-                        fontSize={submitOptions?.fontSize ?? "md"}
-                        padSize={submitOptions?.padSize ?? "px-xl py-s"}
-                        className={submitOptions?.className}
-                    >
-                        {submitOptions?.content || "Search"}
-                    </Button>
-                )
-            }
+            {variant === "compact" ? (
+                <IconButton
+                    id={submitOptions?.id}
+                    disabled={!canSubmit}
+                    loading={isLoading}
+                    color={submitOptions?.color}
+                    padSize={submitOptions?.padSize ?? "md"}
+                    className={submitOptions?.className}
+                    srOnly="Search"
+                >
+                    <Icon className="f-size-2" type="search" />
+                </IconButton>
+            ) : (
+                <Button
+                    bold
+                    id={submitOptions?.id}
+                    disabled={!canSubmit}
+                    loading={isLoading}
+                    loadingIconSize={
+                        submitOptions?.loadingIconSize ?? "f-size-3"
+                    }
+                    color={submitOptions?.color}
+                    fontSize={submitOptions?.fontSize}
+                    padSize={submitOptions?.padSize ?? "px-xl py-s"}
+                    className={submitOptions?.className}
+                >
+                    {submitOptions?.content || "Search"}
+                </Button>
+            )}
         </form>
     );
 };

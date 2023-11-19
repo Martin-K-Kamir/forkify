@@ -28,7 +28,7 @@ const RecipesPage = () => {
     } else if (isSuccess) {
         return (
             <div>
-                <header className="container">
+                <header>
                     <div className="text-center text-left//above-sm">
                         <h1 className="f-size-fluid-2 f-weight-medium">
                             Search results for {capitalizeWords(recipesId)}
@@ -39,7 +39,7 @@ const RecipesPage = () => {
                     </div>
                 </header>
 
-                <div className="mt-fluid-m-l">
+                <div className="mt-m">
                     <RecipesList recipes={Object.values(data.entities)} />
                 </div>
             </div>

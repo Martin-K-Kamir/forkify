@@ -43,7 +43,11 @@ const RecipesList = ({ recipes }) => {
     return (
         <div>
             {!isRecipesListEmpty && (
-                <ul className="recipes-list gap-l" role="list">
+                <ul
+                    id="recipes-list"
+                    className="recipes-list gap-l"
+                    role="list"
+                >
                     {renderedRecipes}
                 </ul>
             )}

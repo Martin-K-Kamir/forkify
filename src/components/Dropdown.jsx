@@ -8,12 +8,22 @@ const Dropdown = ({
     isVisible,
     onOutsideClick,
     align,
-    bgColor,
+    className,
+    backgroundClassName,
 }) => {
     const ref = useRef(null);
     const childrenRef = useRef(null);
     const arrowRef = useRef(null);
     const contentRef = useRef(null);
+
+    const classes = classnames(
+        "radius-1",
+        {
+            "bg-zinc-850": !backgroundClassName,
+        },
+        backgroundClassName,
+        className
+    );
 
     const wrapperClasses = classnames("relative flex", {
         "justify-content-center": !align || align === "center",
@@ -21,15 +31,7 @@ const Dropdown = ({
         "justify-content-end": align === "right",
     });
 
-    const contentClasses = classnames(
-        "stack s-xs px-s py-xs  radius-1 text-zinc-100 f-size--1",
-        {
-            "bg-zinc-850": !bgColor,
-        },
-        bgColor
-    );
-
-    const arrowWrapperClasses = classnames("w-full flex ", {
+    const arrowWrapperClasses = classnames("w-full flex", {
         "justify-content-center": !align || align === "center",
         "justify-content-start": align === "left",
         "justify-content-end": align === "right",
@@ -85,7 +87,7 @@ const Dropdown = ({
                             height="2.5rem"
                         />
                     </div>
-                    <div ref={contentRef} className={contentClasses}>
+                    <div ref={contentRef} className={classes}>
                         {render()}
                     </div>
                 </div>

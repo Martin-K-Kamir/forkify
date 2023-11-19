@@ -9,6 +9,7 @@ import SingleRecipe from "./SingleRecipe.jsx";
 import { Link } from "react-router-dom";
 import { wait } from "../../utilities.js";
 import { useAddRecipeMutation } from "../user/userSlice.js";
+import Button from "../../components/Button.jsx";
 
 const AddRecipeForm = () => {
     const dispatch = useDispatch();
@@ -471,24 +472,26 @@ const AddRecipeForm = () => {
                     </div>
                 </section>
                 <div className="flex justify-content-center flex-direction-column//below-md gap-s mt-l">
-                    <button
+                    <Button
+                        bold
                         type="button"
-                        className="bg-zinc-800 bg-zinc-900//above-sm text-zinc-050 text-center f-weight-medium f-size-1 line-height-1 radius-1 px-m py-s w-full//below-md"
-                        disabled={!canSubmit}
+                        padSize="lg"
+                        color="bg-zinc-800 bg-zinc-900//above-sm text-zinc-050"
+                        className="w-full//below-md"
+                        disabled={!canSubmit || isLoading}
                         onClick={showPreviewModal}
                     >
                         Preview Recipe
-                    </button>
-                    <button className="bg-blue-700 text-zinc-050 text-center f-weight-medium f-size-1 line-height-1 radius-1 px-m py-s w-full//below-md">
-                        {isLoading ? (
-                            <Icon
-                                type="progressActivity"
-                                className="animation-spin f-size-1"
-                            />
-                        ) : (
-                            "Submit Recipe"
-                        )}
-                    </button>
+                    </Button>
+                    <Button
+                        bold
+                        padSize="lg"
+                        className="w-full//below-md"
+                        disabled={!canSubmit}
+                        loading={isLoading}
+                    >
+                        Submit Recipe
+                    </Button>
                 </div>
             </form>
 
@@ -497,40 +500,55 @@ const AddRecipeForm = () => {
                     isCloseRendered
                     isVisible={isPreviewModalVisible}
                     onClose={closePreviewModal}
-                    className="max-w-xl mt-m bg-zinc-800 p-m py-l//below-sm p-3xs//above-sm"
+                    className="max-w-xl mt-m p-m py-l//below-sm p-3xs//above-sm"
                 >
-                    <SingleRecipe recipe={formatForm(form)} isPreview />
+                    <h2 id="modal-title" className="sr-only">
+                        Preview Recipe
+                    </h2>
+                    <SingleRecipe
+                        recipe={formatForm(form)}
+                        isPreview
+                        backgroundClassName="bg-zinc-850"
+                    />
                 </Modal>
             )}
 
             {isSuccessModalRendered && (
                 <Modal
+                    clearClassName
                     isCloseRendered
                     isVisible={isSuccessModalVisible}
                     onClose={closeSuccessModal}
+                    className="max-w-m bg-zinc-900 mt-m p-fluid-l-xl"
                 >
                     <div className="stack text-center//above-sm">
-                        <h2 className="f-family-secondary f-size-fluid-3 f-weight-medium line-height-2">
+                        <h2
+                            id="modal-title"
+                            className="f-family-secondary f-size-fluid-3 f-weight-bold line-height-2"
+                        >
                             Recipe Submitted
                         </h2>
-                        <p className="text-zinc-200 text-balance">
-                            Your recipe has been successfully submitted! Click
-                            the go to recipe button to view it or add another
-                            recipe.
+                        <p className="text-zinc-200">
+                            Your recipe has been successfully submitted!
                         </p>
                         <div className="flex justify-content-center gap-s w-full flex-direction-column//below-sm mt-l">
-                            <button
-                                className="bg-zinc-800 f-weight-medium f-size-1 line-height-1 radius-1 px-m py-s w-full//below-sm"
+                            <Button
+                                bold
+                                padSize="lg"
+                                color="secondary"
+                                className="w-full//below-sm"
                                 onClick={closeSuccessModal}
                             >
                                 Go Back
-                            </button>
-                            <Link
+                            </Button>
+                            <Button
                                 to={data?.id}
-                                className="bg-blue-700 text-zinc-050 text-center text-no-decoration f-weight-medium f-size-1 line-height-1 radius-1 px-m py-s w-full//below-sm"
+                                bold
+                                padSize="lg"
+                                className="w-full//below-sm"
                             >
                                 Go to Recipe
-                            </Link>
+                            </Button>
                         </div>
                     </div>
                 </Modal>

@@ -134,8 +134,7 @@
     --space-fluid-6xl-7xl : clamp(14.0625rem, 11.4884rem + 10.9827vw, 20rem); /* 225px → 320px */
 
     /* Custom pairs */
-    --space-fluid-l-4xl   : clamp(1.875rem, -0.7803rem + 11.3295vw, 8rem); /* 30px → 128px */
-
+    --space-fluid-2xl-4xl : clamp(3.75rem, 1.9075rem + 7.8613vw, 8rem); /* 60px → 128px */
 
     --radius-1            : 0.625rem;
     --radius-2            : 1rem;
@@ -144,19 +143,19 @@
     --radius-pill         : 100vmax;
 }
 
-body {
+:root {
     font-family              : var(--f-family-primary);
     font-size                : var(--f-size-1);
     font-weight              : var(--f-weight-regular);
     color                    : var(--clr-zinc-050);
     background-color         : var(--clr-zinc-900);
 
-    text-rendering           : optimizeSpeed;
-    -webkit-font-smoothing   : antialiased;
-    font-synthesis           : none;
-    -moz-osx-font-smoothing  : grayscale;
     -webkit-text-size-adjust : 100%;
     color-scheme             : light dark;
+    font-synthesis           : none;
+    text-rendering           : optimizeLegibility;
+    -webkit-font-smoothing   : antialiased;
+    -moz-osx-font-smoothing  : grayscale;
 }
 
 .animation-spin {
@@ -175,4 +174,18 @@ body {
 .recipes-list {
     display               : grid;
     grid-template-columns : repeat(auto-fill, minmax(min(15rem, 100%), 1fr));
+}
+
+:where(a, button, input, select) {
+    --_outline-size  : var(--outline-size, max(1px, 0.1525em));
+    --_outline-style : var(--outline-style, solid);
+    --_outline-color : var(--outline-color, currentColor);
+    --_outline-offset : var(--outline-offset, 0px);
+
+    color            : inherit;
+
+    &:focus-visible {
+        outline        : var(--_outline-size) var(--_outline-style) var(--_outline-color);
+        outline-offset : var(--_outline-offset);
+    }
 }

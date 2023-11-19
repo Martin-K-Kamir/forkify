@@ -1,5 +1,4 @@
 import { useGetSearchQueriesQuery } from "./recipiesSlice.js";
-import { Link } from "react-router-dom";
 import React from "react";
 import { capitalizeWords } from "../../utilities.js";
 import Button from "../../components/Button.jsx";
@@ -38,7 +37,7 @@ let SearchRecipeQueriesButtons = () => {
     });
 
     return (
-        <div className="max-w-m flex flex-wrap justify-content-center gap-s">
+        <div className="max-w-m flex flex-wrap justify-content-center gap-xs gap-s//above-sm">
             {renderedRecipes}
         </div>
     );

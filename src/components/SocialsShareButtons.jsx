@@ -10,40 +10,42 @@ import React from "react";
 const SocialsShareButtons = () => {
     const socialApps = [
         {
-            label: "Facebook",
+            content: "Facebook",
             icon: "facebook",
             component: FacebookShareButton,
         },
         {
-            label: "Messenger",
+            content: "Messenger",
             icon: "facebookMessenger",
             appId: META_APP_ID,
             component: FacebookMessengerShareButton,
         },
         {
-            label: "Whatsapp",
+            content: "Whatsapp",
             icon: "whatsapp",
             component: WhatsappShareButton,
         },
     ];
 
     const renderedSocialApps = socialApps.map(
-        ({ label, icon, component, ...rest }) => {
+        ({ content, icon, component, ...rest }) => {
             const Component = component;
 
             return (
                 <Component
-                    key={label}
-                    url={window.location.href}
-                    className="flex align-items-center gap-2xs"
+                    key={content}
                     {...rest}
+                    url={window.location.href}
+                    className="button flex text-zinc-050 align-items-center gap-2xs radius-1"
+                    data-variant="text"
+                    style={{ padding: "", background: "" }} // reset inline styles from react-share
                 >
                     <Icon
                         type={icon}
                         className="f-size-2"
                         viewBox="0 0 48 48"
                     />
-                    Share on {label}
+                    Share on {content}
                 </Component>
             );
         }

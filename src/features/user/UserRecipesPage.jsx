@@ -1,6 +1,6 @@
 import { useSelector } from "react-redux";
 import RecipesList from "../recipes/RecipesList.jsx";
-import { useEffect, useRef, useState } from "react";
+import React, { useEffect, useRef, useState } from "react";
 import Icon from "../../components/Icon.jsx";
 import Select from "../../components/Select.jsx";
 import {
@@ -8,6 +8,7 @@ import {
     selectTotalUserRecipes,
     selectAllUserStoredRecipes,
 } from "./userSlice.js";
+import IconButton from "../../components/IconButton.jsx";
 
 const UserRecipesPage = () => {
     const allUserRecipes = useSelector(selectAllUserStoredRecipes);
@@ -103,7 +104,7 @@ const UserRecipesPage = () => {
     return (
         <div>
             {!areUserRecipesEmpty && (
-                <div className="relative flex flex-direction-column//below-lg align-items-center align-items-start//above-sm align-items-center//above-lg justify-content-between gap-m gap-s//above-sm z-index-100">
+                <div className="relative flex flex-direction-column//below-lg align-items-center align-items-start//above-sm align-items-end//above-lg justify-content-between gap-m gap-s//above-sm z-index-100">
                     <header className="text-center text-left//above-sm">
                         <h1 className="f-size-fluid-2 f-weight-medium">
                             Your Recipes and Bookmarks
@@ -114,7 +115,7 @@ const UserRecipesPage = () => {
                         </p>
                     </header>
 
-                    <form className="form flex justify-content-between align-items-end//below-md flex-direction-column//below-sm gap-xs gap-m//above-sm w-full//below-lg">
+                    <form className="form flex justify-content-between align-items-end//below-md flex-direction-column//below-sm gap-xs w-full//below-lg">
                         <div
                             className="flex align-items-center gap-2xs bg-zinc-800 f-size--1 px-xs py-2xs radius-1 w-full max-w-2xs//above-sm"
                             onClick={handleSearchClick}
@@ -132,34 +133,44 @@ const UserRecipesPage = () => {
                                 onChange={handleSearchChange}
                                 value={searchTerm}
                                 onKeyUp={handleKeyUp}
+                                aria-label="Search recipes"
+                                aria-controls="recipes-list"
+                                aria-autocomplete="list"
                             />
 
-                            <button
+                            <IconButton
+                                color="secondary"
+                                variant="text"
+                                type="button"
                                 className={`flex ${
                                     searchTerm ? "" : "opacity-0 invisible"
                                 }`}
                                 onClick={handleClearSearch}
-                                type="button"
+                                srOnly="Clear search"
+                                hover="absolute"
                             >
-                                <Icon
-                                    className="f-size-1 flex-shrink-0"
-                                    type="close"
-                                />
-                            </button>
+                                <Icon className="f-size-1" type="close" />
+                            </IconButton>
                         </div>
 
-                        <div className="flex gap-xs gap-m//above-sm">
+                        <div className="flex gap-xs">
                             <Select
                                 options={filterOptions}
                                 onChange={handleSelectFilterChange}
                                 value={selectedFilter}
                                 label="Filter by"
+                                aria-label="Filter recipes"
+                                aria-controls="recipes-list"
+                                aria-autocomplete="list"
                             />
                             <Select
                                 options={sortOptions}
                                 onChange={handleSelectDateChange}
                                 value={selectedSort}
                                 label="Sort by"
+                                aria-label="Sort recipes"
+                                aria-controls="recipes-list"
+                                aria-autocomplete="list"
                             />
                         </div>
                     </form>

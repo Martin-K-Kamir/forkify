@@ -1,8 +1,103 @@
-button {
+
+.button {
+    --transition     : filter 200ms ease-in-out, background-color 200ms ease-in-out;
+
+    position         : relative;
     color            : inherit;
     border           : none;
-    outline          : none;
     cursor           : pointer;
     background-color : transparent;
     line-height      : 1;
+    transition       : var(--transition);
+
+    &[disabled] {
+        filter : grayscale(0.25) brightness(0.85);
+    }
+
+    &[data-variant="text"] {
+        --padding    : 0.45em 0.75em;
+        --background : color-mix(in srgb, var(--color) 10%, rgba(255, 255, 255, 0) 100%);
+
+        padding      : var(--padding);
+    }
+
+    &:not([disabled])[data-variant="text"]:hover {
+        @media (--mouse) {
+            background-color : var(--background);
+        }
+    }
+
+    &[data-variant="text"][data-icon-button="true"] {
+        --padding        : 0.1em;
+        --outline-offset : 0.1em;
+    }
+
+    &:not([disabled])[data-variant="text"][data-hover="absolute"] {
+        padding          : 0;
+        background-color : transparent;
+    }
+
+    &[data-hover="absolute"]::after {
+        content       : "";
+        box-sizing    : content-box;
+        position      : absolute;
+        font-size     : inherit;
+        border-radius : inherit;
+        width         : 100%;
+        height        : 100%;
+        padding       : var(--padding);
+        transition    : var(--transition);
+    }
+
+    &:not([disabled])[data-hover="absolute"]:hover::after {
+        @media (--mouse) {
+            background-color : var(--background);
+        }
+    }
+
+    &[data-hover="none"] {
+        --padding    : 0 !important;
+        --background : transparent !important;
+        --outline-offset : 0.4em;
+    }
+
+    &[data-hover="none"]::after {
+        display : none !important;
+    }
+
+    &:not([disabled])[data-variant="contained"]:hover {
+        @media (--mouse) {
+            filter : brightness(1.2);
+        }
+    }
+
+    &[data-hover="absolute"] .ripple-wrapper {
+        padding : var(--padding);
+    }
+
+    & .ripple {
+        position         : absolute;
+        border-radius    : 50%;
+        pointer-events   : none;
+        transform        : translate(-50%, -50%);
+        background-color : currentColor;
+        animation        : ripple 0.5s ease-out forwards;
+    }
+}
+
+
+@keyframes ripple {
+    0% {
+        width        : 0;
+        height       : 0;
+        opacity      : 0.15;
+        aspect-ratio : 1;
+        transform    : translate(-50%, -50%);
+    }
+
+    100% {
+        aspect-ratio : 1;
+        opacity      : 0;
+        transform    : translate(-50%, -50%);
+    }
 }

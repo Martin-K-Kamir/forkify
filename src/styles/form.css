@@ -8,12 +8,29 @@
         color   : inherit;
     }
 
+
+
     & input::placeholder {
         color : color-mix(in hsl, currentColor 50%, transparent);
     }
 
     & .select {
         min-inline-size : 15ch;
+    }
+
+    & :where(.field, .input-wrapper) {
+        --_outline-size   : var(--outline-size, max(1px, 0.1525em));
+        --_outline-style  : var(--outline-style, solid);
+        --_outline-color  : var(--outline-color, currentColor);
+        --_outline-offset : var(--outline-offset, 0px);
+    }
+
+    /* The :focus-visible pseudo-class is not solely triggered by keyboard focus as expected. It also activates when the input field is clicked. */
+    /* To address this, a data attribute is used to track and apply styles specifically for keyboard-triggered focus events, managed via JavaScript. */
+    /* & :where(.field, .input-wrapper):has(:focus-visible) { */
+    & :where(.field, .input-wrapper):has([data-focus-visible="true"]) {
+        outline        : var(--_outline-size) var(--_outline-style) var(--_outline-color);
+        outline-offset : var(--_outline-offset);
     }
 
     & .field:has(input) {

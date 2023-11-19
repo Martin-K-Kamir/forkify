@@ -1,7 +1,9 @@
 import classNames from "classnames";
-import { useEffect, useRef } from "react";
+import React, { useEffect, useRef } from "react";
 import Icon from "./Icon.jsx";
 import { createPortal } from "react-dom";
+import IconButton from "./IconButton.jsx";
+import { useMediaQuery } from "@uidotdev/usehooks";
 
 const Overlay = ({
     children,
@@ -12,6 +14,7 @@ const Overlay = ({
     center,
 }) => {
     const ref = useRef(null);
+    const isAboveSm = useMediaQuery("(width >= 30em)");
 
     const classes = classNames(
         "fixed inset-0 z-index-800 backdrop-blur-md bg-zinc-950/90 overflow-auto px-m pb-m flex justify-content-center transition-opacity",
@@ -24,7 +27,8 @@ const Overlay = ({
             "align-items-center//below-sm": center === "below-sm",
             "align-items-center//below-md": center === "below-md",
             "align-items-center//below-lg": center === "below-lg",
-            "pt-l": isCloseRendered && !center,
+            "pt-l": isCloseRendered && !center && isAboveSm,
+            "pt-m": isCloseRendered && !center && !isAboveSm,
         },
         className
     );
@@ -56,14 +60,29 @@ const Overlay = ({
     };
 
     return createPortal(
-        <div ref={ref} className={classes} data-opacity={isVisible}>
+        <div
+            ref={ref}
+            className={classes}
+            data-opacity={isVisible}
+            aria-modal="true"
+            role="dialog"
+            aria-labelledby="modal-title"
+            aria-live="polite"
+        >
             {isCloseRendered && (
-                <button
-                    className="absolute z-index-1 top-xs right-xs text-zinc-200"
+                <IconButton
+                    variant="text"
+                    color="text-zinc-300"
+                    className="absolute z-index-1 top-2xs right-2xs"
                     onClick={onClose}
+                    srOnly="Close modal"
+                    hover="absolute"
                 >
-                    <Icon type="close" className="f-size-3 flex-shrink-0" />
-                </button>
+                    <Icon
+                        type="close"
+                        className="f-size-2 f-size-3//above-sm flex-shrink-0"
+                    />
+                </IconButton>
             )}
             {children}
         </div>,

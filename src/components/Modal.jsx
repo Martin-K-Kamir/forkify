@@ -2,12 +2,16 @@ import Overlay from "./Overlay.jsx";
 import classnames from "classnames";
 import Icon from "./Icon.jsx";
 import { useMediaQuery } from "@uidotdev/usehooks";
+import IconButton from "./IconButton.jsx";
+import React from "react";
 
 const Modal = ({
     children,
     renderFooter,
     renderHeader,
     className,
+    clearClassName,
+    backgroundClassName,
     isCloseRendered,
     ...rest
 }) => {
@@ -17,21 +21,27 @@ const Modal = ({
     const classes = classnames(
         "radius-1 w-full mx-auto transition-fade-up",
         {
-            "max-w-xl bg-zinc-900 mt-m p-fluid-m-l": !className,
+            "max-w-xl mt-m p-fluid-m-l": !clearClassName,
+            "bg-zinc-850": !backgroundClassName,
         },
-        className
+        className,
+        backgroundClassName
     );
 
     return (
         <Overlay {...rest} isCloseRendered={isCloseRendered && isAboveMd}>
             <div className={classes} data-fade-up={rest.isVisible}>
                 {isCloseRendered && isBelowMd && (
-                    <button
-                        className="absolute z-index-1 top-2xs right-2xs text-zinc-200"
+                    <IconButton
+                        variant="text"
+                        color="text-zinc-300"
+                        className="absolute z-index-1 top-2xs right-2xs"
                         onClick={rest.onClose}
+                        srOnly="Close modal"
+                        hover="absolute"
                     >
                         <Icon type="close" className="f-size-2 flex-shrink-0" />
-                    </button>
+                    </IconButton>
                 )}
                 {children}
             </div>

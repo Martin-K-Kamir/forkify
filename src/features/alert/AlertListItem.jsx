@@ -2,7 +2,8 @@ import { removeAlert, selectAlertById } from "./alertSlice.js";
 import { useDispatch, useSelector } from "react-redux";
 import className from "classnames";
 import Icon from "../../components/Icon.jsx";
-import { useEffect, useRef, useState } from "react";
+import React, { useEffect, useRef, useState } from "react";
+import IconButton from "../../components/IconButton.jsx";
 
 const AlertListItem = ({ alertId }) => {
     const dispatch = useDispatch();
@@ -41,7 +42,7 @@ const AlertListItem = ({ alertId }) => {
             "bg-green-050 text-green-900": isSuccess,
             "bg-red-050 text-red-900": isDanger,
             "bg-yellow-100 text-yellow-700": isWarning,
-            "bg-blue-050 text-blue-900": isInfo,
+            "bg-blue-050 text-blue-900": !isSuccess && !isDanger && !isWarning,
         }
     );
 
@@ -54,7 +55,7 @@ const AlertListItem = ({ alertId }) => {
         icon = <Icon type="cancel" className={iconClasses} fill={true} />;
     } else if (isWarning) {
         icon = <Icon type="warning" className={iconClasses} fill={true} />;
-    } else if (isInfo) {
+    } else {
         icon = <Icon type="info" className={iconClasses} fill={true} />;
     }
 
@@ -69,15 +70,19 @@ const AlertListItem = ({ alertId }) => {
             <div className={classes} ref={ref}>
                 {icon}
                 {message}
-                <button
-                    className="flex justify-content-center align-items-center ml-auto line-height-1"
+                <IconButton
+                    variant="text"
+                    color="f-size-inherit"
+                    className="ml-auto"
                     onClick={hideAlert}
+                    srOnly="Close alert"
+                    hover="absolute"
                 >
                     <Icon
                         type="close"
                         className="f-size-fluid-2 flex-shrink-0"
                     />
-                </button>
+                </IconButton>
             </div>
         </div>
     );

@@ -1,8 +1,10 @@
 import { useEffect, useRef, useState } from "react";
 import classNames from "classnames";
 import Icon from "./Icon.jsx";
+import { nanoid } from "@reduxjs/toolkit";
 
-const Select = ({ label, options, value, onChange }) => {
+const Select = ({ label, options, value, onChange, ...rest }) => {
+    const idRef = useRef(nanoid());
     const [currentValue, setCurrentValue] = useState(value);
     const [isOpen, setIsOpen] = useState(false);
     const ref = useRef();
@@ -41,8 +43,8 @@ const Select = ({ label, options, value, onChange }) => {
 
     function handleChange(option) {
         if (option.value === currentValue?.value) {
-            onChange({value: "default"});
-            setCurrentValue({value: "default"});
+            onChange({ value: "default" });
+            setCurrentValue({ value: "default" });
         } else {
             onChange(option);
             setCurrentValue(option);
@@ -59,20 +61,39 @@ const Select = ({ label, options, value, onChange }) => {
         });
 
         return (
-            <div
+            <li
                 className={optionClasses}
                 key={option.value}
                 onClick={() => handleChange(option)}
                 role="option"
+                tabIndex={-1}
                 aria-selected={option.value === value?.value}
+                aria-disabled={option.value === "default"}
+                aria-hidden={option.value === "default"}
+                aria-setsize={arr.length}
+                aria-posinset={i + 1}
+                aria-controls={`select-${idRef.current}`}
             >
                 {option.label}
-            </div>
+            </li>
         );
     });
 
     return (
-        <div className={selectClasses} ref={ref} role="select">
+        <div
+            {...rest}
+            className={selectClasses}
+            ref={ref}
+            role="combobox"
+            id={`select-${idRef.current}`}
+            aria-expanded={isOpen}
+            aria-haspopup="listbox"
+            aria-owns={`listbox-${idRef.current}`}
+            aria-labelledby={`label-${idRef.current}`}
+        >
+            <label id={`label-${idRef.current}`} className="sr-only">
+                {label}
+            </label>
             <div
                 className="cursor-pointer flex align-items-center justify-content-between gap-s line-height-1 text-nowrap px-xs py-2xs"
                 onClick={handleClick}
@@ -84,7 +105,16 @@ const Select = ({ label, options, value, onChange }) => {
                     <Icon type="expandMore" className="f-size-2" />
                 )}
             </div>
-            {isOpen && <div className={dropdownClasses}>{renderedOptions}</div>}
+            {isOpen && (
+                <ul
+                    className={dropdownClasses}
+                    role="listbox"
+                    id={`listbox-${idRef.current}`}
+                    aria-live="polite"
+                >
+                    {renderedOptions}
+                </ul>
+            )}
         </div>
     );
 };

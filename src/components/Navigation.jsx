@@ -4,50 +4,11 @@ import Overlay from "./Overlay.jsx";
 import useModal from "../hooks/useModal.js";
 import Modal from "./Modal.jsx";
 import React, { useEffect } from "react";
-import { Link, useLocation } from "react-router-dom";
-import className from "classnames";
+import { useLocation } from "react-router-dom";
 import { useLocalStorage, useMediaQuery } from "@uidotdev/usehooks";
 import Button from "./Button.jsx";
 
-const NavigationItem = ({
-                            to,
-                            onClick,
-                            icon,
-                            label,
-                            ariaOptions,
-                            isLabelVisible,
-                            ...rest
-                        }) => {
-    const ButtonType = Boolean(to) ? Link : "button";
-
-    const buttonClasses = className(
-        "flex align-items-center gap-2xs f-size--1 text-zinc-050 text-no-decoration line-height-1",
-        rest.className
-    );
-
-    const labelRendered = isLabelVisible ?? true;
-
-    return (
-        <li key={label}>
-            <ButtonType
-                className={buttonClasses}
-                to={to}
-                onClick={onClick}
-                {...ariaOptions}
-            >
-                <Icon className="f-size-2" type={icon}/>
-                {labelRendered && label}
-            </ButtonType>
-        </li>
-    );
-};
-
-const Navigation = ({
-                        itemsToRender,
-                        filterItems,
-                        hideItemsLabel,
-                        className,
-                    }) => {
+const Navigation = ({ buttonsToRender, buttonsToFilter, className }) => {
     const location = useLocation();
 
     const isDarkThemePreferred = useMediaQuery("(prefers-color-scheme: dark)");
@@ -108,22 +69,18 @@ const Navigation = ({
             content: "Search",
             icon: "search",
             onClick: showSearchModal,
-            ariaOptions: {
-                "aria-expanded": isSearchModalVisible,
-                "aria-haspopup": "true",
-                "aria-controls": "search-modal",
-            },
+            "aria-expanded": isSearchModalVisible,
+            "aria-haspopup": "true",
+            "aria-controls": "modal",
         },
         {
             id: "menu",
             content: "Menu",
             icon: "menu",
             onClick: showMenuModal,
-            ariaOptions: {
-                "aria-expanded": null,
-                "aria-haspopup": "true",
-                "aria-controls": "menu-modal",
-            },
+            "aria-expanded": isMenuModalVisible,
+            "aria-haspopup": "true",
+            "aria-controls": "modal",
         },
     ];
 
@@ -148,12 +105,13 @@ const Navigation = ({
         },
     ];
 
-    const renderedNavigationItems = (
-        itemsToRender === "menu" ? menuButtons : navigationButtons
+    const renderedNavigationButtons = (
+        buttonsToRender === "menu" ? menuButtons : navigationButtons
     )
-        .filter(item => !filterItems?.includes(item.id))
-        .map(({id, to, content, icon, onClick}) => (
+        .filter(item => !buttonsToFilter?.includes(item.id))
+        .map(({ id, to, content, icon, onClick, ...rest }) => (
             <Button
+                {...rest}
                 key={id}
                 id={id}
                 to={to}
@@ -161,69 +119,64 @@ const Navigation = ({
                 variant="text"
                 color="secondary"
                 className="text-no-decoration line-height-0"
-                startIcon={<Icon className="f-size-2" type={icon}/>}
+                startIcon={<Icon className="f-size-2" type={icon} />}
                 onClick={onClick}
             >
                 {content}
             </Button>
         ));
 
-    const renderedMenuItems = menuButtons
-        .filter(item => !filterItems?.includes(item.id))
-        .map(({id, to, content, icon, onClick}) => (
+    const renderedMenuButtons = menuButtons
+        .filter(item => !buttonsToFilter?.includes(item.id))
+        .map(({ id, to, content, icon, onClick, ...rest }) => (
             <Button
+                {...rest}
                 key={id}
                 id={id}
                 to={to}
-                fontSize="sm"
                 variant="text"
                 color="secondary"
                 className="text-no-decoration line-height-0"
-                startIcon={<Icon className="f-size-2" type={icon}/>}
+                startIcon={<Icon className="f-size-2" type={icon} />}
                 onClick={onClick}
             >
                 {content}
             </Button>
-        ));
-
-    const renderedMenuItems2 = menuButtons
-        .filter(item => !filterItems?.includes(item.id))
-        .map(item => (
-            <NavigationItem
-                key={item.id}
-                {...item}
-                className="f-size-1 gap-xs"
-            />
         ));
 
     return (
         <>
             <nav aria-label="primary" className={className}>
-                <ul className="flex align-items-center gap-m" role="list">
-                    {renderedNavigationItems}
+                <ul className="flex align-items-center gap-3xs" role="list">
+                    {renderedNavigationButtons}
                 </ul>
             </nav>
 
             {isMenuModalRendered && (
                 <Modal
-                    className="max-w-l bg-zinc-900 mt-m py-xl px-fluid-l-xl"
+                    clearClassName
                     isVisible={isMenuModalVisible}
                     onClose={closeMenuModal}
+                    className="max-w-m bg-zinc-900 mt-m pt-m py-l px-fluid-l-xl"
                 >
                     <nav id="menu-modal" aria-label="menu">
+                        <h2 className="sr-only">Menu</h2>
                         <ul
-                            className="flex flex-direction-column align-items-center gap-fluid-m-l"
+                            className="flex flex-direction-column align-items-center stack s-2xs"
                             role="list"
                         >
-                            {renderedMenuItems}
-                            <div className="bg-zinc-800 h-px w-full"></div>
-                            <button
-                                className="bg-blue-700 f-weight-medium f-size-1 line-height-1 radius-1 px-m py-s max-w-xs w-full"
+                            {renderedMenuButtons}
+                            <div className="bg-zinc-800 h-px w-full mb-m mt-s"></div>
+                            <Button
+                                bold
+                                padSize="lg"
                                 aria-controls="menu-modal"
+                                aria-expanded={isMenuModalVisible}
                                 onClick={closeMenuModal}
+                                className="max-w-xs w-full"
                             >
                                 Close Menu
-                            </button>
+                            </Button>
                         </ul>
                     </nav>
                 </Modal>
@@ -235,6 +188,9 @@ const Navigation = ({
                     isVisible={isSearchModalVisible}
                     onClose={closeSearchModal}
                 >
+                    <h2 id="modal-title" className="sr-only">
+                        Search Recipes
+                    </h2>
                     <SearchRecipes
                         formOptions={{
                             id: "search-modal",

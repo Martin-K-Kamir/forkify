@@ -3,6 +3,32 @@ import { createEntityAdapter } from "@reduxjs/toolkit";
 import { dataSearchQueries } from "../../dataSearchQueries.js";
 import { sub } from "date-fns";
 import { API_KEY } from "../../env.js";
+import { addAlert, removeAlert } from "../alert/alertSlice.js";
+
+const handleLongRunningQuery = async (
+    queryFulfilled,
+    dispatch,
+    alertTimeout = 5_000,
+    alertDelay = 5_000
+) => {
+    const message = "The request is taking longer than expected.";
+
+    let timeout = setTimeout(() => {
+        dispatch(
+            addAlert({
+                message,
+                isWarning: true,
+                timeout: alertTimeout,
+            })
+        );
+    }, alertDelay);
+
+    try {
+        await queryFulfilled;
+    } catch {}
+    clearTimeout(timeout);
+    dispatch(removeAlert(message));
+};
 
 const extendedApi = api.injectEndpoints({
     endpoints: builder => ({
@@ -57,6 +83,9 @@ const extendedApi = api.injectEndpoints({
                     return { message: `No recipes found for search "${arg}"` };
                 }
             },
+            async onQueryStarted(_, { dispatch, queryFulfilled }) {
+                await handleLongRunningQuery(queryFulfilled, dispatch);
+            },
         }),
         getRecipe: builder.query({
             query: recipeId => `/${recipeId}`,
@@ -72,6 +101,9 @@ const extendedApi = api.injectEndpoints({
                 }
 
                 return recipe;
+            },
+            async onQueryStarted(_, { dispatch, queryFulfilled }) {
+                await handleLongRunningQuery(queryFulfilled, dispatch);
             },
         }),
         getSearchQueries: builder.query({
