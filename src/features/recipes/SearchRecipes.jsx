@@ -15,12 +15,12 @@ import IconButton from "../../components/IconButton.jsx";
 import { nanoid } from "@reduxjs/toolkit";
 
 const SearchRecipes = ({
-    variant,
-    formOptions,
-    inputOptions,
-    submitOptions,
-    autocompleteOptions,
-}) => {
+                           variant,
+                           formOptions,
+                           inputOptions,
+                           submitOptions,
+                           autocompleteOptions,
+                       }) => {
     const idRef = useRef(nanoid());
     const dispatch = useDispatch();
     const navigate = useNavigate();
@@ -33,11 +33,12 @@ const SearchRecipes = ({
     const inputRef = useRef(null);
     const autocompleteRef = useRef(null);
     const autocompleteDividerRef = useRef(null);
+    const inputAutocompleteRef = useRef(null);
 
-    const { data: queries } = useGetSearchQueriesQuery();
+    const {data: queries} = useGetSearchQueriesQuery();
 
     const [getRecipes, isLoading] = useLazyGetRecipesQuery({
-        selectFromResult: ({ isLoading }) => isLoading,
+        selectFromResult: ({isLoading}) => isLoading,
     });
 
     const canSubmit = searchTerm.length > 0 && !isLoading;
@@ -55,10 +56,8 @@ const SearchRecipes = ({
                 <li
                     key={query}
                     role="option"
-                    aria-selected="false"
                     aria-posinset={i + 1}
                     aria-setsize={arr.length}
-                    tabIndex={-1}
                 >
                     <Button
                         to={`/search/${query}`}
@@ -82,11 +81,39 @@ const SearchRecipes = ({
         });
 
     const showAutocomplete =
-        isInputFocused &&
         searchTerm.length >= (autocompleteOptions?.lengthToShow ?? 1) &&
         (autocompleteOptions?.isEnabled ?? true) &&
         !isLoading &&
         renderedAutocompleteItems?.length > 0;
+
+    const handleKeyDown = (e) => {
+        const focusableElements = 'button, [href], input, select, textarea, [tabindex]:not([tabindex="-1"])';
+        const focusable = Array.from(inputAutocompleteRef.current.querySelectorAll(focusableElements));
+
+        const currentIndex = focusable.indexOf(document.activeElement);
+
+        if (e.key === 'ArrowUp') {
+            e.preventDefault();
+            if (currentIndex > 0) {
+                focusable[currentIndex - 1].focus();
+            }
+        } else if (e.key === 'ArrowDown') {
+            e.preventDefault();
+            if (currentIndex < focusable.length - 1) {
+                focusable[currentIndex + 1].focus();
+            }
+        }
+    };
+
+    useEffect(() => {
+        if (!renderedAutocompleteItems?.length > 0) return;
+
+        inputAutocompleteRef.current.addEventListener('keydown', handleKeyDown);
+
+        return () => {
+            inputAutocompleteRef.current?.removeEventListener('keydown', handleKeyDown);
+        }
+    }, [renderedAutocompleteItems]);
 
     const formClasses = classnames(
         "form flex w-full",
@@ -228,10 +255,16 @@ const SearchRecipes = ({
             onSubmit={handleSubmit}
             role="search"
         >
-            <div className="relative w-full" onBlur={handleBlur}>
+            <div ref={inputAutocompleteRef} className="relative w-full" onBlur={handleBlur}>
                 <div ref={inputRef} className={inputClasses}>
                     <label htmlFor="search-input" className="sr-only">
-                        Search for recipes
+                        Use this field to search for recipes by name or ingredient. As you type, a list of suggestions
+                        will appear.
+                        Use the arrow keys to navigate through these suggestions.
+                        Press enter to select a highlighted suggestion and you'll be taken to the search results page.
+                        If the recipe you're looking for doesn't appear in the suggestions, you can still search for it.
+                        Just type it into the search box and press enter.
+                        To clear the search box, press the escape key.
                     </label>
                     <input
                         id="search-input"
@@ -249,6 +282,7 @@ const SearchRecipes = ({
                         role="combobox"
                         aria-expanded={showAutocomplete}
                         aria-autocomplete="list"
+                        autoComplete="off"
                         aria-owns={`autocomplete-${idRef.current}`}
                     />
                     {searchTerm.length > 0 && (
@@ -281,7 +315,14 @@ const SearchRecipes = ({
                         role="listbox"
                         className="stack s-3xs"
                         id={`autocomplete-${idRef.current}`}
+                        aria-label="suggestions"
+                        aria-live="polite"
                     >
+                        {showAutocomplete && (
+                            <p className="sr-only">
+                                You can use the arrow keys to navigate the autocomplete suggestions
+                            </p>
+                        )}
                         {renderedAutocompleteItems}
                     </ul>
                 </div>
@@ -296,7 +337,7 @@ const SearchRecipes = ({
                     className={submitOptions?.className}
                     srOnly="Search"
                 >
-                    <Icon className="f-size-2" type="search" />
+                    <Icon className="f-size-2" type="search"/>
                 </IconButton>
             ) : (
                 <Button
