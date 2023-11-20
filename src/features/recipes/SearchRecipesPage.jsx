@@ -1,5 +1,5 @@
-import SearchRecipeQueriesButtons from "./SearchRecipeQueriesButtons.jsx";
-import SearchRecipes from "./SearchRecipes.jsx";
+import SearchQueriesButtons from "./SearchQueriesButtons.jsx";
+import SearchRecipesForm from "./SearchRecipesForm.jsx";
 import React from "react";
 
 const SearchRecipesPage = () => {
@@ -9,9 +9,9 @@ const SearchRecipesPage = () => {
                 Forkify
             </h1>
 
-            <SearchRecipes />
+            <SearchRecipesForm size="lg" />
 
-            <SearchRecipeQueriesButtons />
+            <SearchQueriesButtons />
         </div>
     );
 };

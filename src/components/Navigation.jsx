@@ -1,4 +1,4 @@
-import SearchRecipes from "../features/recipes/SearchRecipes.jsx";
+import SearchRecipesForm from "../features/recipes/SearchRecipesForm.jsx";
 import Icon from "./Icon.jsx";
 import Overlay from "./Overlay.jsx";
 import useModal from "../hooks/useModal.js";
@@ -191,10 +191,13 @@ const Navigation = ({ buttonsToRender, buttonsToFilter, className }) => {
                     <h2 id="modal-title" className="sr-only">
                         Search Recipes
                     </h2>
-                    <SearchRecipes
+                    <SearchRecipesForm
+                        size="lg"
                         formOptions={{
-                            id: "search-modal",
                             className: "mx-auto mt-s flex-direction-column",
+                        }}
+                        inputOptions={{
+                            backgroundClassName: "bg-zinc-850",
                         }}
                         autocompleteOptions={{
                             shouldOverlay: false,

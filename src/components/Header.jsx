@@ -1,4 +1,4 @@
-import SearchRecipes from "../features/recipes/SearchRecipes.jsx";
+import SearchRecipesForm from "../features/recipes/SearchRecipesForm.jsx";
 import { useMediaQuery } from "@uidotdev/usehooks";
 import Navigation from "./Navigation.jsx";
 import { Link, useLocation } from "react-router-dom";
@@ -21,10 +21,10 @@ const Header = () => {
             </Link>
 
             {isAboveLg && !isLandingPage && (
-                <SearchRecipes
-                    variant="compact"
+                <SearchRecipesForm
+                    size="md"
                     inputOptions={{
-                        className: "bg-zinc-850",
+                        backgroundClassName: "bg-zinc-850",
                     }}
                     autocompleteOptions={{
                         shouldOverlay: true,

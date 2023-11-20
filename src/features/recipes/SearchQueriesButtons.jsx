@@ -3,7 +3,7 @@ import React from "react";
 import { capitalizeWords } from "../../utilities.js";
 import Button from "../../components/Button.jsx";
 
-let SearchRecipeQueriesButtons = () => {
+let SearchQueriesButtons = () => {
     const { data } = useGetSearchQueriesQuery();
 
     const randomizeArray = (data, count = 8) => {
@@ -43,6 +43,6 @@ let SearchRecipeQueriesButtons = () => {
     );
 };
 
-SearchRecipeQueriesButtons = React.memo(SearchRecipeQueriesButtons);
+SearchQueriesButtons = React.memo(SearchQueriesButtons);
 
-export default SearchRecipeQueriesButtons;
+export default SearchQueriesButtons;
