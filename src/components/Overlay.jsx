@@ -14,6 +14,7 @@ const Overlay = ({
     center,
 }) => {
     const ref = useRef(null);
+    const lastFocusedElement = useRef(null);
     const isAboveSm = useMediaQuery("(width >= 30em)");
 
     const classes = classNames(
@@ -35,12 +36,38 @@ const Overlay = ({
 
     useEffect(() => {
         if (isVisible) {
+
+            // Disable focusability of all other elements in the DOM
+            Array.from(document.body.getElementsByTagName('*')).forEach(el => {
+                if (el !== ref.current && !ref.current.contains(el) && el.tabIndex >= 0) {
+                    el.dataset.oldTabIndex = el.tabIndex;
+                    el.tabIndex = -1;
+                }
+            });
+
+            // Remember the last focused element
+            lastFocusedElement.current = document.activeElement;
+            console.log(lastFocusedElement.current)
+
             document.body.style.overflow = "hidden";
             document.addEventListener("click", handleClick);
             document.addEventListener("keydown", handleEscape);
-        }
+            ref.current.focus();
+         }
 
         return () => {
+            // Re-enable focusability of all other elements in the DOM
+            Array.from(document.body.getElementsByTagName('*')).forEach(el => {
+                if (el.dataset.oldTabIndex) {
+                    el.tabIndex = el.dataset.oldTabIndex;
+                    delete el.dataset.oldTabIndex;
+                }
+            });
+
+            // Set focus back to the last focused element
+            lastFocusedElement.current?.focus();
+            console.log(lastFocusedElement?.current)
+
             document.body.style.overflow = "auto";
             document.removeEventListener("click", handleClick);
             document.removeEventListener("keydown", handleEscape);
@@ -68,6 +95,7 @@ const Overlay = ({
             role="dialog"
             aria-labelledby="modal-title"
             aria-live="polite"
+            tabIndex="-1"
         >
             {isCloseRendered && (
                 <IconButton

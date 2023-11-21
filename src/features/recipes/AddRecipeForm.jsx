@@ -545,7 +545,7 @@ const AddRecipeForm = () => {
                                 to={data?.id}
                                 bold
                                 padSize="lg"
-                                className="w-full//below-sm"
+                                className="w-full//below-sm text-no-decoration"
                             >
                                 Go to Recipe
                             </Button>

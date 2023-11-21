@@ -65,7 +65,6 @@ let Field = ({ field, onChange, className }) => {
     };
 
     const handleFocus = e => {
-        console.log(keyboardUsed);
         if (keyboardUsed) {
             e.target.dataset.focusVisible = "true";
         }
