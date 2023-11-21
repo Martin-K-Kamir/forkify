@@ -36,10 +36,13 @@ const Overlay = ({
 
     useEffect(() => {
         if (isVisible) {
-
             // Disable focusability of all other elements in the DOM
-            Array.from(document.body.getElementsByTagName('*')).forEach(el => {
-                if (el !== ref.current && !ref.current.contains(el) && el.tabIndex >= 0) {
+            Array.from(document.body.getElementsByTagName("*")).forEach(el => {
+                if (
+                    el !== ref.current &&
+                    !ref.current.contains(el) &&
+                    el.tabIndex >= 0
+                ) {
                     el.dataset.oldTabIndex = el.tabIndex;
                     el.tabIndex = -1;
                 }
@@ -47,17 +50,16 @@ const Overlay = ({
 
             // Remember the last focused element
             lastFocusedElement.current = document.activeElement;
-            console.log(lastFocusedElement.current)
 
             document.body.style.overflow = "hidden";
             document.addEventListener("click", handleClick);
             document.addEventListener("keydown", handleEscape);
             ref.current.focus();
-         }
+        }
 
         return () => {
             // Re-enable focusability of all other elements in the DOM
-            Array.from(document.body.getElementsByTagName('*')).forEach(el => {
+            Array.from(document.body.getElementsByTagName("*")).forEach(el => {
                 if (el.dataset.oldTabIndex) {
                     el.tabIndex = el.dataset.oldTabIndex;
                     delete el.dataset.oldTabIndex;
@@ -66,7 +68,6 @@ const Overlay = ({
 
             // Set focus back to the last focused element
             lastFocusedElement.current?.focus();
-            console.log(lastFocusedElement?.current)
 
             document.body.style.overflow = "auto";
             document.removeEventListener("click", handleClick);
