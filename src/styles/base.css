@@ -190,6 +190,8 @@
     }
 
     &:focus-visible > [data-focus-visible-outline="inline-bottom"] {
-        box-shadow : var(--_outline-size) calc(0.6 * var(--_outline-size)) 0 0 var(--_outline-color), calc(-1 * var(--_outline-size)) calc(0.6 * var(--_outline-size)) 0 0 var(--_outline-color);
+        --_ratio   : 0.7;
+
+        box-shadow : calc(var(--_ratio) * var(--_outline-size)) calc(var(--_ratio) * var(--_outline-size)) 0 0 var(--_outline-color), calc((-1 * var(--_ratio)) * var(--_outline-size)) calc(0.6 * var(--_outline-size)) 0 0 var(--_outline-color);
     }
 }
