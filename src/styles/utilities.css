@@ -534,6 +534,43 @@
     background-color : hsl(240, 10%, 4%, 0.90);
 }
 
+.bg-zinc-050\/\/focus:focus {
+    background-color : var(--clr-zinc-050);
+}
+.bg-zinc-100\/\/focus:focus {
+    background-color : var(--clr-zinc-100);
+}
+.bg-zinc-200\/\/focus:focus {
+    background-color : var(--clr-zinc-200);
+}
+.bg-zinc-300\/\/focus:focus {
+    background-color : var(--clr-zinc-300);
+}
+.bg-zinc-400\/\/focus:focus {
+    background-color : var(--clr-zinc-400);
+}
+.bg-zinc-500\/\/focus:focus {
+    background-color : var(--clr-zinc-500);
+}
+.bg-zinc-600\/\/focus:focus {
+    background-color : var(--clr-zinc-600);
+}
+.bg-zinc-700\/\/focus:focus {
+    background-color : var(--clr-zinc-700);
+}
+.bg-zinc-800\/\/focus:focus {
+    background-color : var(--clr-zinc-800);
+}
+.bg-zinc-850\/\/focus:focus {
+    background-color : var(--clr-zinc-850);
+}
+.bg-zinc-900\/\/focus:focus {
+    background-color : var(--clr-zinc-900);
+}
+.bg-zinc-950\/\/focus:focus {
+    background-color : var(--clr-zinc-950);
+}
+
 .bg-red-050 {
     background-color : var(--clr-red-050);
 }

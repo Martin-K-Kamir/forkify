@@ -176,16 +176,20 @@
     grid-template-columns : repeat(auto-fill, minmax(min(15rem, 100%), 1fr));
 }
 
-:where(a, button, input, select) {
-    --_outline-size  : var(--outline-size, max(1px, 0.1525em));
-    --_outline-style : var(--outline-style, solid);
-    --_outline-color : var(--outline-color, currentColor);
+:where(a, button, input, select, [role="combobox"]) {
+    --_outline-size   : var(--outline-size, max(1px, 0.1525em));
+    --_outline-style  : var(--outline-style, solid);
+    --_outline-color  : var(--outline-color, currentColor);
     --_outline-offset : var(--outline-offset, 0px);
 
-    color            : inherit;
+    color             : inherit;
 
     &:focus-visible {
         outline        : var(--_outline-size) var(--_outline-style) var(--_outline-color);
         outline-offset : var(--_outline-offset);
+    }
+
+    &:focus-visible > [data-focus-visible-outline="inline-bottom"] {
+        box-shadow : var(--_outline-size) calc(0.6 * var(--_outline-size)) 0 0 var(--_outline-color), calc(-1 * var(--_outline-size)) calc(0.6 * var(--_outline-size)) 0 0 var(--_outline-color);
     }
 }

@@ -8,14 +8,8 @@
         color   : inherit;
     }
 
-
-
     & input::placeholder {
         color : color-mix(in hsl, currentColor 50%, transparent);
-    }
-
-    & .select {
-        min-inline-size : 15ch;
     }
 
     & :where(.field, .input-wrapper) {

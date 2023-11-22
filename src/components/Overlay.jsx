@@ -48,7 +48,6 @@ const Overlay = ({
                 }
             });
 
-            // Remember the last focused element
             lastFocusedElement.current = document.activeElement;
 
             document.body.style.overflow = "hidden";
@@ -67,7 +66,21 @@ const Overlay = ({
             });
 
             // Set focus back to the last focused element
-            lastFocusedElement.current?.focus();
+            if (document.activeElement === document.body) {
+                // Create a temporary focusable element
+                const tempElement = document.createElement('button');
+                tempElement.style.position = 'fixed';
+                tempElement.style.opacity = '0';
+                document.body.appendChild(tempElement);
+
+                // Focus the temporary element
+                tempElement.focus();
+
+                // Remove the temporary element
+                document.body.removeChild(tempElement);
+            } else {
+                lastFocusedElement.current?.focus();
+            }
 
             document.body.style.overflow = "auto";
             document.removeEventListener("click", handleClick);

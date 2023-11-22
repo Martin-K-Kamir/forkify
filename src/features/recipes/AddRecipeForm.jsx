@@ -395,6 +395,14 @@ const AddRecipeForm = () => {
         }
     };
 
+    const [dis, setDis] = useState(false)
+
+    useEffect(() => {
+        if (isSuccessModalRendered) {
+            setDis(true)
+        }
+    }, [isSuccessModalRendered])
+
     return (
         <div className="bg-zinc-800//above-sm radius-1 stack s-l max-w-xl mx-auto p-fluid-m-l//above-sm">
             <header>
