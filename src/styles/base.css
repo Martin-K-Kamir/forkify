@@ -4,9 +4,10 @@
 @custom-media --mouse   (hover) and (pointer: fine);
 
 :root {
-    --clr-slate-050       : #f8fafc;
-    --clr-slate-100       : #f1f5f9;
-    --clr-slate-200       : #e2e8f0;
+    --clr-slate-050       : hsl(210, 40%, 98%);
+    --clr-slate-100       : hsl(210, 40%, 96%);
+    --clr-slate-150       : hsl(210, 35%, 94%);
+    --clr-slate-200       : hsl(214, 32%, 91%);
     --clr-slate-300       : #cbd5e1;
     --clr-slate-400       : #94a3b8;
     --clr-slate-500       : #64748b;

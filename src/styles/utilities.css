@@ -624,6 +624,9 @@
 .bg-slate-100 {
     background-color   : var(--clr-slate-100);
 }
+.bg-slate-150 {
+    background-color   : var(--clr-slate-150);
+}
 .bg-slate-200 {
     background-color   : var(--clr-slate-200);
 }
@@ -13206,7 +13209,7 @@
 
 
 @media (prefers-color-scheme : dark) {
-    body:not([data-theme="light"]) {
+    html:not([data-theme="light"]) {
         /* text */
 
         & .text-inherit\/\/dark {

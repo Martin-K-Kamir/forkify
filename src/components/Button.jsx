@@ -60,10 +60,11 @@ const Button = ({
             "p-xs": padSize === "lg" && isIconButton,
             "bg-transparent": variant === "text",
             "text-blue-500": color === "primary" && variant === "text",
-            "text-zinc-050": color === "secondary" && variant === "text",
-            "bg-blue-700 text-zinc-050":
+            "text-gray-800 text-zinc-050//dark":
+                color === "secondary" && variant === "text",
+            "bg-blue-600 text-gray-050 bg-blue-700//dark text-zinc-050//dark":
                 color === "primary" && variant === "contained",
-            "bg-zinc-800 text-zinc-050":
+            "bg-gray-300 text-gray-600 bg-zinc-800//dark text-zinc-050//dark":
                 color === "secondary" && variant === "contained",
             "bg-red-800 text-zinc-050":
                 color === "error" && variant === "contained",

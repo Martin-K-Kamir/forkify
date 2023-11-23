@@ -33,7 +33,7 @@ const RecipesPage = () => {
                         <h1 className="f-size-fluid-2 f-weight-medium">
                             Search results for {capitalizeWords(recipesId)}
                         </h1>
-                        <p className="f-size-fluid-1 mt-3xs text-zinc-200">
+                        <p className="f-size-fluid-1 mt-3xs text-gray-600 text-zinc-200//dark">
                             We've found {data.ids.length} recipes for you.
                         </p>
                     </div>

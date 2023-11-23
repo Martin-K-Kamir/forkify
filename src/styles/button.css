@@ -11,12 +11,26 @@
     transition       : var(--transition);
 
     &[disabled] {
-        filter : grayscale(0.25) brightness(0.85);
+        --_filter-light : grayscale(0.05) brightness(0.9);
+        --_filter-dark  : grayscale(0.25) brightness(0.85);
+
+        filter : var(--_filter-light);
+        cursor : default;
+    }
+
+    html:not([data-theme="light"]) &[disabled] {
+        @media (prefers-color-scheme : dark) {
+            filter : var(--_filter-dark);
+        }
+    }
+
+    [data-theme="dark"] &[disabled] {
+        filter : var(--_filter-dark)
     }
 
     &[data-variant="text"] {
         --padding    : 0.45em 0.75em;
-        --background : color-mix(in srgb, var(--color) 10%, rgba(255, 255, 255, 0) 100%);
+        --background : color-mix(in srgb, var(--color) 7.5%, rgba(255, 255, 255, 0) 100%);
 
         padding      : var(--padding);
     }
@@ -66,6 +80,20 @@
     }
 
     &:not([disabled])[data-variant="contained"]:hover {
+        @media (--mouse) {
+            filter : brightness(0.925);
+        }
+    }
+
+    html:not([data-theme="light"]) &:not([disabled])[data-variant="contained"]:hover {
+        @media (prefers-color-scheme : dark) {
+            @media (--mouse) {
+                filter : brightness(1.2);
+            }
+        }
+    }
+
+    [data-theme="dark"] &:not([disabled])[data-variant="contained"]:hover {
         @media (--mouse) {
             filter : brightness(1.2);
         }

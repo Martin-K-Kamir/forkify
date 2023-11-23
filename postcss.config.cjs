@@ -3,12 +3,12 @@ module.exports = () => {
     const isProduction = process.env.NODE_ENV === 'production';
 
     const plugins = {
-        'postcss-preset-env': {
-            stage: 0,
-            features: {
-                'nesting-rules': true,
-            },
-        },
+        // 'postcss-preset-env': {
+        //     stage: 0,
+        //     features: {
+        //         'nesting-rules': true,
+        //     },
+        // },
     };
 
     if(isProduction) {

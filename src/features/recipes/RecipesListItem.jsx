@@ -4,7 +4,7 @@ import { capitalizeWords } from "../../utilities.js";
 import Button from "../../components/Button.jsx";
 let RecipesListItem = ({ image_url: image, title, publisher, id }) => {
     return (
-        <li className="flex flex-direction-column justify-self-center bg-zinc-800 radius-1 overflow-hidden w-full max-w-s//below-md">
+        <li className="flex flex-direction-column justify-self-center bg-gray-050 bg-zinc-800//dark radius-1 overflow-hidden w-full max-w-s//below-md">
             <img
                 className="w-full aspect-ratio-16x9 object-cover"
                 src={image}
@@ -16,7 +16,7 @@ let RecipesListItem = ({ image_url: image, title, publisher, id }) => {
                     <h2 className="f-family-secondary f-size-1 f-weight-medium">
                         {capitalizeWords(title)}
                     </h2>
-                    <p className="f-size--1 mt-2xs text-zinc-300">
+                    <p className="f-size--1 mt-3xs text-gray-600 text-zinc-300//dark">
                         by {publisher}
                     </p>
                 </div>

@@ -25,7 +25,7 @@ let SearchQueriesButtons = () => {
         return (
             <Button
                 to={`/search/${recipe}`}
-                color="bg-zinc-800 text-zinc-200"
+                color="bg-gray-300 text-gray-600 bg-zinc-800//dark text-zinc-200//dark"
                 fontSize="sm"
                 rounded="pill"
                 className="text-no-decoration"

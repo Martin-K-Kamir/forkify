@@ -116,11 +116,11 @@ const SearchField = ({
     const inputClasses = classnames(
         "input-wrapper flex align-items-center w-full",
         {
-            "bg-zinc-800": !inputOptions?.backgroundClassName,
+            "bg-gray-050 bg-zinc-800//dark": !inputOptions?.backgroundClassName,
             "f-size-1 p-s": size === "lg",
             "f-size--1 px-xs py-2xs": size === "md",
             "radius-1": !renderAutocomplete,
-            "radius-top-1 shadow-2xl": renderAutocomplete,
+            "radius-top-1 shadow-xl": renderAutocomplete,
             "shadow-2xl":
                 renderAutocomplete &&
                 isAboveMd &&
