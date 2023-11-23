@@ -19,7 +19,7 @@ const SearchInput = React.forwardRef(
     ) => {
         return (
             <div ref={ref} className={className}>
-                <label htmlFor="search-input" className="sr-only">
+                <label htmlFor={`search-input-${idRef}`} className="sr-only">
                     Use this field to search for recipes by name or ingredient.
                     As you type, a list of suggestions will appear. Use the
                     arrow keys to navigate through these suggestions. Press
@@ -41,7 +41,6 @@ const SearchInput = React.forwardRef(
                     onChange={onChange}
                     onFocus={onFocus}
                     onKeyUp={onKeyUp}
-                    role="combobox"
                     aria-autocomplete="list"
                     autoComplete="off"
                     aria-owns={`autocomplete-${idRef}`}

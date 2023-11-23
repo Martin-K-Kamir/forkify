@@ -15,7 +15,6 @@ const Header = () => {
             <Link
                 to="/"
                 className="f-family-secondary text-no-decoration text-zinc-050 f-size-2 f-size-3//above-lg f-weight-medium line-height-1 outline-size-l radius-1 outline-offset-m"
-                aria-label="Click to go to the home page"
             >
                 Forkify
             </Link>

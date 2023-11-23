@@ -219,9 +219,6 @@ const Select = ({
             tabIndex={0}
             onKeyDown={handleKeyDown}
         >
-            <label id={`label-${idRef.current}`} className="sr-only">
-                {label}
-            </label>
             <p className="sr-only">
                 To open the select menu, press the down arrow key. To close the
                 select menu, press the escape key. Press the enter key to select

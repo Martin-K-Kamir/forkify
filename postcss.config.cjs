@@ -4,8 +4,9 @@ module.exports = () => {
 
     const plugins = {
         'postcss-preset-env': {
+            stage: 0,
             features: {
-                'custom-properties': false,
+                'nesting-rules': true,
             },
         },
     };

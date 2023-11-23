@@ -83,7 +83,7 @@ let Field = ({ field, onChange, className }) => {
         <div ref={fieldRef} className={fieldClasses} onClick={handleFocusClick}>
             <div className="flex h-full w-full">
                 <label
-                    htmlFor={name}
+                    htmlFor={id}
                     className="cursor-text px-s line-height-1 text-no-select pointer-events-none"
                 >
                     {label}

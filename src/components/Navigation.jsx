@@ -48,10 +48,10 @@ const Navigation = ({ buttonsToRender, buttonsToFilter, className }) => {
     }, []);
 
     useEffect(() => {
-        document.body.dataset.theme = theme;
+        document.documentElement.dataset.theme = theme;
 
         return () => {
-            delete document.body.dataset.theme;
+            delete document.documentElement.dataset.theme;
         };
     }, [theme]);
 
@@ -110,38 +110,42 @@ const Navigation = ({ buttonsToRender, buttonsToFilter, className }) => {
     )
         .filter(item => !buttonsToFilter?.includes(item.id))
         .map(({ id, to, content, icon, onClick, ...rest }) => (
-            <Button
-                {...rest}
-                key={id}
-                id={id}
-                to={to}
-                fontSize="sm"
-                variant="text"
-                color="secondary"
-                className="text-no-decoration line-height-0"
-                startIcon={<Icon className="f-size-2" type={icon} />}
-                onClick={onClick}
-            >
-                {content}
-            </Button>
+            <li key={id} role="presentation">
+                <Button
+                    {...rest}
+                    id={id}
+                    to={to}
+                    fontSize="sm"
+                    variant="text"
+                    color="secondary"
+                    className="text-no-decoration line-height-0"
+                    startIcon={<Icon className="f-size-2" type={icon}/>}
+                    onClick={onClick}
+                    role="menuitem"
+                >
+                    {content}
+                </Button>
+            </li>
         ));
 
     const renderedMenuButtons = menuButtons
         .filter(item => !buttonsToFilter?.includes(item.id))
         .map(({ id, to, content, icon, onClick, ...rest }) => (
-            <Button
-                {...rest}
-                key={id}
-                id={id}
-                to={to}
-                variant="text"
-                color="secondary"
-                className="text-no-decoration line-height-0"
-                startIcon={<Icon className="f-size-2" type={icon} />}
-                onClick={onClick}
-            >
-                {content}
-            </Button>
+            <li key={id} role="presentation">
+                <Button
+                    {...rest}
+                    id={id}
+                    to={to}
+                    variant="text"
+                    color="secondary"
+                    className="text-no-decoration line-height-0"
+                    startIcon={<Icon className="f-size-2" type={icon}/>}
+                    onClick={onClick}
+                    role="menuitem"
+                >
+                    {content}
+                </Button>
+            </li>
         ));
 
     return (
@@ -159,7 +163,7 @@ const Navigation = ({ buttonsToRender, buttonsToFilter, className }) => {
                     onClose={closeMenuModal}
                     className="max-w-m bg-zinc-900 mt-m pt-m py-l px-fluid-l-xl"
                 >
-                    <nav id="menu-modal" aria-label="menu">
+                    <nav id="menu-modal" aria-label="menu" role="navigation">
                         <h2 className="sr-only">Menu</h2>
                         <ul
                             className="flex flex-direction-column align-items-center stack s-2xs"
@@ -170,10 +174,11 @@ const Navigation = ({ buttonsToRender, buttonsToFilter, className }) => {
                             <Button
                                 bold
                                 padSize="lg"
-                                aria-controls="menu-modal"
+                                aria-controls="modal"
                                 aria-expanded={isMenuModalVisible}
                                 onClick={closeMenuModal}
                                 className="max-w-xs w-full"
+                                role="menuitem"
                             >
                                 Close Menu
                             </Button>

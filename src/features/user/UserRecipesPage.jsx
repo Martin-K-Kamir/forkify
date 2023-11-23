@@ -125,7 +125,11 @@ const UserRecipesPage = () => {
                                 type="search"
                             />
 
+                            <label htmlFor="search-my-recipes" className="sr-only">
+                                Search through your recipes
+                            </label>
                             <input
+                                id="search-my-recipes"
                                 ref={searchRef}
                                 type="text"
                                 className="w-full bg-transparent"

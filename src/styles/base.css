@@ -4,8 +4,45 @@
 @custom-media --mouse   (hover) and (pointer: fine);
 
 :root {
+    --clr-slate-050       : #f8fafc;
+    --clr-slate-100       : #f1f5f9;
+    --clr-slate-200       : #e2e8f0;
+    --clr-slate-300       : #cbd5e1;
+    --clr-slate-400       : #94a3b8;
+    --clr-slate-500       : #64748b;
+    --clr-slate-600       : #475569;
+    --clr-slate-700       : #334155;
+    --clr-slate-800       : #1e293b;
+    --clr-slate-900       : #0f172a;
+    --clr-slate-950       : #020617;
+
+    --clr-gray-050        : #f9fafb;
+    --clr-gray-100        : #f3f4f6;
+    --clr-gray-200        : #e5e7eb;
+    --clr-gray-300        : #d1d5db;
+    --clr-gray-400        : #9ca3af;
+    --clr-gray-500        : #71717a;
+    --clr-gray-600        : #52525b;
+    --clr-gray-700        : #3f3f46;
+    --clr-gray-800        : #27272a;
+    --clr-gray-900        : #18181b;
+    --clr-gray-950        : #09090b;
+
+    --clr-neutral-050     : #fafafa;
+    --clr-neutral-100     : #f5f5f5;
+    --clr-neutral-200     : #e5e5e5;
+    --clr-neutral-300     : #d4d4d4;
+    --clr-neutral-400     : #a3a3a3;
+    --clr-neutral-500     : #737373;
+    --clr-neutral-600     : #525252;
+    --clr-neutral-700     : #404040;
+    --clr-neutral-800     : #262626;
+    --clr-neutral-900     : #171717;
+    --clr-neutral-950     : #0a0a0a;
+
     --clr-zinc-050        : hsl(0, 0%, 98%);
     --clr-zinc-100        : hsl(240, 5%, 96%);
+    --clr-zinc-150        : hsl(240, 5%, 93%);
     --clr-zinc-200        : hsl(240, 6%, 90%);
     --clr-zinc-300        : hsl(240, 5%, 84%);
     --clr-zinc-400        : hsl(240, 5%, 65%);
@@ -64,12 +101,6 @@
     --clr-blue-800        : hsl(226, 71%, 40%);
     --clr-blue-900        : hsl(224, 64%, 33%);
     --clr-blue-950        : hsl(226, 57%, 21%);
-
-
-    @media (--OSdark) {
-
-    }
-
 
     --f-family-primary    : "Roboto", "system-ui", sans-serif;
     --f-family-secondary  : "Roboto Serif", serif;
@@ -147,8 +178,6 @@
     font-family              : var(--f-family-primary);
     font-size                : var(--f-size-1);
     font-weight              : var(--f-weight-regular);
-    color                    : var(--clr-zinc-050);
-    background-color         : var(--clr-zinc-900);
 
     -webkit-text-size-adjust : 100%;
     color-scheme             : light dark;
