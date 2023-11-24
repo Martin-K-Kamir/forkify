@@ -1,14 +1,11 @@
 
 .button {
-    --transition     : filter 200ms ease-in-out, background-color 200ms ease-in-out;
-
     position         : relative;
     color            : inherit;
     border           : none;
     cursor           : pointer;
     background-color : transparent;
     line-height      : 1;
-    transition       : var(--transition);
 
     &[disabled] {
         --_filter-light : grayscale(0.05) brightness(0.9);
@@ -19,7 +16,7 @@
     }
 
     html:not([data-theme="light"]) &[disabled] {
-        @media (prefers-color-scheme : dark) {
+        @media (--dark) {
             filter : var(--_filter-dark);
         }
     }
@@ -33,6 +30,11 @@
         --background : color-mix(in srgb, var(--color) 7.5%, rgba(255, 255, 255, 0) 100%);
 
         padding      : var(--padding);
+        transition   : background-color 200ms ease-in-out;
+    }
+
+    &[data-variant="contained"] {
+        transition   : filter 200ms ease-in-out;
     }
 
     &:not([disabled])[data-variant="text"]:hover {
@@ -42,7 +44,7 @@
     }
 
     &[data-variant="text"][data-icon-button="true"] {
-        --padding        : 0.1em;
+        --padding        : 0.25em;
         --outline-offset : 0.1em;
     }
 
@@ -60,7 +62,7 @@
         width         : 100%;
         height        : 100%;
         padding       : var(--padding);
-        transition    : var(--transition);
+        transition    : background-color 200ms ease-in-out;
     }
 
     &:not([disabled])[data-hover="absolute"]:hover::after {
@@ -86,10 +88,8 @@
     }
 
     html:not([data-theme="light"]) &:not([disabled])[data-variant="contained"]:hover {
-        @media (prefers-color-scheme : dark) {
-            @media (--mouse) {
-                filter : brightness(1.2);
-            }
+        @media (--dark) and (--mouse) {
+            filter : brightness(1.2);
         }
     }
 

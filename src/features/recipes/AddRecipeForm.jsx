@@ -395,16 +395,8 @@ const AddRecipeForm = () => {
         }
     };
 
-    const [dis, setDis] = useState(false)
-
-    useEffect(() => {
-        if (isSuccessModalRendered) {
-            setDis(true)
-        }
-    }, [isSuccessModalRendered])
-
     return (
-        <div className="bg-zinc-800//above-sm radius-1 stack s-l max-w-xl mx-auto p-fluid-m-l//above-sm">
+        <div className="bg-gray-050//above-sm bg-zinc-800//dark//above-sm radius-1 stack s-l max-w-xl mx-auto p-fluid-m-l//above-sm">
             <header>
                 <h1 className="f-family-secondary f-size-fluid-4 f-weight-medium line-height-2">
                     Add Recipe

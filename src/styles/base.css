@@ -1,5 +1,5 @@
-@custom-media --OSdark  (prefers-color-scheme: dark);
-@custom-media --OSlight (prefers-color-scheme: light);
+@custom-media --dark  (prefers-color-scheme: dark);
+@custom-media --light (prefers-color-scheme: light);
 @custom-media --touch   (hover: none) and (pointer: coarse);
 @custom-media --mouse   (hover) and (pointer: fine);
 

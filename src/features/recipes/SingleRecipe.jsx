@@ -36,7 +36,7 @@ const SingleRecipe = ({ recipe, isPreview, backgroundClassName }) => {
         "radius-1 max-w-xl mx-auto p-fluid-m-l//above-sm",
         {
             "pt-fluid-s-m//above-sm": !isPreview,
-            "bg-zinc-800//above-sm": !backgroundClassName,
+            "bg-gray-050//above-sm bg-zinc-800//dark//above-sm": !backgroundClassName,
         },
         backgroundClassName
     );
@@ -92,7 +92,7 @@ const SingleRecipe = ({ recipe, isPreview, backgroundClassName }) => {
                 addAlert({
                     message: "Recipe deleted successfully",
                     isSuccess: true,
-                    timeout: 5000,
+                    timeout: 5_000,
                 })
             );
         } catch (error) {
@@ -151,7 +151,7 @@ const SingleRecipe = ({ recipe, isPreview, backgroundClassName }) => {
                     <h1 className="f-family-secondary f-size-fluid-4 f-weight-medium line-height-2">
                         {capitalizeWords(recipe.title)}
                     </h1>
-                    <div className="flex flex-wrap align-items-center gap-2xs text-zinc-300 mt-2xs">
+                    <div className="flex flex-wrap align-items-center gap-2xs text-gray-600 text-zinc-300//dark mt-2xs">
                         <div className="flex align-items-center f-weight-medium mr-xs">
                             <Icon
                                 type="person"
@@ -206,7 +206,7 @@ const SingleRecipe = ({ recipe, isPreview, backgroundClassName }) => {
                     <h2 className="f-family-secondary f-size-fluid-3 f-weight-medium line-height-2">
                         Recipe ingredients
                     </h2>
-                    <ul className="list-style-inside mt-2xs stack s-3xs text-zinc-300">
+                    <ul className="list-style-inside mt-2xs stack s-3xs text-gray-600 text-zinc-300//dark">
                         {renderedIngredients}
                     </ul>
                 </section>
@@ -214,7 +214,7 @@ const SingleRecipe = ({ recipe, isPreview, backgroundClassName }) => {
                     <h2 className="f-family-secondary f-size-fluid-3 f-weight-medium line-height-2">
                         How to cook it
                     </h2>
-                    <p className="mt-2xs text-zinc-300">
+                    <p className="mt-2xs text-gray-600 text-zinc-300//dark">
                         This recipe was carefully designed and tested by{" "}
                         {recipe.publisher}. Please check out directions at their
                         website.

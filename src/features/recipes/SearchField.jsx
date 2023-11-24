@@ -7,13 +7,14 @@ import classnames from "classnames";
 import { useMediaQuery } from "@uidotdev/usehooks";
 
 const SearchField = ({
-    size,
-    searchTerm,
-    setSearchTerm,
-    searchQueries,
-    inputOptions,
-    autocompleteOptions,
-}) => {
+                         size,
+                         searchTerm,
+                         setSearchTerm,
+                         searchQueries,
+                         inputOptions,
+                         autocompleteOptions,
+                         dividerOptions,
+                     }) => {
     const location = useLocation();
     const isAboveMd = useMediaQuery("(min-width: 768px)");
 
@@ -21,46 +22,13 @@ const SearchField = ({
     const fieldRef = useRef(null);
     const inputRef = useRef(null);
     const autocompleteRef = useRef(null);
-    const dividerRef = useRef(null);
 
     const [isFocused, setIsFocused] = useState(false);
     const [autocompleteData, setAutocompleteData] = useState([]);
     const [renderAutocomplete, setRenderAutocomplete] = useState(false);
 
     useEffect(() => {
-        // Set styles for autocomplete based on input's computed styles
-        const input = inputRef.current;
-        const autocomplete = autocompleteRef.current;
-        const divider = dividerRef.current;
-
-        const {
-            backgroundColor,
-            color,
-            fontSize,
-            fontWeight,
-            paddingInline,
-            paddingBlock,
-        } = getComputedStyle(input);
-        const convertPxToRem = value => `${parseFloat(value) / 16}rem`;
-
-        input.style.gap = convertPxToRem(paddingInline);
-
-        Object.assign(autocomplete.style, {
-            backgroundColor,
-            color,
-            fontWeight,
-            fontSize: convertPxToRem(fontSize),
-            paddingInline: convertPxToRem(paddingInline),
-            paddingBlockEnd: convertPxToRem(paddingBlock),
-        });
-
-        Object.assign(divider.style, {
-            marginBlockEnd: convertPxToRem(paddingBlock),
-        });
-    }, []);
-
-    useEffect(() => {
-        const { maxItems = 6 } = autocompleteOptions ?? {};
+        const {maxItems = 6} = autocompleteOptions ?? {};
 
         const filteredSearchQueries = searchQueries
             ?.filter(searchQuery => {
@@ -74,8 +42,8 @@ const SearchField = ({
     }, [searchTerm]);
 
     useEffect(() => {
-        const { minSearchTermLength = 1, maxSearchTermLength = 100 } =
-            autocompleteOptions ?? {};
+        const {minSearchTermLength = 1, maxSearchTermLength = 100} =
+        autocompleteOptions ?? {};
 
         const length = searchTerm.length;
 
@@ -121,7 +89,7 @@ const SearchField = ({
             "f-size--1 px-xs py-2xs": size === "md",
             "radius-1": !renderAutocomplete,
             "radius-top-1 shadow-xl": renderAutocomplete,
-            "shadow-2xl":
+            "shadow-xl":
                 renderAutocomplete &&
                 isAboveMd &&
                 (autocompleteOptions?.shouldOverlay ?? true),
@@ -131,11 +99,23 @@ const SearchField = ({
     );
 
     const autocompleteClasses = classnames("w-full radius-bottom-1", {
-        "none ": !renderAutocomplete,
-        "absolute z-index-800 shadow-2xl":
-            renderAutocomplete &&
-            isAboveMd &&
-            (autocompleteOptions?.shouldOverlay ?? true),
+            "none ": !renderAutocomplete,
+            "absolute z-index-800 shadow-2xl":
+                renderAutocomplete &&
+                isAboveMd &&
+                (autocompleteOptions?.shouldOverlay ?? true),
+            "bg-gray-050 bg-zinc-800//dark": !inputOptions?.backgroundClassName,
+            "f-size-1 px-s pb-s": size === "lg",
+            "f-size--1 px-xs pb-2xs": size === "md",
+        },
+        inputOptions?.backgroundClassName,
+        autocompleteOptions?.className
+    );
+
+    const dividerClasses = classnames("h-px w-full",{
+        "bg-gray-300 bg-zinc-600//dark": !dividerOptions?.backgroundClassName,
+        "mb-s": size === "lg",
+        "mb-2xs": size === "md",
     });
 
     const handleFocus = () => {
@@ -196,24 +176,26 @@ const SearchField = ({
     return (
         <div ref={fieldRef} className="relative w-full" onBlur={handleBlur}>
             <SearchInput
-                ref={inputRef}
                 idRef={idRef.current}
                 value={searchTerm}
                 onChange={handleChange}
                 onClearClick={handleClear}
                 onKeyUp={handleEscape}
                 onFocus={handleFocus}
-                size={size}
                 className={inputClasses}
                 options={inputOptions}
             />
             <SearchAutocomplete
-                ref={autocompleteRef}
                 idRef={idRef.current}
-                dividerRef={dividerRef}
                 data={autocompleteData}
                 className={autocompleteClasses}
                 options={autocompleteOptions}
+                renderDivider={() => (
+                    <div
+                        className={dividerClasses}
+                        aria-hidden="true"
+                    />
+                )}
             />
         </div>
     );

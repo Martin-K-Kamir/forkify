@@ -27,7 +27,7 @@ const RecipeActionButtons = ({
 
     const classes = classnames(
         {
-            "bg-zinc-850": !backgroundClassName,
+            "bg-gray-100 bg-zinc-850//dark": !backgroundClassName,
             "flex align-items-center gap-3xs gap-2xs//above-sm px-2xs px-xs//above-sm py-3xs py-2xs//above-sm radius-pill":
                 !clearClassName,
         },
@@ -84,7 +84,7 @@ const RecipeActionButtons = ({
                 </IconButton>
             )}
             <IconButton
-                color="bg-zinc-600"
+                color="text-gray-050 bg-gray-600 text-zinc-050//dark bg-zinc-600//dark"
                 rounded="circle"
                 padSize={isAboveSm ? "md" : "sm"}
                 onClick={handlePrintClick}
