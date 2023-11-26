@@ -1,13 +1,21 @@
-import React from "react";
-import { Link } from "react-router-dom";
+import React, { useEffect } from "react";
 import { capitalizeWords } from "../../utilities.js";
 import Button from "../../components/Button.jsx";
+import imagePlaceholder from "../../assets/images/image-placeholder.webp";
 let RecipesListItem = ({ image_url: image, title, publisher, id }) => {
+    const [imageSrc, setImageSrc] = React.useState(image);
+
+    useEffect(() => {
+        const img = new Image();
+        img.src = image;
+        img.onerror = () => setImageSrc(imagePlaceholder);
+    }, [image]);
+
     return (
         <li className="flex flex-direction-column justify-self-center bg-gray-050 bg-zinc-800//dark radius-1 overflow-hidden w-full max-w-s//below-md">
             <img
                 className="w-full aspect-ratio-16x9 object-cover"
-                src={image}
+                src={imageSrc}
                 alt=""
                 aria-hidden={true}
             />

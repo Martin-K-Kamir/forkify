@@ -40,12 +40,16 @@ const SearchRecipesForm = ({
         formOptions?.className
     );
 
+    const addHyphens = str => {
+        return str.split(" ").join("-");
+    };
+
     const handleSubmit = async e => {
         try {
             e.preventDefault();
             await getRecipes(searchTerm, true).unwrap();
 
-            navigate(`/search/${searchTerm}`);
+            navigate(`/search/${addHyphens(searchTerm)}`);
         } catch (error) {
             dispatch(
                 addAlert({

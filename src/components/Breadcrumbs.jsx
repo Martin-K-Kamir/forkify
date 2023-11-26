@@ -80,7 +80,7 @@ const Breadcrumbs = ({ title }) => {
     });
 
     return (
-        <div className="flex align-items-center f-size--1 line-height-1">
+        <div className="flex align-items-center f-size--1 line-height-1 text-gray-600 text-zinc-300//dark">
             {renderedCrumbs}
         </div>
     );

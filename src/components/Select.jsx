@@ -11,10 +11,10 @@ const Select = ({
     className,
     clearDefaultClassNames = false,
     size = "md",
-    textActiveClassName = "text-blue-200",
-    backgroundClassName = "bg-zinc-800",
-    backgroundHoverClassName = "bg-zinc-700//hover",
-    backgroundFocusClassName = "bg-zinc-700//focus",
+    textActiveClassName = "text-blue-600 text-blue-200//dark",
+    backgroundClassName = "bg-gray-050 bg-zinc-800//dark",
+    backgroundHoverClassName = "bg-gray-200//hover bg-zinc-700//dark//hover",
+    backgroundFocusClassName = "bg-gray-200//focus bg-zinc-700//dark//focus",
     ...rest
 }) => {
     const ref = useRef();
@@ -173,6 +173,12 @@ const Select = ({
         [currentValue, onChange]
     );
 
+    const handleBlur = useCallback(e => {
+        if (!ref.current?.contains(e.relatedTarget)) {
+            setIsOpen(false);
+        }
+    }, []);
+
     const renderedOptions = options.map((option, i, arr) => {
         const classes = classNames("cursor-pointer outline-none", {
             "px-2xs py-3xs": size === "sm" && !clearDefaultClassNames,
@@ -218,6 +224,7 @@ const Select = ({
             aria-labelledby={`label-${idRef.current}`}
             tabIndex={0}
             onKeyDown={handleKeyDown}
+            onBlur={handleBlur}
         >
             <p className="sr-only">
                 To open the select menu, press the down arrow key. To close the

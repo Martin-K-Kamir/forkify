@@ -128,6 +128,7 @@ const AddRecipeForm = () => {
             },
         ],
     });
+    const [termsChecked, setTermsChecked] = useState(false);
     const [canSubmit, setCanSubmit] = useState(false);
     const [originalForm] = useState(form);
     const formRef = React.useRef(form);
@@ -155,7 +156,7 @@ const AddRecipeForm = () => {
 
     useEffect(() => {
         setCanSubmit(formRef.current.checkValidity() && !isLoading);
-    }, [form]);
+    }, [form, termsChecked]);
 
     const formatId = (id, replaceNumber) => {
         id = id.replace(/^form-/g, "");
@@ -376,6 +377,17 @@ const AddRecipeForm = () => {
 
     const handleSubmit = async e => {
         e.preventDefault();
+        if (!canSubmit) {
+            dispatch(
+                addAlert({
+                    message: "Please fill out all required fields.",
+                    isDanger: true,
+                    timeout: 5000,
+                })
+            );
+            return;
+        }
+
         try {
             await addRecipe(formatForm(form)).unwrap();
             await wait(100); // Pause between submitting and showing success modal re-renders to make transition smoother
@@ -401,7 +413,7 @@ const AddRecipeForm = () => {
                 <h1 className="f-family-secondary f-size-fluid-4 f-weight-medium line-height-2">
                     Add Recipe
                 </h1>
-                <p className="mt-2xs text-zinc-200">
+                <p className="mt-2xs text-gray-600 text-zinc-200//dark">
                     Add your own recipe to the most delicious recipe app on the
                     web!
                 </p>
@@ -471,12 +483,33 @@ const AddRecipeForm = () => {
                         />
                     </div>
                 </section>
+                <section>
+                    <div className="flex align-items-start gap-2xs">
+                        <input
+                            type="checkbox"
+                            id="form-terms"
+                            name="form-terms"
+                            value={termsChecked}
+                            onChange={() => setTermsChecked(prev => !prev)}
+                            required
+                            style={{ transform: "translateY(3px)" }}
+                        />
+                        <label
+                            htmlFor="form-terms"
+                            className="f-size--1 text-no-select text-gray-600 text-zinc-200//dark"
+                        >
+                            I acknowledge that this API is for testing purposes
+                            only and does not support multiple images or
+                            instruction fields.
+                        </label>
+                    </div>
+                </section>
                 <div className="flex justify-content-center flex-direction-column//below-md gap-s mt-l">
                     <Button
                         bold
                         type="button"
                         padSize="lg"
-                        color="bg-zinc-800 bg-zinc-900//above-sm text-zinc-050"
+                        color="bg-gray-300 text-gray-600 bg-zinc-800//dark bg-zinc-900//dark//above-sm text-zinc-050//dark"
                         className="w-full//below-md"
                         disabled={!canSubmit || isLoading}
                         onClick={showPreviewModal}
@@ -501,6 +534,7 @@ const AddRecipeForm = () => {
                     isVisible={isPreviewModalVisible}
                     onClose={closePreviewModal}
                     className="max-w-xl mt-m p-m py-l//below-sm p-3xs//above-sm"
+                    backgroundClassName="bg-gray-050 bg-zinc-850//dark"
                 >
                     <h2 id="modal-title" className="sr-only">
                         Preview Recipe
@@ -508,7 +542,7 @@ const AddRecipeForm = () => {
                     <SingleRecipe
                         recipe={formatForm(form)}
                         isPreview
-                        backgroundClassName="bg-zinc-850"
+                        backgroundClassName="bg-gray-050 bg-zinc-850//dark"
                     />
                 </Modal>
             )}
@@ -519,7 +553,7 @@ const AddRecipeForm = () => {
                     isCloseRendered
                     isVisible={isSuccessModalVisible}
                     onClose={closeSuccessModal}
-                    className="max-w-m bg-zinc-900 mt-m p-fluid-l-xl"
+                    className="max-w-m mt-m p-fluid-m-l"
                 >
                     <div className="stack text-center//above-sm">
                         <h2
@@ -528,7 +562,7 @@ const AddRecipeForm = () => {
                         >
                             Recipe Submitted
                         </h2>
-                        <p className="text-zinc-200">
+                        <p className="text-gray-600 text-zinc-200//dark">
                             Your recipe has been successfully submitted!
                         </p>
                         <div className="flex justify-content-center gap-s w-full flex-direction-column//below-sm mt-l">

@@ -10,7 +10,6 @@ const Modal = ({
     renderFooter,
     renderHeader,
     className,
-    clearClassName,
     backgroundClassName,
     isCloseRendered,
     ...rest
@@ -19,10 +18,10 @@ const Modal = ({
     const isBelowMd = useMediaQuery("(width < 48em)");
 
     const classes = classnames(
-        "radius-1 w-full mx-auto transition-fade-up",
+        "radius-1 w-full mx-auto transition-fade-up shadow-2xl",
         {
-            "max-w-xl mt-m p-fluid-m-l": !clearClassName,
-            "bg-zinc-850": !backgroundClassName,
+            "max-w-xl mt-m p-fluid-m-l": !className,
+            "bg-gray-050 bg-zinc-900//dark": !backgroundClassName,
         },
         className,
         backgroundClassName
@@ -34,7 +33,7 @@ const Modal = ({
                 {isCloseRendered && isBelowMd && (
                     <IconButton
                         variant="text"
-                        color="text-zinc-300"
+                        color="text-gray-800 text-zinc-300//dark"
                         className="absolute z-index-1 top-2xs right-2xs"
                         onClick={rest.onClose}
                         srOnly="Close modal"

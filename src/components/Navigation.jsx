@@ -119,7 +119,7 @@ const Navigation = ({ buttonsToRender, buttonsToFilter, className }) => {
                     variant="text"
                     color="secondary"
                     className="text-no-decoration line-height-0"
-                    startIcon={<Icon className="f-size-2" type={icon}/>}
+                    startIcon={<Icon className="f-size-2" type={icon} />}
                     onClick={onClick}
                     role="menuitem"
                 >
@@ -139,7 +139,7 @@ const Navigation = ({ buttonsToRender, buttonsToFilter, className }) => {
                     variant="text"
                     color="secondary"
                     className="text-no-decoration line-height-0"
-                    startIcon={<Icon className="f-size-2" type={icon}/>}
+                    startIcon={<Icon className="f-size-2" type={icon} />}
                     onClick={onClick}
                     role="menuitem"
                 >
@@ -161,7 +161,7 @@ const Navigation = ({ buttonsToRender, buttonsToFilter, className }) => {
                     clearClassName
                     isVisible={isMenuModalVisible}
                     onClose={closeMenuModal}
-                    className="max-w-m bg-zinc-900 mt-m pt-m py-l px-fluid-l-xl"
+                    className="max-w-m mt-m py-l px-fluid-m-l shadow-2xl"
                 >
                     <nav id="menu-modal" aria-label="menu" role="navigation">
                         <h2 className="sr-only">Menu</h2>
@@ -170,7 +170,7 @@ const Navigation = ({ buttonsToRender, buttonsToFilter, className }) => {
                             role="list"
                         >
                             {renderedMenuButtons}
-                            <div className="bg-zinc-800 h-px w-full mb-m mt-s"></div>
+                            <div className="bg-gray-300 bg-zinc-700//dark h-px w-full mb-m mt-s"></div>
                             <Button
                                 bold
                                 padSize="lg"
@@ -202,7 +202,8 @@ const Navigation = ({ buttonsToRender, buttonsToFilter, className }) => {
                             className: "mx-auto mt-s flex-direction-column",
                         }}
                         inputOptions={{
-                            backgroundClassName: "bg-zinc-850",
+                            backgroundClassName:
+                                "bg-gray-200 bg-zinc-850//dark",
                         }}
                         autocompleteOptions={{
                             shouldOverlay: false,

@@ -13,6 +13,7 @@ import Breadcrumbs from "../../components/Breadcrumbs.jsx";
 import Button from "../../components/Button.jsx";
 import IconButton from "../../components/IconButton.jsx";
 import classnames from "classnames";
+import imagePlaceholder from "../../assets/images/image-placeholder.webp";
 
 const SingleRecipe = ({ recipe, isPreview, backgroundClassName }) => {
     const dispatch = useDispatch();
@@ -31,15 +32,37 @@ const SingleRecipe = ({ recipe, isPreview, backgroundClassName }) => {
     const [servings, setServings] = useState(0);
     const [prevServings, setPrevServings] = useState(0);
     const [ingredients, setIngredients] = useState(null);
+    const [isImagePlaceholder, setIsImagePlaceholder] = useState(false);
+    const [imageSrc, setImageSrc] = useState(recipe?.image_url);
 
     const classes = classnames(
         "radius-1 max-w-xl mx-auto p-fluid-m-l//above-sm",
         {
             "pt-fluid-s-m//above-sm": !isPreview,
-            "bg-gray-050//above-sm bg-zinc-800//dark//above-sm": !backgroundClassName,
+            "bg-gray-050//above-sm bg-zinc-800//dark//above-sm":
+                !backgroundClassName,
         },
         backgroundClassName
     );
+
+    useEffect(() => {
+        const img = new Image();
+        img.src = recipe?.image_url;
+        img.onerror = () => {
+            setImageSrc(imagePlaceholder);
+            setIsImagePlaceholder(true);
+
+            if (isPreview) {
+                dispatch(
+                    addAlert({
+                        message:
+                            "The image url is invalid. Please try another one.",
+                        isDanger: true,
+                    })
+                );
+            }
+        };
+    }, [recipe?.image_url]);
 
     useEffect(() => {
         if (recipe) {
@@ -133,25 +156,27 @@ const SingleRecipe = ({ recipe, isPreview, backgroundClassName }) => {
             <div className="relative">
                 <img
                     className="w-full aspect-ratio-16x9 object-cover radius-1"
-                    src={recipe.image_url}
-                    alt={recipe.title}
+                    src={imageSrc}
+                    alt={!isImagePlaceholder ? recipe?.title : undefined}
+                    aria-hidden={isImagePlaceholder}
                 />
-
-                {!isPreview && (
-                    <RecipeActionButtons
-                        recipe={recipe}
-                        onDeleteClick={showDeleteModal}
-                        className="absolute top-3xs top-xs//above-sm right-3xs right-s//above-sm"
-                    />
-                )}
             </div>
 
             <div className="stack s-l mt-m">
                 <header>
-                    <h1 className="f-family-secondary f-size-fluid-4 f-weight-medium line-height-2">
+                    <h1 className="f-family-secondary f-size-fluid-3 f-size-fluid-4//above-sm f-weight-medium line-height-2">
                         {capitalizeWords(recipe.title)}
                     </h1>
-                    <div className="flex flex-wrap align-items-center gap-2xs text-gray-600 text-zinc-300//dark mt-2xs">
+
+                    {!isPreview && (
+                        <RecipeActionButtons
+                            recipe={recipe}
+                            onDeleteClick={showDeleteModal}
+                            className="flex align-items-center gap-2xs mt-2xs"
+                        />
+                    )}
+
+                    <div className="flex flex-wrap align-items-center gap-2xs text-gray-600 text-zinc-300//dark mt-xs">
                         <div className="flex align-items-center f-weight-medium mr-xs">
                             <Icon
                                 type="person"
@@ -237,7 +262,7 @@ const SingleRecipe = ({ recipe, isPreview, backgroundClassName }) => {
                     clearClassName
                     isVisible={isDeleteModalVisible}
                     onClose={closeDeleteModal}
-                    className="max-w-m bg-zinc-900 mt-m p-fluid-l-xl"
+                    className="max-w-m mt-m p-fluid-m-l"
                 >
                     <div className="stack text-center//above-sm">
                         <h2
@@ -246,7 +271,7 @@ const SingleRecipe = ({ recipe, isPreview, backgroundClassName }) => {
                         >
                             Delete Recipe
                         </h2>
-                        <p className="text-zinc-200">
+                        <p className="text-gray-600 text-zinc-200//dark">
                             Are you sure you want to delete this recipe?
                         </p>
                         <div className="flex justify-content-center gap-s w-full flex-direction-column//below-sm mt-l">

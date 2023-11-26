@@ -37,6 +37,16 @@
         transition   : filter 200ms ease-in-out;
     }
 
+    html:not([data-theme="dark"]) &[data-variant="contained"][data-is-primary="true"] {
+        @media (--dark) {
+            --outline-color: var(--clr-gray-900);
+        }
+    }
+
+    [data-theme="light"] &[data-variant="contained"][data-is-primary="true"] {
+            --outline-color : var(--clr-gray-900);
+    }
+
     &:not([disabled])[data-variant="text"]:hover {
         @media (--mouse) {
             background-color : var(--background);

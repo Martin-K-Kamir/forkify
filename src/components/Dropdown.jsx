@@ -9,20 +9,16 @@ const Dropdown = ({
     onOutsideClick,
     align,
     className,
-    backgroundClassName,
+    backgroundClassName = "bg-gray-100 bg-zinc-850//dark",
+    arrowClassName = "text-gray-100 text-zinc-850//dark",
 }) => {
     const ref = useRef(null);
     const childrenRef = useRef(null);
-    const arrowRef = useRef(null);
-    const contentRef = useRef(null);
 
     const classes = classnames(
-        "radius-1",
-        {
-            "bg-zinc-850": !backgroundClassName,
-        },
-        backgroundClassName,
-        className
+        "radius-1 shadow-2xl",
+        className,
+        backgroundClassName
     );
 
     const wrapperClasses = classnames("relative flex", {
@@ -31,11 +27,15 @@ const Dropdown = ({
         "justify-content-end": align === "right",
     });
 
-    const arrowWrapperClasses = classnames("w-full flex", {
-        "justify-content-center": !align || align === "center",
-        "justify-content-start": align === "left",
-        "justify-content-end": align === "right",
-    });
+    const arrowWrapperClasses = classnames(
+        "w-full flex",
+        {
+            "justify-content-center": !align || align === "center",
+            "justify-content-start": align === "left",
+            "justify-content-end": align === "right",
+        },
+        arrowClassName
+    );
 
     const arrowIconClasses = classnames(
         "absolute top translate--y-half pointer-events-none z-index--1",
@@ -47,11 +47,6 @@ const Dropdown = ({
 
     useEffect(() => {
         if (!isVisible) return;
-        const { backgroundColor } = getComputedStyle(contentRef.current);
-
-        Object.assign(arrowRef.current.style, {
-            color: backgroundColor,
-        });
 
         document.addEventListener("click", handleClick, true);
 
@@ -77,9 +72,9 @@ const Dropdown = ({
             {isVisible && (
                 <div
                     ref={ref}
-                    className="flex flex-direction-column absolute bottom--s w-full min-w-max shadow-2xl translate-y-full"
+                    className="flex flex-direction-column absolute bottom--xs w-full min-w-max translate-y-full z-index-600"
                 >
-                    <div ref={arrowRef} className={arrowWrapperClasses}>
+                    <div className={arrowWrapperClasses}>
                         <Icon
                             type="arrowDropUp"
                             className={arrowIconClasses}
@@ -87,9 +82,7 @@ const Dropdown = ({
                             height="2.5rem"
                         />
                     </div>
-                    <div ref={contentRef} className={classes}>
-                        {render()}
-                    </div>
+                    <div className={classes}>{render()}</div>
                 </div>
             )}
         </div>

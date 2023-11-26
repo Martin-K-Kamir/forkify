@@ -1,6 +1,25 @@
 
 .form {
-    accent-color: var(--clr-blue-300);
+    --_placeholder-color : var(--placeholder-color, var(--clr-gray-500));
+    --_label-color       : var(--label-color, var(--clr-gray-500));
+    --_label-color-focus : var(--label-color-focus, var(--clr-blue-600));
+    --_label-color-error : var(--label-color-error, var(--clr-red-600));
+
+    html:not([data-theme="light"]) & {
+        @media (--dark) {
+            --_placeholder-color : var(--placeholder-color, var(--clr-zinc-500));
+            --_label-color       : var(--label-color, var(--clr-zinc-400));
+            --_label-color-focus : var(--label-color-focus, var(--clr-blue-300));
+            --_label-color-error : var(--label-color-error, var(--clr-red-300));
+        }
+    }
+
+    [data-theme="dark"] & {
+        --_placeholder-color : var(--placeholder-color, var(--clr-gray-500));
+        --_label-color       : var(--label-color, var(--clr-gray-400));
+        --_label-color-focus : var(--label-color-focus, var(--clr-blue-300));
+        --_label-color-error : var(--label-color-error, var(--clr-red-300));
+    }
 
     & :where(input, textarea, select) {
         border  : none;
@@ -9,13 +28,13 @@
     }
 
     & input::placeholder {
-        color : color-mix(in hsl, currentColor 50%, transparent);
+        color : var(--_placeholder-color);
     }
 
     & :where(.field, .input-wrapper) {
         --_outline-size   : var(--outline-size, max(1px, 0.1525em));
         --_outline-style  : var(--outline-style, solid);
-        --_outline-color  : var(--outline-color, currentColor);
+        --_outline-color  : var(--outline-color, var(--_label-color-focus, currentColor));
         --_outline-offset : var(--outline-offset, 0px);
     }
 
@@ -44,7 +63,7 @@
         top        : 50%;
         transform  : translateY(-50%);
         font-size  : 100%;
-        color      : var(--clr-zinc-400);
+        color      : var(--_label-color);
     }
 
     & .field:has(textarea) label {
@@ -67,7 +86,7 @@
 
     & .field:has(:is(input:not([value=""]), input:focus, textarea:not([data-value=""]), textarea:focus)) label {
         transform : translateY(-150%);
-        color     : var(--clr-blue-200);
+        color     : var(--_label-color-focus);
         font-size : var(--f-size--1);
     }
 
@@ -76,7 +95,7 @@
     }
 
     & .field:has(input:not(:focus, :valid, [value=""])) label {
-        color : var(--clr-red-200);
+        color : var(--_label-color-error);
     }
 }
 

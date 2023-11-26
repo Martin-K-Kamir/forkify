@@ -18,7 +18,7 @@ const Overlay = ({
     const isAboveSm = useMediaQuery("(width >= 30em)");
 
     const classes = classNames(
-        "fixed inset-0 z-index-800 backdrop-blur-md bg-zinc-950/90 overflow-auto px-m pb-m flex justify-content-center transition-opacity",
+        "fixed inset-0 z-index-800 backdrop-blur-md bg-gray-800/90 bg-zinc-950/90//dark overflow-auto px-m pb-m flex justify-content-center transition-opacity",
         {
             "align-items-start": !center,
             "align-items-center": center,
@@ -68,9 +68,9 @@ const Overlay = ({
             // Set focus back to the last focused element
             if (document.activeElement === document.body) {
                 // Create a temporary focusable element
-                const tempElement = document.createElement('button');
-                tempElement.style.position = 'fixed';
-                tempElement.style.opacity = '0';
+                const tempElement = document.createElement("button");
+                tempElement.style.position = "fixed";
+                tempElement.style.opacity = "0";
                 document.body.appendChild(tempElement);
 
                 // Focus the temporary element
@@ -114,7 +114,7 @@ const Overlay = ({
             {isCloseRendered && (
                 <IconButton
                     variant="text"
-                    color="text-zinc-300"
+                    color="text-gray-100 text-zinc-300//dark"
                     className="absolute z-index-1 top-2xs right-2xs"
                     onClick={onClose}
                     srOnly="Close modal"

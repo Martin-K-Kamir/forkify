@@ -4,42 +4,17 @@
 @custom-media --mouse   (hover) and (pointer: fine);
 
 :root {
-    --clr-slate-050       : hsl(210, 40%, 98%);
-    --clr-slate-100       : hsl(210, 40%, 96%);
-    --clr-slate-150       : hsl(210, 35%, 94%);
-    --clr-slate-200       : hsl(214, 32%, 91%);
-    --clr-slate-300       : #cbd5e1;
-    --clr-slate-400       : #94a3b8;
-    --clr-slate-500       : #64748b;
-    --clr-slate-600       : #475569;
-    --clr-slate-700       : #334155;
-    --clr-slate-800       : #1e293b;
-    --clr-slate-900       : #0f172a;
-    --clr-slate-950       : #020617;
-
-    --clr-gray-050        : #f9fafb;
-    --clr-gray-100        : #f3f4f6;
-    --clr-gray-200        : #e5e7eb;
-    --clr-gray-300        : #d1d5db;
-    --clr-gray-400        : #9ca3af;
-    --clr-gray-500        : #71717a;
-    --clr-gray-600        : #52525b;
-    --clr-gray-700        : #3f3f46;
-    --clr-gray-800        : #27272a;
-    --clr-gray-900        : #18181b;
-    --clr-gray-950        : #09090b;
-
-    --clr-neutral-050     : #fafafa;
-    --clr-neutral-100     : #f5f5f5;
-    --clr-neutral-200     : #e5e5e5;
-    --clr-neutral-300     : #d4d4d4;
-    --clr-neutral-400     : #a3a3a3;
-    --clr-neutral-500     : #737373;
-    --clr-neutral-600     : #525252;
-    --clr-neutral-700     : #404040;
-    --clr-neutral-800     : #262626;
-    --clr-neutral-900     : #171717;
-    --clr-neutral-950     : #0a0a0a;
+    --clr-gray-050        : hsl(210, 20%, 98%);
+    --clr-gray-100        : hsl(220, 14%, 96%);
+    --clr-gray-200        : hsl(220, 13%, 91%);
+    --clr-gray-300        : hsl(216, 12%, 84%);
+    --clr-gray-400        : hsl(218, 11%, 65%);
+    --clr-gray-500        : hsl(240, 4%, 46%);
+    --clr-gray-600        : hsl(240, 5%, 34%);
+    --clr-gray-700        : hsl(240, 5%, 26%);
+    --clr-gray-800        : hsl(240, 4%, 16%);
+    --clr-gray-900        : hsl(240, 6%, 10%);
+    --clr-gray-950        : hsl(240, 10%, 4%);
 
     --clr-zinc-050        : hsl(0, 0%, 98%);
     --clr-zinc-100        : hsl(240, 5%, 96%);
@@ -50,7 +25,7 @@
     --clr-zinc-500        : hsl(240, 4%, 46%);
     --clr-zinc-600        : hsl(240, 5%, 34%);
     --clr-zinc-700        : hsl(240, 5%, 26%);
-    --clr-zinc-800        : hsl(240, 4%, 16%);
+    --clr-zinc-800        : #27272a;
     --clr-zinc-850        : hsl(240, 5%, 12%);
     --clr-zinc-900        : hsl(240, 6%, 10%);
     --clr-zinc-950        : hsl(240, 10%, 4%);
@@ -186,6 +161,14 @@
     text-rendering           : optimizeLegibility;
     -webkit-font-smoothing   : antialiased;
     -moz-osx-font-smoothing  : grayscale;
+}
+
+[data-theme="light"]:root {
+    color-scheme: light;
+}
+
+[data-theme="dark"]:root {
+    color-scheme: dark;
 }
 
 .animation-spin {

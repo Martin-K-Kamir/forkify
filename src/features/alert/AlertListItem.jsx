@@ -39,10 +39,11 @@ const AlertListItem = ({ alertId }) => {
     const classes = className(
         "flex align-items-center gap-fluid-xs-s w-full px-fluid-s-m py-fluid-xs-s radius-1 f-size-fluid-1 f-weight-medium",
         {
-            "bg-green-050 text-green-900": isSuccess,
-            "bg-red-050 text-red-900": isDanger,
-            "bg-yellow-100 text-yellow-700": isWarning,
-            "bg-blue-050 text-blue-900": !isSuccess && !isDanger && !isWarning,
+            "text-green-900 bg-green-200 bg-green-050//dark": isSuccess,
+            "text-red-900 bg-red-200 bg-red-050//dark": isDanger,
+            "text-yellow-700 bg-yellow-200 bg-yellow-100//dark": isWarning,
+            "text-blue-900 bg-blue-200 bg-blue-050//dark":
+                !isSuccess && !isDanger && !isWarning,
         }
     );
 

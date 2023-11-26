@@ -10,7 +10,7 @@ let Field = ({ field, onChange, className }) => {
         field;
 
     const fieldClasses = classNames(
-        "field relative bg-zinc-800 bg-zinc-900//above-sm px-s py-xs radius-1 w-full cursor-text",
+        "field relative bg-gray-300 bg-gray-200//above-sm bg-zinc-800//dark bg-zinc-900//dark//above-sm px-s py-xs radius-1 w-full cursor-text",
         className
     );
 

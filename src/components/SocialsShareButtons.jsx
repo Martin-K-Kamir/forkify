@@ -36,9 +36,9 @@ const SocialsShareButtons = () => {
                     key={content}
                     {...rest}
                     url={window.location.href}
-                    className="button flex text-zinc-050 align-items-center gap-2xs radius-1"
+                    className="button flex text-gray-800 text-zinc-050//dark align-items-center gap-2xs radius-1"
                     data-variant="text"
-                    style={{ padding: "", background: "" }} // reset inline styles from react-share
+                    style={{ padding: "", background: "", color: "" }} // reset inline styles from react-share
                 >
                     <Icon
                         type={icon}

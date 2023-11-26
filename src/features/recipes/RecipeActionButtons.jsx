@@ -13,27 +13,10 @@ import SocialsShareButtons from "../../components/SocialsShareButtons.jsx";
 import { useMediaQuery } from "@uidotdev/usehooks";
 import IconButton from "../../components/IconButton.jsx";
 
-const RecipeActionButtons = ({
-    recipe,
-    className,
-    clearClassName,
-    backgroundClassName,
-    onDeleteClick,
-}) => {
+const RecipeActionButtons = ({ recipe, className, onDeleteClick }) => {
     const isAboveMd = useMediaQuery("(width >= 48em)");
-    const isAboveSm = useMediaQuery("(width >= 30em)");
     const { recipeId } = useParams();
     const { isDropdownVisible, toggleDropdown, closeDropdown } = useDropdown();
-
-    const classes = classnames(
-        {
-            "bg-gray-100 bg-zinc-850//dark": !backgroundClassName,
-            "flex align-items-center gap-3xs gap-2xs//above-sm px-2xs px-xs//above-sm py-3xs py-2xs//above-sm radius-pill":
-                !clearClassName,
-        },
-        backgroundClassName,
-        className
-    );
 
     const [updateBookmark] = useUpdateBookmarkMutation({
         selectFromResult: () => ({}),
@@ -54,12 +37,12 @@ const RecipeActionButtons = ({
     };
 
     return (
-        <div className={classes}>
+        <div className={className}>
             {recipe.userId ? (
                 <IconButton
                     color="error"
                     rounded="circle"
-                    padSize={isAboveSm ? "md" : "sm"}
+                    padSize="md"
                     onClick={onDeleteClick}
                     srOnly="Delete recipe"
                     title="Delete recipe"
@@ -69,7 +52,7 @@ const RecipeActionButtons = ({
             ) : (
                 <IconButton
                     rounded="circle"
-                    padSize={isAboveSm ? "md" : "sm"}
+                    padSize="md"
                     onClick={handleBookmarkClick}
                     srOnly={
                         isBookmarked ? "Remove bookmark" : "Bookmark recipe"
@@ -86,7 +69,7 @@ const RecipeActionButtons = ({
             <IconButton
                 color="text-gray-050 bg-gray-600 text-zinc-050//dark bg-zinc-600//dark"
                 rounded="circle"
-                padSize={isAboveSm ? "md" : "sm"}
+                padSize="md"
                 onClick={handlePrintClick}
                 srOnly="Print recipe"
                 title="Print recipe"
@@ -97,13 +80,15 @@ const RecipeActionButtons = ({
                 isVisible={isDropdownVisible}
                 onOutsideClick={closeDropdown}
                 render={() => <SocialsShareButtons />}
-                align={isAboveMd ? "center" : "right"}
-                className="stack s-3xs p-2xs text-zinc-100 f-size--1"
+                align={isAboveMd ? "center" : "start"}
+                className="stack s-3xs p-2xs f-size--1"
+                backgroundClassName="bg-gray-100 bg-gray-200//above-sm bg-zinc-800//dark bg-zinc-850//dark//above-sm"
+                arrowClassName="text-gray-100 text-gray-200//above-sm text-zinc-800//dark text-zinc-850//dark//above-sm"
             >
                 <IconButton
                     color="success"
                     rounded="circle"
-                    padSize={isAboveSm ? "md" : "sm"}
+                    padSize="md"
                     onClick={toggleDropdown}
                     srOnly="Click to open share options"
                     title="Click to open share options"

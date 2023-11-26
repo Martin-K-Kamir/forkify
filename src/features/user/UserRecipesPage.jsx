@@ -109,7 +109,7 @@ const UserRecipesPage = () => {
                         <h1 className="f-size-fluid-2 f-weight-medium">
                             Your Recipes and Bookmarks
                         </h1>
-                        <p className="f-size-fluid-1 mt-3xs text-zinc-200">
+                        <p className="f-size-fluid-1 mt-3xs text-gray-600 text-zinc-200//dark">
                             You have {userRecipesTotal} recipes and{" "}
                             {userBookmarksTotal} bookmarks.
                         </p>
@@ -117,7 +117,7 @@ const UserRecipesPage = () => {
 
                     <form className="form flex justify-content-between align-items-end//below-md flex-direction-column//below-sm gap-xs w-full//below-lg">
                         <div
-                            className="flex align-items-center gap-2xs bg-zinc-800 f-size--1 px-xs py-2xs radius-1 w-full max-w-2xs//above-sm"
+                            className="flex align-items-center gap-2xs bg-gray-050 bg-zinc-800//dark f-size--1 px-xs py-2xs radius-1 w-full max-w-2xs//above-sm"
                             onClick={handleSearchClick}
                         >
                             <Icon
@@ -125,7 +125,10 @@ const UserRecipesPage = () => {
                                 type="search"
                             />
 
-                            <label htmlFor="search-my-recipes" className="sr-only">
+                            <label
+                                htmlFor="search-my-recipes"
+                                className="sr-only"
+                            >
                                 Search through your recipes
                             </label>
                             <input
@@ -183,7 +186,7 @@ const UserRecipesPage = () => {
             <div className="mt-fluid-m-l">
                 {!areUserRecipesEmpty && <RecipesList recipes={recipes} />}
                 {areUserRecipesEmpty && (
-                    <p className="text-center f-size-1 f-weight-medium text-blue-100 flex align-items-center justify-content-center flex-direction-column gap-2xs">
+                    <p className="text-center f-size-1 f-weight-medium text-blue-600 text-blue-100//dark flex align-items-center justify-content-center flex-direction-column gap-2xs">
                         <Icon type="bookmarkAdd" className="f-size-4" />
                         You don't have any recipes or bookmarks yet.
                     </p>

@@ -7,14 +7,14 @@ import classnames from "classnames";
 import { useMediaQuery } from "@uidotdev/usehooks";
 
 const SearchField = ({
-                         size,
-                         searchTerm,
-                         setSearchTerm,
-                         searchQueries,
-                         inputOptions,
-                         autocompleteOptions,
-                         dividerOptions,
-                     }) => {
+    size,
+    searchTerm,
+    setSearchTerm,
+    searchQueries,
+    inputOptions,
+    autocompleteOptions,
+    dividerOptions,
+}) => {
     const location = useLocation();
     const isAboveMd = useMediaQuery("(min-width: 768px)");
 
@@ -28,7 +28,7 @@ const SearchField = ({
     const [renderAutocomplete, setRenderAutocomplete] = useState(false);
 
     useEffect(() => {
-        const {maxItems = 6} = autocompleteOptions ?? {};
+        const { maxItems = 6 } = autocompleteOptions ?? {};
 
         const filteredSearchQueries = searchQueries
             ?.filter(searchQuery => {
@@ -42,8 +42,8 @@ const SearchField = ({
     }, [searchTerm]);
 
     useEffect(() => {
-        const {minSearchTermLength = 1, maxSearchTermLength = 100} =
-        autocompleteOptions ?? {};
+        const { minSearchTermLength = 1, maxSearchTermLength = 100 } =
+            autocompleteOptions ?? {};
 
         const length = searchTerm.length;
 
@@ -82,7 +82,7 @@ const SearchField = ({
     }, [location]);
 
     const inputClasses = classnames(
-        "input-wrapper flex align-items-center w-full",
+        "input-wrapper flex align-items-center w-full cursor-text",
         {
             "bg-gray-050 bg-zinc-800//dark": !inputOptions?.backgroundClassName,
             "f-size-1 p-s": size === "lg",
@@ -98,21 +98,23 @@ const SearchField = ({
         inputOptions?.backgroundClassName
     );
 
-    const autocompleteClasses = classnames("w-full radius-bottom-1", {
+    const autocompleteClasses = classnames(
+        "w-full radius-bottom-1 f-size--1",
+        {
             "none ": !renderAutocomplete,
             "absolute z-index-800 shadow-2xl":
                 renderAutocomplete &&
                 isAboveMd &&
                 (autocompleteOptions?.shouldOverlay ?? true),
             "bg-gray-050 bg-zinc-800//dark": !inputOptions?.backgroundClassName,
-            "f-size-1 px-s pb-s": size === "lg",
-            "f-size--1 px-xs pb-2xs": size === "md",
+            "px-s pb-s": size === "lg",
+            "px-xs pb-2xs": size === "md",
         },
         inputOptions?.backgroundClassName,
         autocompleteOptions?.className
     );
 
-    const dividerClasses = classnames("h-px w-full",{
+    const dividerClasses = classnames("h-px w-full", {
         "bg-gray-300 bg-zinc-600//dark": !dividerOptions?.backgroundClassName,
         "mb-s": size === "lg",
         "mb-2xs": size === "md",
@@ -130,8 +132,8 @@ const SearchField = ({
 
     const handleOutsideClick = e => {
         if (
-            !autocompleteRef.current.contains(e.target) &&
-            !inputRef.current.contains(e.target)
+            !autocompleteRef.current?.contains(e.target) &&
+            !inputRef.current?.contains(e.target)
         ) {
             setIsFocused(false);
         }
@@ -191,10 +193,7 @@ const SearchField = ({
                 className={autocompleteClasses}
                 options={autocompleteOptions}
                 renderDivider={() => (
-                    <div
-                        className={dividerClasses}
-                        aria-hidden="true"
-                    />
+                    <div className={dividerClasses} aria-hidden="true" />
                 )}
             />
         </div>

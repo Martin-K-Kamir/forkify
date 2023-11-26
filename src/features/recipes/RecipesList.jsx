@@ -36,6 +36,9 @@ const RecipesList = ({ recipes }) => {
 
     const isLimitReached = limit >= recipes?.length;
 
+    const handleReset = () => {
+        setLimit(originalLimit);
+    };
     const handleClick = () => {
         setLimit(prevLimit => prevLimit + originalLimit);
     };
@@ -53,7 +56,7 @@ const RecipesList = ({ recipes }) => {
             )}
 
             {isRecipesListEmpty && (
-                <p className="text-center f-size-1 f-weight-medium text-red-100 flex align-items-center justify-content-center flex-direction-column gap-2xs">
+                <p className="text-center f-size-1 f-weight-medium text-red-600 text-red-100//dark flex align-items-center justify-content-center flex-direction-column gap-2xs">
                     <Icon type="warning" fill className="f-size-3" />
                     No recipes found. Please try again.
                 </p>
@@ -68,6 +71,17 @@ const RecipesList = ({ recipes }) => {
                         onClick={handleClick}
                     >
                         More Recipes
+                    </Button>
+                )}
+
+                {isLimitReached && !isRecipesListEmpty && (
+                    <Button
+                        bold
+                        fontSize={isAboveSm ? "sm" : "md"}
+                        color="success"
+                        onClick={handleReset}
+                    >
+                        Back to Top
                     </Button>
                 )}
             </div>

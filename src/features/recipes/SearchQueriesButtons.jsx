@@ -21,11 +21,16 @@ let SearchQueriesButtons = () => {
         return shuffledData.slice(0, count);
     };
 
+    const addHyphens = str => {
+        return str.split(" ").join("-");
+    };
+
     const renderedRecipes = randomizeArray(data)?.map(recipe => {
         return (
             <Button
-                to={`/search/${recipe}`}
-                color="bg-gray-300 text-gray-600 bg-zinc-800//dark text-zinc-200//dark"
+                bold
+                to={`/search/${addHyphens(recipe)}`}
+                color="secondary"
                 fontSize="sm"
                 rounded="pill"
                 className="text-no-decoration"

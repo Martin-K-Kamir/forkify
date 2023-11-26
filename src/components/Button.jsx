@@ -59,18 +59,19 @@ const Button = ({
             "p-2xs": padSize === "md" && isIconButton,
             "p-xs": padSize === "lg" && isIconButton,
             "bg-transparent": variant === "text",
-            "text-blue-500": color === "primary" && variant === "text",
+            "text-blue-600 text-blue-400//dark":
+                color === "primary" && variant === "text",
             "text-gray-800 text-zinc-050//dark":
                 color === "secondary" && variant === "text",
             "bg-blue-600 text-gray-050 bg-blue-700//dark text-zinc-050//dark":
                 color === "primary" && variant === "contained",
-            "bg-gray-300 text-gray-600 bg-zinc-800//dark text-zinc-050//dark":
+            "bg-gray-300 text-gray-700 bg-zinc-800//dark text-zinc-050//dark":
                 color === "secondary" && variant === "contained",
-            "bg-red-800 text-zinc-050":
+            "bg-red-600 bg-red-700//dark text-gray-050 text-zinc-050//dark":
                 color === "error" && variant === "contained",
-            "bg-green-700 text-zinc-050":
+            "bg-green-600 bg-green-700//dark text-gray-050 text-zinc-050//dark":
                 color === "success" && variant === "contained",
-            "bg-yellow-600 text-zinc-050":
+            "bg-yellow-500 bg-yellow-600//dark text-gray-050 text-zinc-050//dark":
                 color === "warning" && variant === "contained",
             [color]: color && !["primary", "secondary"].includes(color),
             [fontSize]: fontSize && !["sm", "md", "lg"].includes(fontSize),
@@ -156,6 +157,7 @@ const Button = ({
             data-variant={variant}
             data-icon-button={isIconButton}
             data-hover={hover}
+            data-is-primary={color === "primary"}
         >
             {startIcon && <span className={contentClasses}>{iconStart}</span>}
             {content && <span className={contentClasses}>{content}</span>}

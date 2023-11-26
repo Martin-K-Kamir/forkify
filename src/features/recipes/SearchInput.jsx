@@ -3,26 +3,30 @@ import Icon from "../../components/Icon.jsx";
 import React from "react";
 
 const SearchInput = ({
-                         idRef,
-                         value,
-                         onChange,
-                         onClearClick,
-                         onFocus,
-                         onKeyUp,
-                         className,
-                         options,
-                     }) => {
+    idRef,
+    value,
+    onChange,
+    onClearClick,
+    onFocus,
+    onKeyUp,
+    className,
+    options,
+}) => {
+    const handleFocusCluck = e => {
+        e.target.querySelector("input")?.focus();
+    };
+
     return (
-        <div className={className}>
+        <div className={className} onClick={handleFocusCluck}>
             <label htmlFor={`search-input-${idRef}`} className="sr-only">
-                Use this field to search for recipes by name or ingredient.
-                As you type, a list of suggestions will appear. Use the
-                arrow keys to navigate through these suggestions. Press
-                enter to select a highlighted suggestion and you'll be taken
-                to the search results page. If the recipe you're looking for
-                doesn't appear in the suggestions, you can still search for
-                it. Just type it into the search box and press enter. To
-                clear the search box, press the escape key.
+                Use this field to search for recipes by name or ingredient. As
+                you type, a list of suggestions will appear. Use the arrow keys
+                to navigate through these suggestions. Press enter to select a
+                highlighted suggestion and you'll be taken to the search results
+                page. If the recipe you're looking for doesn't appear in the
+                suggestions, you can still search for it. Just type it into the
+                search box and press enter. To clear the search box, press the
+                escape key.
             </label>
             <input
                 id={`search-input-${idRef}`}
@@ -49,15 +53,11 @@ const SearchInput = ({
                     srOnly="Clear search"
                     hover="absolute"
                 >
-                    <Icon
-                        type="close"
-                        className="f-size-1"
-                    />
+                    <Icon type="close" className="f-size-1" />
                 </IconButton>
             )}
         </div>
     );
-}
-
+};
 
 export default SearchInput;
