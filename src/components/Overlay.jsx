@@ -18,7 +18,7 @@ const Overlay = ({
     const isAboveSm = useMediaQuery("(width >= 30em)");
 
     const classes = classNames(
-        "fixed inset-0 z-index-800 backdrop-blur-md bg-gray-800/90 bg-zinc-950/90//dark overflow-auto px-m pb-m flex justify-content-center transition-opacity",
+        "fixed inset-0 z-index-800 none//print backdrop-blur-md bg-gray-800/90 bg-zinc-950/90//dark overflow-auto px-m pb-m flex justify-content-center transition-opacity",
         {
             "align-items-start": !center,
             "align-items-center": center,

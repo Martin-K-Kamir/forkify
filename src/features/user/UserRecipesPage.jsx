@@ -33,6 +33,14 @@ const UserRecipesPage = () => {
         { label: "Bookmarks", value: "bookmarks" },
         { label: "My Recipes", value: "myRecipes" },
     ];
+    useEffect(() => {
+        const originalTitle = document.title;
+        document.title = "Your Recipes and Bookmarks | Forkify";
+
+        return () => {
+            document.title = originalTitle;
+        };
+    }, []);
 
     useEffect(() => {
         const sortValue = selectedSort?.value;

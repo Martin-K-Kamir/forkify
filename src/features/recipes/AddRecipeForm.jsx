@@ -134,6 +134,15 @@ const AddRecipeForm = () => {
     const formRef = React.useRef(form);
 
     useEffect(() => {
+        const originalTitle = document.title;
+        document.title = "Add Recipe | Forkify";
+
+        return () => {
+            document.title = originalTitle;
+        };
+    }, []);
+
+    useEffect(() => {
         let timer;
         const message =
             "The server is taking longer than usual to respond. Please be patient.";

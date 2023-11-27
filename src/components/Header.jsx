@@ -11,7 +11,7 @@ const Header = () => {
     const isLandingPage = location.pathname === "/";
 
     return (
-        <header className="flex align-items-center justify-content-between gap-s bg-gray-050 bg-zinc-800//dark radius-1 px-m py-s py-m//above-lg mb-l">
+        <header className="flex align-items-center justify-content-between gap-s bg-gray-050 bg-zinc-800//dark radius-1 px-m py-s py-m//above-lg mb-l none//print">
             <Link
                 to="/"
                 className="f-family-secondary text-no-decoration text-gray-800 text-zinc-050//dark f-size-2 f-size-3//above-lg f-weight-medium line-height-1 outline-size-l radius-1 outline-offset-m"

@@ -74,16 +74,18 @@ const RecipesList = ({ recipes }) => {
                     </Button>
                 )}
 
-                {isLimitReached && !isRecipesListEmpty && (
-                    <Button
-                        bold
-                        fontSize={isAboveSm ? "sm" : "md"}
-                        color="success"
-                        onClick={handleReset}
-                    >
-                        Back to Top
-                    </Button>
-                )}
+                {isLimitReached &&
+                    recipes.length > 6 &&
+                    !isRecipesListEmpty && (
+                        <Button
+                            bold
+                            fontSize={isAboveSm ? "sm" : "md"}
+                            color="success"
+                            onClick={handleReset}
+                        >
+                            Back to Top
+                        </Button>
+                    )}
             </div>
         </div>
     );

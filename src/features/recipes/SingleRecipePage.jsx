@@ -2,6 +2,8 @@ import { useParams } from "react-router-dom";
 import { useGetRecipeQuery } from "./recipiesSlice.js";
 import Icon from "../../components/Icon.jsx";
 import SingleRecipe from "./SingleRecipe.jsx";
+import { useEffect } from "react";
+import { capitalizeWords } from "../../utilities.js";
 
 const SingleRecipePage = () => {
     const { recipeId } = useParams();
@@ -12,6 +14,18 @@ const SingleRecipePage = () => {
         isSuccess,
         error,
     } = useGetRecipeQuery(recipeId);
+
+    useEffect(() => {
+        const originalTitle = document.title;
+
+        if (isSuccess) {
+            document.title = `${capitalizeWords(recipe.title)} | Forkify`;
+        }
+
+        return () => {
+            document.title = originalTitle;
+        };
+    }, [isSuccess]);
 
     if (isLoading) {
         return (

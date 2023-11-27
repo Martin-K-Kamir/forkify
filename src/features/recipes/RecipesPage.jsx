@@ -3,11 +3,26 @@ import { useGetRecipesQuery } from "./recipiesSlice.js";
 import RecipesList from "./RecipesList.jsx";
 import Icon from "../../components/Icon.jsx";
 import { capitalizeWords } from "../../utilities.js";
+import { useEffect } from "react";
 
 const RecipesPage = () => {
     const { recipesId } = useParams();
     const { data, isLoading, isError, isSuccess, error } =
         useGetRecipesQuery(recipesId);
+
+    useEffect(() => {
+        const originalTitle = document.title;
+
+        if (isSuccess) {
+            document.title = `Search results for ${capitalizeWords(
+                removeHyphens(recipesId)
+            )} | Forkify`;
+        }
+
+        return () => {
+            document.title = originalTitle;
+        };
+    }, [isSuccess]);
 
     const removeHyphens = str => {
         return str.split("-").join(" ");
@@ -18,7 +33,7 @@ const RecipesPage = () => {
             <div className="flex justify-content-center">
                 <Icon
                     type="progressActivity"
-                    className="animation-spin f-size-5 text-blue-600 text-zinc-900//dark"
+                    className="animation-spin f-size-5 text-blue-600 text-zinc-050//dark"
                 />
             </div>
         );

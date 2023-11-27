@@ -20,10 +20,9 @@ module.exports = () => {
             postcssPurgecss({
                 content: ['./src/**/*.html', './src/**/*.js', './src/**/*.jsx'],
                 safelist: {
-                    standard: ['html', 'body', /^:root\[data-theme="light"]$/],
-                    deep: [/^:root\[data-theme="light"]$/, /^:root\[data-theme="dark"]$/],
+                    standard: ['html', 'body'],
+                    deep: [/^:root$/],
                 },
-                whitelist: [':root[data-theme="light"]', ':root[data-theme="dark"]'],
                 defaultExtractor: (content) => content.match(/[\w-/:%]+(?<!:\/\/[^"'\s]*)/g) || [],
             })
         );

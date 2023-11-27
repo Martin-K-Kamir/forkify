@@ -12,6 +12,9 @@ import useDropdown from "../../hooks/useDropdown.js";
 import SocialsShareButtons from "../../components/SocialsShareButtons.jsx";
 import { useMediaQuery } from "@uidotdev/usehooks";
 import IconButton from "../../components/IconButton.jsx";
+import Modal from "../../components/Modal.jsx";
+import Button from "../../components/Button.jsx";
+import useModal from "../../hooks/useModal.js";
 
 const RecipeActionButtons = ({ recipe, className, onDeleteClick }) => {
     const isAboveMd = useMediaQuery("(width >= 48em)");
@@ -33,6 +36,13 @@ const RecipeActionButtons = ({ recipe, className, onDeleteClick }) => {
     };
 
     const handlePrintClick = () => {
+        if (document.documentElement.dataset.theme === "dark") {
+            document.documentElement.dataset.theme = "light";
+            window.print();
+            document.documentElement.dataset.theme = "dark";
+            return;
+        }
+
         window.print();
     };
 

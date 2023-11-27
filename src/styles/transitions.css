@@ -1,4 +1,4 @@
-
+/* purgecss start ignore */
 [class*="transition-"] {
     transition-duration        : 300ms;
     transition-timing-function : ease-in-out;
@@ -54,3 +54,4 @@
     margin              : 0 !important;
     transition-property : margin, max-height, visibility, opacity, transform;
 }
+/* purgecss end ignore */

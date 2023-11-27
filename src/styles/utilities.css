@@ -3422,6 +3422,11 @@
 .none {
     display : none;
 }
+.none\/\/print {
+    @media print {
+        display : none;
+    }
+}
 
 .block {
     display : block;
@@ -17210,7 +17215,6 @@
 
 html:not([data-theme="light"]) {
     /* text */
-
     & .text-inherit\/\/dark {
         color : inherit;
     }

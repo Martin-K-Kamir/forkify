@@ -148,7 +148,7 @@ const SingleRecipe = ({ recipe, isPreview, backgroundClassName }) => {
     return (
         <div className={classes}>
             {!isPreview && (
-                <div className="mb-s">
+                <div className="mb-s none//print">
                     <Breadcrumbs title={recipe.title} />
                 </div>
             )}
@@ -172,11 +172,11 @@ const SingleRecipe = ({ recipe, isPreview, backgroundClassName }) => {
                         <RecipeActionButtons
                             recipe={recipe}
                             onDeleteClick={showDeleteModal}
-                            className="flex align-items-center gap-2xs mt-2xs"
+                            className="flex align-items-center gap-2xs mt-xs none//print"
                         />
                     )}
 
-                    <div className="flex flex-wrap align-items-center gap-2xs text-gray-600 text-zinc-300//dark mt-xs">
+                    <div className="flex flex-wrap align-items-center gap-2xs text-gray-600 text-zinc-300//dark mt-s">
                         <div className="flex align-items-center f-weight-medium mr-xs">
                             <Icon
                                 type="person"
@@ -196,7 +196,7 @@ const SingleRecipe = ({ recipe, isPreview, backgroundClassName }) => {
                                 className="f-size-2 mr-3xs"
                             />
                             <p>{servings || recipe.servings} servings</p>
-                            <div className="flex align-items-center gap-2xs f-size-2 ml-xs">
+                            <div className="flex align-items-center gap-2xs f-size-2 ml-xs none//print">
                                 <IconButton
                                     disableRipple
                                     variant="text"
@@ -249,7 +249,7 @@ const SingleRecipe = ({ recipe, isPreview, backgroundClassName }) => {
                         target="_blank"
                         bold
                         padSize="lg"
-                        className="text-no-decoration mt-m w-full//below-sm"
+                        className="text-no-decoration mt-m w-full//below-sm none//print"
                     >
                         Click here for directions
                     </Button>
