@@ -3572,6 +3572,16 @@
     flex-shrink : 1;
 }
 
+.cols-fill-s {
+    grid-template-columns : repeat(auto-fill, minmax(min(12.5rem, 100%), 1fr));
+}
+.cols-fill-m {
+    grid-template-columns : repeat(auto-fill, minmax(min(15rem, 100%), 1fr));
+}
+.cols-fill-l {
+    grid-template-columns : repeat(auto-fill, minmax(min(19.5rem, 100%), 1fr));
+}
+
 /* /////////////// Media queries /////////////// */
 
 /* Above --> */
@@ -17198,7 +17208,7 @@
     }
 }
 
-[data-theme="dark"] {
+html:not([data-theme="light"]) {
     /* text */
 
     & .text-inherit\/\/dark {

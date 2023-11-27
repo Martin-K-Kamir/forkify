@@ -48,7 +48,7 @@ const RecipesList = ({ recipes }) => {
             {!isRecipesListEmpty && (
                 <ul
                     id="recipes-list"
-                    className="recipes-list gap-l"
+                    className="grid cols-fill-m gap-l"
                     role="list"
                 >
                     {renderedRecipes}

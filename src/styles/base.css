@@ -25,7 +25,7 @@
     --clr-zinc-500        : hsl(240, 4%, 46%);
     --clr-zinc-600        : hsl(240, 5%, 34%);
     --clr-zinc-700        : hsl(240, 5%, 26%);
-    --clr-zinc-800        : #27272a;
+    --clr-zinc-800        : hsl(240, 4%, 16%);
     --clr-zinc-850        : hsl(240, 5%, 12%);
     --clr-zinc-900        : hsl(240, 6%, 10%);
     --clr-zinc-950        : hsl(240, 10%, 4%);
@@ -163,30 +163,12 @@
     -moz-osx-font-smoothing  : grayscale;
 }
 
-[data-theme="light"]:root {
+:root[data-theme="light"] {
     color-scheme: light;
 }
 
-[data-theme="dark"]:root {
+:root[data-theme="dark"] {
     color-scheme: dark;
-}
-
-.animation-spin {
-    animation : spin 1s linear infinite;
-}
-
-@keyframes spin {
-    0% {
-        transform : rotate(0deg);
-    }
-    100% {
-        transform : rotate(360deg);
-    }
-}
-
-.recipes-list {
-    display               : grid;
-    grid-template-columns : repeat(auto-fill, minmax(min(15rem, 100%), 1fr));
 }
 
 :where(a, button, input, select, [role="combobox"]) {

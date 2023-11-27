@@ -15,7 +15,7 @@ const SingleRecipePage = () => {
 
     if (isLoading) {
         return (
-            <div className="flex justify-content-center">
+            <div className="flex abc justify-content-center">
                 <Icon
                     type="progressActivity"
                     className="animation-spin f-size-5"
