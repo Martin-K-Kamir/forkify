@@ -157,7 +157,7 @@ const Button = ({
             data-variant={variant}
             data-icon-button={isIconButton}
             data-hover={hover}
-            data-is-primary={color === "primary"}
+            data-is-primary={color === "primary" ? true : undefined}
         >
             {startIcon && <span className={contentClasses}>{iconStart}</span>}
             {content && <span className={contentClasses}>{content}</span>}

@@ -110,7 +110,7 @@ const Navigation = ({ buttonsToRender, buttonsToFilter, className }) => {
     )
         .filter(item => !buttonsToFilter?.includes(item.id))
         .map(({ id, to, content, icon, onClick, ...rest }) => (
-            <li key={id} role="presentation">
+            <li key={id}>
                 <Button
                     {...rest}
                     id={id}
@@ -121,7 +121,6 @@ const Navigation = ({ buttonsToRender, buttonsToFilter, className }) => {
                     className="text-no-decoration line-height-0"
                     startIcon={<Icon className="f-size-2" type={icon} />}
                     onClick={onClick}
-                    role="menuitem"
                 >
                     {content}
                 </Button>
