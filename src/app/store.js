@@ -51,6 +51,7 @@ export const store = configureStore({
         getDefaultMiddleware()
             .prepend(localStorageListener.middleware)
             .concat(api.middleware),
+    devTools: process.env.NODE_ENV !== "production",
 });
 
 setupListeners(store.dispatch);
