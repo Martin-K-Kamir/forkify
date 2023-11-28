@@ -10,8 +10,10 @@ import { Link } from "react-router-dom";
 import { wait } from "../../utilities.js";
 import { useAddRecipeMutation } from "../user/userSlice.js";
 import Button from "../../components/Button.jsx";
+import useDocumentTitle from "../../hooks/useDocumentTitle.js";
 
 const AddRecipeForm = () => {
+    useDocumentTitle("Add Recipe | Forkify")
     const dispatch = useDispatch();
 
     const {
@@ -132,15 +134,6 @@ const AddRecipeForm = () => {
     const [canSubmit, setCanSubmit] = useState(false);
     const [originalForm] = useState(form);
     const formRef = React.useRef(form);
-
-    useEffect(() => {
-        const originalTitle = document.title;
-        document.title = "Add Recipe | Forkify";
-
-        return () => {
-            document.title = originalTitle;
-        };
-    }, []);
 
     useEffect(() => {
         let timer;

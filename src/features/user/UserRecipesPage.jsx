@@ -9,8 +9,10 @@ import {
     selectAllUserStoredRecipes,
 } from "./userSlice.js";
 import IconButton from "../../components/IconButton.jsx";
+import useDocumentTitle from "../../hooks/useDocumentTitle.js";
 
 const UserRecipesPage = () => {
+    useDocumentTitle("Your Recipes and Bookmarks | Forkify");
     const allUserRecipes = useSelector(selectAllUserStoredRecipes);
     const userBookmarksTotal = useSelector(selectTotalUserBookmarks);
     const userRecipesTotal = useSelector(selectTotalUserRecipes);
@@ -33,14 +35,6 @@ const UserRecipesPage = () => {
         { label: "Bookmarks", value: "bookmarks" },
         { label: "My Recipes", value: "myRecipes" },
     ];
-    useEffect(() => {
-        const originalTitle = document.title;
-        document.title = "Your Recipes and Bookmarks | Forkify";
-
-        return () => {
-            document.title = originalTitle;
-        };
-    }, []);
 
     useEffect(() => {
         const sortValue = selectedSort?.value;

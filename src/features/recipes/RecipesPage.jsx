@@ -3,30 +3,20 @@ import { useGetRecipesQuery } from "./recipiesSlice.js";
 import RecipesList from "./RecipesList.jsx";
 import Icon from "../../components/Icon.jsx";
 import { capitalizeWords } from "../../utilities.js";
-import { useEffect } from "react";
+import useDocumentTitle from "../../hooks/useDocumentTitle.js";
 
 const RecipesPage = () => {
     const { recipesId } = useParams();
     const { data, isLoading, isError, isSuccess, error } =
         useGetRecipesQuery(recipesId);
 
-    useEffect(() => {
-        const originalTitle = document.title;
-
-        if (isSuccess) {
-            document.title = `Search results for ${capitalizeWords(
-                removeHyphens(recipesId)
-            )} | Forkify`;
-        }
-
-        return () => {
-            document.title = originalTitle;
-        };
-    }, [isSuccess]);
-
     const removeHyphens = str => {
         return str.split("-").join(" ");
     };
+
+    useDocumentTitle(`Search results for ${capitalizeWords(
+        removeHyphens(recipesId)
+    )} | Forkify`);
 
     if (isLoading) {
         return (

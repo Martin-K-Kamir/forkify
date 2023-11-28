@@ -25,9 +25,9 @@
     --clr-zinc-500        : hsl(240, 4%, 46%);
     --clr-zinc-600        : hsl(240, 5%, 34%);
     --clr-zinc-700        : hsl(240, 5%, 26%);
-    --clr-zinc-800        : hsl(240, 4%, 16%);
-    --clr-zinc-850        : hsl(240, 5%, 12%);
-    --clr-zinc-900        : hsl(240, 6%, 10%);
+    --clr-zinc-800        : #27272a;
+    --clr-zinc-850        : #1d1d20;
+    --clr-zinc-900        : #18181b;
     --clr-zinc-950        : hsl(240, 10%, 4%);
 
     --clr-red-050         : hsl(0, 86%, 97%);
