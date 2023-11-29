@@ -6,7 +6,7 @@ export const api = createApi({
         baseUrl: "https://forkify-api.herokuapp.com/api/v2/recipes",
         // fetchFn: async (...args) => {
         //     console.log(...args);
-        //     await new Promise(resolve => setTimeout(resolve, 3_000));
+        //     await new Promise(resolve => setTimeout(resolve, 11_000));
         //     return fetch(...args);
         // },
         // prepareHeaders(headers) {

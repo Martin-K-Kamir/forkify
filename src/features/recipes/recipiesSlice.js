@@ -3,33 +3,7 @@ import { createEntityAdapter } from "@reduxjs/toolkit";
 import { dataSearchQueries } from "../../dataSearchQueries.js";
 import { sub } from "date-fns";
 import { API_KEY } from "../../env.js";
-import { addAlert, removeAlert } from "../alert/alertSlice.js";
-import { ALERT_TIMEOUT_LONG } from "../../app/config.js";
-
-const handleLongRunningQuery = async (
-    queryFulfilled,
-    dispatch,
-    alertTimeout = ALERT_TIMEOUT_LONG,
-    alertDelay = ALERT_TIMEOUT_LONG
-) => {
-    const message = "The request is taking longer than expected.";
-
-    let timeout = setTimeout(() => {
-        dispatch(
-            addAlert({
-                message,
-                isWarning: true,
-                timeout: alertTimeout,
-            })
-        );
-    }, alertDelay);
-
-    try {
-        await queryFulfilled;
-    } catch {}
-    clearTimeout(timeout);
-    dispatch(removeAlert(message));
-};
+import { apiLongRunningRequest } from "../api/apiHelpers.js";
 
 const extendedApi = api.injectEndpoints({
     endpoints: builder => ({
@@ -85,7 +59,7 @@ const extendedApi = api.injectEndpoints({
                 }
             },
             async onQueryStarted(_, { dispatch, queryFulfilled }) {
-                await handleLongRunningQuery(queryFulfilled, dispatch);
+                await apiLongRunningRequest(queryFulfilled, dispatch);
             },
         }),
         getRecipe: builder.query({
@@ -104,7 +78,7 @@ const extendedApi = api.injectEndpoints({
                 return recipe;
             },
             async onQueryStarted(_, { dispatch, queryFulfilled }) {
-                await handleLongRunningQuery(queryFulfilled, dispatch);
+                await apiLongRunningRequest(queryFulfilled, dispatch);
             },
         }),
         getSearchQueries: builder.query({

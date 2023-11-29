@@ -5,6 +5,7 @@ import {
 } from "@reduxjs/toolkit";
 import { api } from "../api/api.js";
 import { API_KEY } from "../../env.js";
+import { apiLongRunningRequest } from "../api/apiHelpers.js";
 
 const extendedApi = api.injectEndpoints({
     endpoints: builder => ({
@@ -65,26 +66,10 @@ const extendedApi = api.injectEndpoints({
 
                 return recipe;
             },
-            transformErrorResponse: result => {
-                if ([401].includes(result.status)) {
-                    return {
-                        message:
-                            "Oops! Something went wrong on our end. Please try again later.",
-                    };
-                }
-
-                if ([500, 501, 502, 503, 504, 505].includes(result.status)) {
-                    return {
-                        message:
-                            "Our server needs a coffee break. Try again later.",
-                    };
-                }
-
-                return result.data;
-            },
             async onQueryStarted({ recipe }, { dispatch, queryFulfilled }) {
                 try {
-                    const { data: recipe } = await queryFulfilled;
+                    await apiLongRunningRequest(queryFulfilled, dispatch);
+                    const { data: recipe } = queryFulfilled;
                     dispatch(addUserRecipe(recipe));
                 } catch {}
             },
@@ -98,23 +83,6 @@ const extendedApi = api.injectEndpoints({
                 { type: "Recipe", id: arg },
                 { type: "Recipe", id: "LIST" },
             ],
-            transformErrorResponse: result => {
-                if ([401].includes(result.status)) {
-                    return {
-                        message:
-                            "Oops! Something went wrong on our end. Please try again later.",
-                    };
-                }
-
-                if ([500, 501, 502, 503, 504, 505].includes(result.status)) {
-                    return {
-                        message:
-                            "Our server needs a coffee break. Try again later.",
-                    };
-                }
-
-                return result.data;
-            },
             async onQueryStarted(id, { dispatch, queryFulfilled, getState }) {
                 const { data: recipe } = api.endpoints.getRecipe.select(id)(
                     getState()

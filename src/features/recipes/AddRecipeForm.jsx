@@ -1,12 +1,10 @@
 import React, { useEffect, useState } from "react";
 import FieldList from "../../components/FieldList.jsx";
-import Icon from "../../components/Icon.jsx";
 import { addAlert, removeAlert } from "../alert/alertSlice.js";
 import { useDispatch } from "react-redux";
 import Modal from "../../components/Modal.jsx";
 import useModal from "../../hooks/useModal.js";
 import SingleRecipe from "./SingleRecipe.jsx";
-import { Link } from "react-router-dom";
 import { wait } from "../../utilities.js";
 import { useAddRecipeMutation } from "../user/userSlice.js";
 import Button from "../../components/Button.jsx";
@@ -14,7 +12,7 @@ import useDocumentTitle from "../../hooks/useDocumentTitle.js";
 import { ALERT_TIMEOUT_LONG } from "../../app/config.js";
 
 const AddRecipeForm = () => {
-    useDocumentTitle("Add Recipe | Forkify")
+    useDocumentTitle("Add Recipe | Forkify");
     const dispatch = useDispatch();
 
     const {
@@ -57,7 +55,6 @@ const AddRecipeForm = () => {
                 label: "Prep Time (minutes)",
                 type: "number",
                 isRequired: true,
-                pattern: "^(?!0\\d{2,})([0-9]{3,600})$",
                 min: 3,
                 max: 600,
                 value: "",
@@ -67,7 +64,6 @@ const AddRecipeForm = () => {
                 label: "Servings",
                 type: "number",
                 isRequired: true,
-                pattern: "^(?!0\\d{2,})([0-9]{1,100})$",
                 min: 1,
                 max: 100,
                 value: "",
@@ -135,27 +131,6 @@ const AddRecipeForm = () => {
     const [canSubmit, setCanSubmit] = useState(false);
     const [originalForm] = useState(form);
     const formRef = React.useRef(form);
-
-    useEffect(() => {
-        let timer;
-        const message =
-            "The server is taking longer than usual to respond. Please be patient.";
-        if (isLoading && !isUninitialized) {
-            timer = setTimeout(() => {
-                dispatch(
-                    addAlert({
-                        message,
-                        isWarning: true,
-                        timeout: ALERT_TIMEOUT_LONG,
-                    })
-                );
-            }, ALERT_TIMEOUT_LONG);
-        } else if (isSuccess) {
-            dispatch(removeAlert(message));
-        }
-
-        return () => clearTimeout(timer);
-    }, [isLoading, isSuccess]);
 
     useEffect(() => {
         setCanSubmit(formRef.current.checkValidity() && !isLoading);
@@ -493,7 +468,6 @@ const AddRecipeForm = () => {
                             id="form-terms"
                             name="form-terms"
                             value={termsChecked}
-                            className="w-em h-em"
                             onChange={() => setTermsChecked(prev => !prev)}
                             required
                             style={{ transform: "translateY(2px)" }}

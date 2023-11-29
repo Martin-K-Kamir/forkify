@@ -6,8 +6,18 @@ let Field = ({ field, onChange, className }) => {
     const inputRef = useRef(null);
     const fieldRef = useRef(null);
 
-    const { id, label, isRequired, type, pattern, min, max, maxLength, value } =
-        field;
+    const {
+        id,
+        label,
+        isRequired,
+        type,
+        pattern,
+        min,
+        max,
+        step,
+        maxLength,
+        value,
+    } = field;
 
     const fieldClasses = classNames(
         "field relative bg-gray-300 bg-gray-200//above-sm bg-zinc-800//dark bg-zinc-900//dark//above-sm px-s py-xs radius-1 w-full cursor-text",
@@ -64,6 +74,16 @@ let Field = ({ field, onChange, className }) => {
         textarea.style.height = `${scrollHeight}px`;
     };
 
+    const handleChange = e => {
+        onChange(e);
+    };
+
+    const handleKeyPress = e => {
+        if ([".", ",", "-"].includes(e.key)) {
+            e.preventDefault();
+        }
+    };
+
     const handleFocus = e => {
         if (keyboardUsed) {
             e.target.dataset.focusVisible = "true";
@@ -95,7 +115,7 @@ let Field = ({ field, onChange, className }) => {
                         id={id}
                         name={id}
                         className="bg-transparent w-full"
-                        onChange={onChange}
+                        onChange={handleChange}
                         value={value}
                         data-value={value.substring(0, 1)}
                         required={isRequired}
@@ -110,12 +130,16 @@ let Field = ({ field, onChange, className }) => {
                         type={type}
                         className="bg-transparent mt-auto w-full line-height-1"
                         value={value}
-                        onChange={onChange}
+                        onChange={handleChange}
+                        onKeyDown={
+                            type === "number" ? handleKeyPress : undefined
+                        }
                         pattern={pattern}
                         min={min}
                         max={max}
                         maxLength={maxLength}
                         required={isRequired}
+                        step={step}
                     />
                 )}
             </div>
@@ -128,3 +152,23 @@ Field = React.memo(Field, (prevProps, nextProps) => {
 });
 
 export default Field;
+
+function checkUrlValidity(url) {
+    fetch(url)
+        .then(response => {
+            if (response.ok) {
+                console.log("URL is valid and working!");
+            } else {
+                console.error(
+                    "URL is not valid. Status Code: " + response.status
+                );
+            }
+        })
+        .catch(error => {
+            console.error("Error:", error);
+        });
+}
+
+// Example usage:
+const userInputUrl = "https://example.com";
+checkUrlValidity(userInputUrl);
