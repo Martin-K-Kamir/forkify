@@ -46,7 +46,7 @@ const Select = ({
     );
 
     const listClasses = classNames(
-        "bottom-1 left-0 translate-y-full w-full absolute bg-inherit overflow-hidden",
+        "bottom-1 left-0 translate-y-full w-full absolute bg-inherit overflow-hidden pb-3xs",
         {
             "radius-1": !isOpen,
             "radius-bottom-1 shadow-xl": isOpen,
@@ -181,7 +181,7 @@ const Select = ({
 
     const renderedOptions = options.map((option, i, arr) => {
         const classes = classNames("cursor-pointer outline-none", {
-            "px-2xs py-3xs": size === "sm" && !clearDefaultClassNames,
+            "px-2xs py-2xs": size === "sm" && !clearDefaultClassNames,
             "px-xs py-3xs": size === "md" && !clearDefaultClassNames,
             "px-s py-2xs": size === "lg" && !clearDefaultClassNames,
             [textActiveClassName]:

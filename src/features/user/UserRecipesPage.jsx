@@ -10,9 +10,13 @@ import {
 } from "./userSlice.js";
 import IconButton from "../../components/IconButton.jsx";
 import useDocumentTitle from "../../hooks/useDocumentTitle.js";
+import { useMediaQuery } from "@uidotdev/usehooks";
+import { BELOW_SM } from "../../app/config.js";
 
 const UserRecipesPage = () => {
     useDocumentTitle("Your Recipes and Bookmarks | Forkify");
+    const isBelowSm = useMediaQuery(BELOW_SM);
+
     const allUserRecipes = useSelector(selectAllUserStoredRecipes);
     const userBookmarksTotal = useSelector(selectTotalUserBookmarks);
     const userRecipesTotal = useSelector(selectTotalUserRecipes);
@@ -117,13 +121,16 @@ const UserRecipesPage = () => {
                         </p>
                     </header>
 
-                    <form className="form flex justify-content-between align-items-end//below-md flex-direction-column//below-sm gap-xs w-full//below-lg">
+                    <form
+                        className="form flex justify-content-between align-items-end//below-md gap-xs w-full//below-lg"
+                        onSubmit={e => e.preventDefault()}
+                    >
                         <div
-                            className="flex align-items-center gap-2xs bg-gray-050 bg-zinc-800//dark f-size--1 px-xs py-2xs radius-1 w-full max-w-2xs//above-sm"
+                            className="flex align-items-center gap-2xs bg-gray-050 bg-zinc-800//dark f-size--1 px-xs py-2xs radius-1 w-full max-w-2xs//above-sm absolute//below-sm//focus-within z-index-100"
                             onClick={handleSearchClick}
                         >
                             <Icon
-                                className="f-size-2 flex-shrink-0"
+                                className="f-size-1 flex-shrink-0"
                                 type="search"
                             />
 
@@ -147,19 +154,15 @@ const UserRecipesPage = () => {
                                 aria-autocomplete="list"
                             />
 
-                            <IconButton
-                                color="secondary"
-                                variant="text"
-                                type="button"
-                                className={`flex ${
-                                    searchTerm ? "" : "opacity-0 invisible"
-                                }`}
-                                onClick={handleClearSearch}
-                                srOnly="Clear search"
-                                hover="absolute"
-                            >
-                                <Icon className="f-size-1" type="close" />
-                            </IconButton>
+                            {searchTerm && !isBelowSm && <IconButton
+                                    color="secondary"
+                                    variant="text"
+                                    onClick={handleClearSearch}
+                                    srOnly="Clear search"
+                                    hover="absolute"
+                                >
+                                    <Icon className="f-size-1" type="close"/>
+                                </IconButton>}
                         </div>
 
                         <div className="flex gap-xs">

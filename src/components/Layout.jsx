@@ -3,7 +3,7 @@ import Header from "./Header.jsx";
 
 const Layout = () => {
     return (
-        <div className="wrapper py-fluid-m-l">
+        <div className="wrapper pt-fluid-m-l pb-xl py-fluid-m-l//above-md">
             <Header />
 
             <main>

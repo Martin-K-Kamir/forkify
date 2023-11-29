@@ -3,10 +3,11 @@ import { useMediaQuery } from "@uidotdev/usehooks";
 import Navigation from "./Navigation.jsx";
 import { Link, useLocation } from "react-router-dom";
 import Button from "./Button.jsx";
+import { ABOVE_LG } from "../app/config.js";
 
 const Header = () => {
     const location = useLocation();
-    const isAboveLg = useMediaQuery("(width >= 64em)");
+    const isAboveLg = useMediaQuery(ABOVE_LG);
 
     const isLandingPage = location.pathname === "/";
 

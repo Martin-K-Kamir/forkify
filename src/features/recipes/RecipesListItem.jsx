@@ -2,6 +2,8 @@ import React, { useEffect } from "react";
 import { capitalizeWords } from "../../utilities.js";
 import Button from "../../components/Button.jsx";
 import imagePlaceholder from "../../assets/images/image-placeholder.webp";
+import { useMediaQuery } from "@uidotdev/usehooks";
+import { ABOVE_SM } from "../../app/config.js";
 let RecipesListItem = ({ image_url: image, title, publisher, id }) => {
     const [imageSrc, setImageSrc] = React.useState(image);
 
@@ -12,7 +14,7 @@ let RecipesListItem = ({ image_url: image, title, publisher, id }) => {
     }, [image]);
 
     return (
-        <li className="flex flex-direction-column justify-self-center bg-gray-050 bg-zinc-800//dark radius-1 overflow-hidden w-full max-w-s//below-md">
+        <li className="flex flex-direction-column justify-self-center bg-gray-050 bg-zinc-800//dark radius-1 overflow-hidden w-full max-w-xs//below-md">
             <img
                 className="w-full aspect-ratio-16x9 object-cover"
                 src={imageSrc}
@@ -21,10 +23,10 @@ let RecipesListItem = ({ image_url: image, title, publisher, id }) => {
             />
             <div className="flex flex-direction-column justify-content-between align-items-start h-full p-m pt-s">
                 <div>
-                    <h2 className="f-family-secondary f-size-1 f-weight-medium">
+                    <h2 className="f-family-secondary f-size-1 f-size-1//above-sm f-weight-medium">
                         {capitalizeWords(title)}
                     </h2>
-                    <p className="f-size--1 mt-3xs text-gray-600 text-zinc-300//dark">
+                    <p className="f-size--1 f-size--1//above-sm mt-3xs text-gray-600 text-zinc-300//dark">
                         by {publisher}
                     </p>
                 </div>

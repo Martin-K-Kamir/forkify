@@ -5,6 +5,7 @@ import { nanoid } from "@reduxjs/toolkit";
 import { useLocation } from "react-router-dom";
 import classnames from "classnames";
 import { useMediaQuery } from "@uidotdev/usehooks";
+import { ABOVE_MD } from "../../app/config.js";
 
 const SearchField = ({
     size,
@@ -16,7 +17,7 @@ const SearchField = ({
     dividerOptions,
 }) => {
     const location = useLocation();
-    const isAboveMd = useMediaQuery("(min-width: 768px)");
+    const isAboveMd = useMediaQuery(ABOVE_MD);
 
     const idRef = useRef(nanoid());
     const fieldRef = useRef(null);

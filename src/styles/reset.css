@@ -23,10 +23,6 @@ html:focus-within {
     scroll-behavior: smooth;
 }
 
-:where(html, body, #root) {
-    min-block-size: 100vh;
-}
-
 /* Set core body defaults */
 body {
     line-height: 1.5;

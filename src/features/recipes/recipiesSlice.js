@@ -4,12 +4,13 @@ import { dataSearchQueries } from "../../dataSearchQueries.js";
 import { sub } from "date-fns";
 import { API_KEY } from "../../env.js";
 import { addAlert, removeAlert } from "../alert/alertSlice.js";
+import { ALERT_TIMEOUT_LONG } from "../../app/config.js";
 
 const handleLongRunningQuery = async (
     queryFulfilled,
     dispatch,
-    alertTimeout = 5_000,
-    alertDelay = 5_000
+    alertTimeout = ALERT_TIMEOUT_LONG,
+    alertDelay = ALERT_TIMEOUT_LONG
 ) => {
     const message = "The request is taking longer than expected.";
 

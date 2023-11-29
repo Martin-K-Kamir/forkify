@@ -4,6 +4,7 @@ import Icon from "./Icon.jsx";
 import { createPortal } from "react-dom";
 import IconButton from "./IconButton.jsx";
 import { useMediaQuery } from "@uidotdev/usehooks";
+import { ABOVE_SM } from "../app/config.js";
 
 const Overlay = ({
     children,
@@ -15,7 +16,7 @@ const Overlay = ({
 }) => {
     const ref = useRef(null);
     const lastFocusedElement = useRef(null);
-    const isAboveSm = useMediaQuery("(width >= 30em)");
+    const isAboveSm = useMediaQuery(ABOVE_SM);
 
     const classes = classNames(
         "fixed inset-0 z-index-800 none//print backdrop-blur-md bg-gray-800/90 bg-zinc-950/90//dark overflow-auto px-m pb-m flex justify-content-center transition-opacity",

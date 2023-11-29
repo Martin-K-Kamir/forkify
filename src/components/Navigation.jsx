@@ -50,6 +50,22 @@ const Navigation = ({ buttonsToRender, buttonsToFilter, className }) => {
     useEffect(() => {
         document.documentElement.dataset.theme = theme;
 
+        const allMetaThemeColor = document.querySelectorAll(
+            'meta[name="theme-color"]'
+        );
+
+        allMetaThemeColor.forEach(meta => meta.remove());
+        const metaThemeColor = document.createElement("meta");
+        metaThemeColor.name = "theme-color";
+
+        if (theme === "light") {
+            metaThemeColor.content = "#e5e7eb";
+        } else {
+            metaThemeColor.content = "#18181b";
+        }
+
+        document.head.appendChild(metaThemeColor);
+
         return () => {
             delete document.documentElement.dataset.theme;
         };
@@ -202,7 +218,7 @@ const Navigation = ({ buttonsToRender, buttonsToFilter, className }) => {
                         }}
                         inputOptions={{
                             backgroundClassName:
-                                "bg-gray-200 bg-zinc-850//dark",
+                                "bg-gray-200 bg-zinc-800//dark",
                         }}
                         autocompleteOptions={{
                             shouldOverlay: false,

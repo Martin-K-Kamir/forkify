@@ -67,6 +67,8 @@ const Button = ({
                 color === "primary" && variant === "contained",
             "bg-gray-300 text-gray-700 bg-zinc-800//dark text-zinc-050//dark":
                 color === "secondary" && variant === "contained",
+            "bg-gray-300 text-gray-700 bg-zinc-700//dark text-zinc-050//dark":
+                color === "tertiary" && variant === "contained",
             "bg-red-600 bg-red-700//dark text-gray-050 text-zinc-050//dark":
                 color === "error" && variant === "contained",
             "bg-green-600 bg-green-700//dark text-gray-050 text-zinc-050//dark":

@@ -53,7 +53,7 @@ const SearchInput = ({
                     srOnly="Clear search"
                     hover="absolute"
                 >
-                    <Icon type="close" className="f-size-1" />
+                    <Icon type="close" className="f-size-2" />
                 </IconButton>
             )}
         </div>

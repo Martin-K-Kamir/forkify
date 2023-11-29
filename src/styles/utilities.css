@@ -2834,6 +2834,12 @@
 .absolute {
     position : absolute;
 }
+.absolute\/\/focus:focus {
+    position : absolute;
+}
+.absolute\/\/focus-within:focus-within {
+    position : absolute;
+}
 .relative {
     position : relative;
 }
@@ -5140,6 +5146,12 @@
     .absolute\/\/above-sm {
         position : absolute;
     }
+    .absolute\/\/above-sm\/\/focus:focus {
+        position : absolute;
+    }
+    .absolute\/\/above-sm\/\/focus-within:focus-within {
+        position : absolute;
+    }
     .relative\/\/above-sm {
         position : relative;
     }
@@ -7189,6 +7201,12 @@
     .absolute\/\/above-md {
         position : absolute;
     }
+    .absolute\/\/above-md\/\/focus:focus {
+        position : absolute;
+    }
+    .absolute\/\/above-md\/\/focus-within:focus-within {
+        position : absolute;
+    }
     .relative\/\/above-md {
         position : relative;
     }
@@ -8831,6 +8849,12 @@
     /* /////////////// Position /////////////// */
 
     .absolute\/\/above-lg {
+        position : absolute;
+    }
+    .absolute\/\/above-lg\/\/focus:focus {
+        position : absolute;
+    }
+    .absolute\/\/above-lg\/\/focus-within:focus-within {
         position : absolute;
     }
     .relative\/\/above-lg {
@@ -10478,6 +10502,12 @@
     .absolute\/\/below-sm {
         position : absolute;
     }
+    .absolute\/\/below-sm\/\/focus:focus {
+        position : absolute;
+    }
+    .absolute\/\/below-sm\/\/focus-within:focus-within {
+        position : absolute;
+    }
     .relative\/\/below-sm {
         position : relative;
     }
@@ -12122,6 +12152,12 @@
     .absolute\/\/below-md {
         position : absolute;
     }
+    .absolute\/\/below-md\/\/focus:focus {
+        position : absolute;
+    }
+    .absolute\/\/below-md\/\/focus-within:focus-within {
+        position : absolute;
+    }
     .relative\/\/below-md {
         position : relative;
     }
@@ -13764,6 +13800,12 @@
     /* /////////////// Position /////////////// */
 
     .absolute\/\/below-lg {
+        position : absolute;
+    }
+    .absolute\/\/below-lg\/\/focus:focus {
+        position : absolute;
+    }
+    .absolute\/\/below-lg\/\/focus-within:focus-within {
         position : absolute;
     }
     .relative\/\/below-lg {

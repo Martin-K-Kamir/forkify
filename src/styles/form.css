@@ -7,7 +7,7 @@
 
     html:not([data-theme="light"]) & {
         @media (--dark) {
-            --_placeholder-color : var(--placeholder-color, var(--clr-zinc-500));
+            --_placeholder-color : var(--placeholder-color, var(--clr-zinc-400));
             --_label-color       : var(--label-color, var(--clr-zinc-400));
             --_label-color-focus : var(--label-color-focus, var(--clr-blue-300));
             --_label-color-error : var(--label-color-error, var(--clr-red-300));
@@ -15,7 +15,7 @@
     }
 
     [data-theme="dark"] & {
-        --_placeholder-color : var(--placeholder-color, var(--clr-gray-500));
+        --_placeholder-color : var(--placeholder-color, var(--clr-zinc-400));
         --_label-color       : var(--label-color, var(--clr-gray-400));
         --_label-color-focus : var(--label-color-focus, var(--clr-blue-300));
         --_label-color-error : var(--label-color-error, var(--clr-red-300));

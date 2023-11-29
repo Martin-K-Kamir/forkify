@@ -11,6 +11,7 @@ import { wait } from "../../utilities.js";
 import { useAddRecipeMutation } from "../user/userSlice.js";
 import Button from "../../components/Button.jsx";
 import useDocumentTitle from "../../hooks/useDocumentTitle.js";
+import { ALERT_TIMEOUT_LONG } from "../../app/config.js";
 
 const AddRecipeForm = () => {
     useDocumentTitle("Add Recipe | Forkify")
@@ -145,10 +146,10 @@ const AddRecipeForm = () => {
                     addAlert({
                         message,
                         isWarning: true,
-                        timeout: 5_000,
+                        timeout: ALERT_TIMEOUT_LONG,
                     })
                 );
-            }, 5_000);
+            }, ALERT_TIMEOUT_LONG);
         } else if (isSuccess) {
             dispatch(removeAlert(message));
         }
@@ -492,9 +493,10 @@ const AddRecipeForm = () => {
                             id="form-terms"
                             name="form-terms"
                             value={termsChecked}
+                            className="w-em h-em"
                             onChange={() => setTermsChecked(prev => !prev)}
                             required
-                            style={{ transform: "translateY(3px)" }}
+                            style={{ transform: "translateY(2px)" }}
                         />
                         <label
                             htmlFor="form-terms"
@@ -535,8 +537,7 @@ const AddRecipeForm = () => {
                     isCloseRendered
                     isVisible={isPreviewModalVisible}
                     onClose={closePreviewModal}
-                    className="max-w-xl mt-m p-m py-l//below-sm p-3xs//above-sm"
-                    backgroundClassName="bg-gray-050 bg-zinc-850//dark"
+                    className="max-w-xl mt-m p-s py-l//below-sm p-3xs//above-sm"
                 >
                     <h2 id="modal-title" className="sr-only">
                         Preview Recipe
@@ -544,7 +545,7 @@ const AddRecipeForm = () => {
                     <SingleRecipe
                         recipe={formatForm(form)}
                         isPreview
-                        backgroundClassName="bg-gray-050 bg-zinc-850//dark"
+                        backgroundClassName="bg-gray-050 bg-zinc-800//dark"
                     />
                 </Modal>
             )}
@@ -571,7 +572,7 @@ const AddRecipeForm = () => {
                             <Button
                                 bold
                                 padSize="lg"
-                                color="secondary"
+                                color="tertiary"
                                 className="w-full//below-sm"
                                 onClick={closeSuccessModal}
                             >

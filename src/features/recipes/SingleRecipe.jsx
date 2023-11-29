@@ -14,6 +14,7 @@ import Button from "../../components/Button.jsx";
 import IconButton from "../../components/IconButton.jsx";
 import classnames from "classnames";
 import imagePlaceholder from "../../assets/images/image-placeholder.webp";
+import { ALERT_TIMEOUT_LONG } from "../../app/config.js";
 
 const SingleRecipe = ({ recipe, isPreview, backgroundClassName }) => {
     const dispatch = useDispatch();
@@ -29,9 +30,9 @@ const SingleRecipe = ({ recipe, isPreview, backgroundClassName }) => {
 
     const [removeRecipe, { isLoading }] = useRemoveRecipeMutation();
 
-    const [servings, setServings] = useState(0);
+    const [servings, setServings] = useState(recipe.servings);
     const [prevServings, setPrevServings] = useState(0);
-    const [ingredients, setIngredients] = useState(null);
+    const [ingredients, setIngredients] = useState(recipe.ingredients);
     const [isImagePlaceholder, setIsImagePlaceholder] = useState(false);
     const [imageSrc, setImageSrc] = useState(recipe?.image_url);
 
@@ -63,13 +64,6 @@ const SingleRecipe = ({ recipe, isPreview, backgroundClassName }) => {
             }
         };
     }, [recipe?.image_url]);
-
-    useEffect(() => {
-        if (recipe) {
-            setServings(recipe.servings);
-            setIngredients(recipe.ingredients);
-        }
-    }, [recipe]);
 
     useEffect(() => {
         if (!ingredients) return;
@@ -115,7 +109,7 @@ const SingleRecipe = ({ recipe, isPreview, backgroundClassName }) => {
                 addAlert({
                     message: "Recipe deleted successfully",
                     isSuccess: true,
-                    timeout: 5_000,
+                    timeout: ALERT_TIMEOUT_LONG,
                 })
             );
         } catch (error) {
@@ -278,7 +272,7 @@ const SingleRecipe = ({ recipe, isPreview, backgroundClassName }) => {
                             <Button
                                 bold
                                 padSize="lg"
-                                color="secondary"
+                                color="tertiary"
                                 className="w-full//below-sm"
                                 onClick={closeDeleteModal}
                             >

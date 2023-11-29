@@ -4,6 +4,7 @@ import Icon from "./Icon.jsx";
 import { useMediaQuery } from "@uidotdev/usehooks";
 import IconButton from "./IconButton.jsx";
 import React from "react";
+import { ABOVE_MD, BELOW_MD } from "../app/config.js";
 
 const Modal = ({
     children,
@@ -14,14 +15,14 @@ const Modal = ({
     isCloseRendered,
     ...rest
 }) => {
-    const isAboveMd = useMediaQuery("(width >= 48em)");
-    const isBelowMd = useMediaQuery("(width < 48em)");
+    const isAboveMd = useMediaQuery(ABOVE_MD);
+    const isBelowMd = useMediaQuery(BELOW_MD);
 
     const classes = classnames(
         "radius-1 w-full mx-auto transition-fade-up shadow-2xl",
         {
             "max-w-xl mt-m p-fluid-m-l": !className,
-            "bg-gray-050 bg-zinc-900//dark": !backgroundClassName,
+            "bg-gray-050 bg-zinc-800//dark": !backgroundClassName,
         },
         className,
         backgroundClassName

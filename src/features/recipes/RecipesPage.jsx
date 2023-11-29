@@ -48,7 +48,6 @@ const RecipesPage = () => {
                         </p>
                     </div>
                 </header>
-
                 <div className="mt-m">
                     <RecipesList recipes={Object.values(data.entities)} />
                 </div>

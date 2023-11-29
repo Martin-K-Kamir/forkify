@@ -4,13 +4,14 @@ import { useEffect, useState } from "react";
 import { useMediaQuery } from "@uidotdev/usehooks";
 import Icon from "../../components/Icon.jsx";
 import Button from "../../components/Button.jsx";
+import { ABOVE_MD, ABOVE_SM, BELOW_MD, BELOW_SM } from "../../app/config.js";
 
-const RecipesList = ({ recipes }) => {
-    const { recipesId } = useParams();
-    const isBelowSm = useMediaQuery("(width < 30em)");
-    const isBelowMd = useMediaQuery("(width < 48em)");
-    const isAboveMd = useMediaQuery("(width >= 48em)");
-    const isAboveSm = useMediaQuery("(width >= 30em)");
+const RecipesList = ({recipes}) => {
+    const {recipesId} = useParams();
+    const isAboveSm = useMediaQuery(ABOVE_SM);
+    const isAboveMd = useMediaQuery(ABOVE_MD);
+    const isBelowSm = useMediaQuery(BELOW_SM);
+    const isBelowMd = useMediaQuery(BELOW_MD);
 
     const [limit, setLimit] = useState(0);
     const [originalLimit, setOriginalLimit] = useState(0);
@@ -37,6 +38,7 @@ const RecipesList = ({ recipes }) => {
     const isLimitReached = limit >= recipes?.length;
 
     const handleReset = () => {
+        window.scrollTo(0, 0);
         setLimit(originalLimit);
     };
     const handleClick = () => {
@@ -57,8 +59,8 @@ const RecipesList = ({ recipes }) => {
 
             {isRecipesListEmpty && (
                 <p className="text-center f-size-1 f-weight-medium text-red-600 text-red-100//dark flex align-items-center justify-content-center flex-direction-column gap-2xs">
-                    <Icon type="warning" fill className="f-size-3" />
-                    No recipes found. Please try again.
+                    <Icon type="warning" fill className="f-size-3"/>
+                    No recipes found.
                 </p>
             )}
 
@@ -66,7 +68,7 @@ const RecipesList = ({ recipes }) => {
                 {!isLimitReached && !isRecipesListEmpty && (
                     <Button
                         bold
-                        fontSize={isAboveSm ? "sm" : "md"}
+                        fontSize="sm"
                         color="secondary"
                         onClick={handleClick}
                     >
@@ -79,7 +81,7 @@ const RecipesList = ({ recipes }) => {
                     !isRecipesListEmpty && (
                         <Button
                             bold
-                            fontSize={isAboveSm ? "sm" : "md"}
+                            fontSize="sm"
                             color="success"
                             onClick={handleReset}
                         >

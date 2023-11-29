@@ -15,9 +15,10 @@ import IconButton from "../../components/IconButton.jsx";
 import Modal from "../../components/Modal.jsx";
 import Button from "../../components/Button.jsx";
 import useModal from "../../hooks/useModal.js";
+import { ABOVE_MD } from "../../app/config.js";
 
 const RecipeActionButtons = ({ recipe, className, onDeleteClick }) => {
-    const isAboveMd = useMediaQuery("(width >= 48em)");
+    const isAboveMd = useMediaQuery(ABOVE_MD);
     const { recipeId } = useParams();
     const { isDropdownVisible, toggleDropdown, closeDropdown } = useDropdown();
 
@@ -36,13 +37,6 @@ const RecipeActionButtons = ({ recipe, className, onDeleteClick }) => {
     };
 
     const handlePrintClick = () => {
-        if (document.documentElement.dataset.theme === "dark") {
-            document.documentElement.dataset.theme = "light";
-            window.print();
-            document.documentElement.dataset.theme = "dark";
-            return;
-        }
-
         window.print();
     };
 

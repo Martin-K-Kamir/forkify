@@ -4,6 +4,7 @@ import className from "classnames";
 import Icon from "../../components/Icon.jsx";
 import React, { useEffect, useRef, useState } from "react";
 import IconButton from "../../components/IconButton.jsx";
+import { ALERT_TIMEOUT_DEFAULT } from "../../app/config.js";
 
 const AlertListItem = ({ alertId }) => {
     const dispatch = useDispatch();
@@ -23,7 +24,7 @@ const AlertListItem = ({ alertId }) => {
             setIsVisible(true);
         }, 100);
 
-        setTimeout(hideAlert, timeout || 3000);
+        setTimeout(hideAlert, timeout || ALERT_TIMEOUT_DEFAULT);
     }, []);
 
     const hideAlert = () => {
