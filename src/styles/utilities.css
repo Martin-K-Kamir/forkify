@@ -14191,6 +14191,7 @@
         & .bg-zinc-850\/\/dark {
             background-color : var(--clr-zinc-850);
         }
+        /* purgecss ignore */
         & .bg-zinc-900\/\/dark {
             background-color : var(--clr-zinc-900);
         }
