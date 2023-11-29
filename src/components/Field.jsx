@@ -152,23 +152,3 @@ Field = React.memo(Field, (prevProps, nextProps) => {
 });
 
 export default Field;
-
-function checkUrlValidity(url) {
-    fetch(url)
-        .then(response => {
-            if (response.ok) {
-                console.log("URL is valid and working!");
-            } else {
-                console.error(
-                    "URL is not valid. Status Code: " + response.status
-                );
-            }
-        })
-        .catch(error => {
-            console.error("Error:", error);
-        });
-}
-
-// Example usage:
-const userInputUrl = "https://example.com";
-checkUrlValidity(userInputUrl);
