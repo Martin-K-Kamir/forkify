@@ -2,8 +2,6 @@ import React, { useEffect } from "react";
 import { capitalizeWords } from "../../utilities.js";
 import Button from "../../components/Button.jsx";
 import imagePlaceholder from "../../assets/images/image-placeholder.webp";
-import { useMediaQuery } from "@uidotdev/usehooks";
-import { ABOVE_SM } from "../../app/config.js";
 let RecipesListItem = ({ image_url: image, title, publisher, id }) => {
     const [imageSrc, setImageSrc] = React.useState(image);
 

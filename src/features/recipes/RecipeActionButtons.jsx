@@ -6,15 +6,11 @@ import {
 } from "../user/userSlice.js";
 import { useSelector } from "react-redux";
 import { useParams } from "react-router-dom";
-import classnames from "classnames";
 import Dropdown from "../../components/Dropdown.jsx";
 import useDropdown from "../../hooks/useDropdown.js";
 import SocialsShareButtons from "../../components/SocialsShareButtons.jsx";
 import { useMediaQuery } from "@uidotdev/usehooks";
 import IconButton from "../../components/IconButton.jsx";
-import Modal from "../../components/Modal.jsx";
-import Button from "../../components/Button.jsx";
-import useModal from "../../hooks/useModal.js";
 import { ABOVE_MD } from "../../app/config.js";
 
 const RecipeActionButtons = ({ recipe, className, onDeleteClick }) => {

@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from "react";
 import FieldList from "../../components/FieldList.jsx";
-import { addAlert, removeAlert } from "../alert/alertSlice.js";
+import { addAlert } from "../alert/alertSlice.js";
 import { useDispatch } from "react-redux";
 import Modal from "../../components/Modal.jsx";
 import useModal from "../../hooks/useModal.js";
@@ -9,7 +9,6 @@ import { wait } from "../../utilities.js";
 import { useAddRecipeMutation } from "../user/userSlice.js";
 import Button from "../../components/Button.jsx";
 import useDocumentTitle from "../../hooks/useDocumentTitle.js";
-import { ALERT_TIMEOUT_LONG } from "../../app/config.js";
 
 const AddRecipeForm = () => {
     useDocumentTitle("Add Recipe | Forkify");
@@ -29,7 +28,7 @@ const AddRecipeForm = () => {
         closeModal: closePreviewModal,
     } = useModal();
 
-    const [addRecipe, { data, isLoading, isSuccess, isUninitialized }] =
+    const [addRecipe, { data, isLoading }] =
         useAddRecipeMutation();
 
     const [form, setForm] = useState({
@@ -462,19 +461,19 @@ const AddRecipeForm = () => {
                     </div>
                 </section>
                 <section>
-                    <div className="flex align-items-start gap-2xs">
+                    <div className="flex align-items-start align-items-center//above-md gap-2xs f-size--1">
                         <input
                             type="checkbox"
                             id="form-terms"
                             name="form-terms"
                             value={termsChecked}
+                            className="translate-y-quarter//below-md flex-shrink-0 w-em h-em"
                             onChange={() => setTermsChecked(prev => !prev)}
                             required
-                            style={{ transform: "translateY(2px)" }}
                         />
                         <label
                             htmlFor="form-terms"
-                            className="f-size--1 text-no-select text-gray-600 text-zinc-200//dark"
+                            className="text-no-select text-gray-600 text-zinc-200//dark"
                         >
                             I acknowledge that this API is for testing purposes
                             only and does not support multiple images or

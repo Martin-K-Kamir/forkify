@@ -4,11 +4,10 @@ import { useEffect, useState } from "react";
 import { useMediaQuery } from "@uidotdev/usehooks";
 import Icon from "../../components/Icon.jsx";
 import Button from "../../components/Button.jsx";
-import { ABOVE_MD, ABOVE_SM, BELOW_MD, BELOW_SM } from "../../app/config.js";
+import { ABOVE_MD, BELOW_MD, BELOW_SM } from "../../app/config.js";
 
 const RecipesList = ({recipes}) => {
     const {recipesId} = useParams();
-    const isAboveSm = useMediaQuery(ABOVE_SM);
     const isAboveMd = useMediaQuery(ABOVE_MD);
     const isBelowSm = useMediaQuery(BELOW_SM);
     const isBelowMd = useMediaQuery(BELOW_MD);
