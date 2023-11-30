@@ -35,6 +35,7 @@ const SocialsShareButtons = () => {
                 <Component
                     key={content}
                     {...rest}
+                    data-testid={rest?.appId ?? ""}
                     url={window.location.href}
                     className="button flex text-gray-800 text-zinc-050//dark align-items-center gap-2xs radius-1"
                     data-variant="text"
