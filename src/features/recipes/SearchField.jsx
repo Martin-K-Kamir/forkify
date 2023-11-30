@@ -187,6 +187,7 @@ const SearchField = ({
                 onFocus={handleFocus}
                 className={inputClasses}
                 options={inputOptions}
+                size={size}
             />
             <SearchAutocomplete
                 idRef={idRef.current}
