@@ -3,7 +3,6 @@
 Forkify is a comprehensive recipe search application that provides the functionality to not only search for various
 recipes but also to save your favorite ones. Additionally, it offers the ability to add and delete your own recipes.
 
----
 #### Journey and Refactoring of Forkify Application
 This application is a refactored version of the original Forkify app from the Udemy course titled [The Complete
 JavaScript Course: From Zero to Expert!](https://www.udemy.com/course/the-complete-javascript-course/) by [Jonas Schmedtmann](https://twitter.com/jonasschmedtman). This course was one of my initial steps into the world of
@@ -16,7 +15,6 @@ revamped using a utility-first approach with my own utility classes, which bear 
 supplemented with default global styles. To manage unused classes, PurceCSS was utilized to remove them from the
 production build, resulting in a surprisingly lean 1600 lines of CSS.
 
----
 #### Future Enhancements and Learning Path
 Looking ahead, I aspire to expand my knowledge by learning Node.js and creating my own API for the application. I plan
 to incorporate user authentication and a database for user data storage using MongoDB. Furthermore, I aim to refactor
@@ -26,7 +24,7 @@ utility classes.
 ---
 #### Links
 The original version of the application can be found in the branch `v1` of this repository. The refactored version is
-located in the `main` branch. 
+located in the `master` branch. 
 
 - [Live Demo (New Version)](https://www.example.com/)
 - [Live Demo (Original Version)](https://www.example.com/)
