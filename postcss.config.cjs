@@ -18,7 +18,7 @@ module.exports = () => {
     if (isProduction) {
         plugins.push(
             postcssPurgecss({
-                content: ['./src/**/*.html', './src/**/*.js', './src/**/*.jsx'],
+                content: ['./src/**/*.html', './src/**/*.js', './src/**/*.jsx', './index.html'],
                 safelist: {
                     standard: ['html', 'body'],
                     deep: [/^:root$/],
