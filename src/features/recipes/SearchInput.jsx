@@ -11,6 +11,7 @@ const SearchInput = ({
     onKeyUp,
     className,
     options,
+    size,
 }) => {
     const handleFocusCluck = e => {
         e.target.querySelector("input")?.focus();
