@@ -69,7 +69,7 @@ const extendedApi = api.injectEndpoints({
             async onQueryStarted({ recipe }, { dispatch, queryFulfilled }) {
                 try {
                     await apiLongRunningRequest(queryFulfilled, dispatch);
-                    const { data: recipe } = queryFulfilled;
+                    const { data: recipe } = await queryFulfilled;
                     dispatch(addUserRecipe(recipe));
                 } catch {}
             },

@@ -6,8 +6,8 @@ import Icon from "../../components/Icon.jsx";
 import Button from "../../components/Button.jsx";
 import { ABOVE_MD, BELOW_MD, BELOW_SM } from "../../app/config.js";
 
-const RecipesList = ({recipes}) => {
-    const {recipesId} = useParams();
+const RecipesList = ({ recipes }) => {
+    const { recipesId } = useParams();
     const isAboveMd = useMediaQuery(ABOVE_MD);
     const isBelowSm = useMediaQuery(BELOW_SM);
     const isBelowMd = useMediaQuery(BELOW_MD);
@@ -57,8 +57,8 @@ const RecipesList = ({recipes}) => {
             )}
 
             {isRecipesListEmpty && (
-                <p className="text-center f-size-1 f-weight-medium text-red-600 text-red-100//dark flex align-items-center justify-content-center flex-direction-column gap-2xs">
-                    <Icon type="warning" fill className="f-size-3"/>
+                <p className="text-center f-size-1 f-weight-medium text-red-600 text-red-100//dark flex align-items-center justify-content-center flex-direction-column gap-3xs">
+                    <Icon type="warning" fill className="f-size-3" />
                     No recipes found.
                 </p>
             )}
