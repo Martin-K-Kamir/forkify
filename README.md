@@ -21,6 +21,7 @@ to incorporate user authentication and a database for user data storage using Mo
 the application to utilize TypeScript and Next.js, and transition to MUI library for styled components and Tailwind for
 utility classes.
 
+
 ---
 #### Links
 The original version of the application can be found in the branch `v1` of this repository. The refactored version is
