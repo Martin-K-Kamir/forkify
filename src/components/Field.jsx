@@ -17,7 +17,7 @@ let Field = ({ field, onChange, className }) => {
         step,
         maxLength,
         value,
-        title
+        title,
     } = field;
 
     const fieldClasses = classNames(
@@ -80,7 +80,26 @@ let Field = ({ field, onChange, className }) => {
     };
 
     const handleKeyPress = e => {
-        if ([".", ",", "-", "e"].includes(e.key)) {
+        if (
+            [
+                ".",
+                ",",
+                "-",
+                "e",
+                "/",
+                ":",
+                ";",
+                "(",
+                ")",
+                "€",
+                "&",
+                "@",
+                '"',
+                "?",
+                "!",
+                "'",
+            ].includes(e.key)
+        ) {
             e.preventDefault();
         }
     };
