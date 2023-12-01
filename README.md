@@ -28,8 +28,8 @@ utility classes.
 The original version of the application can be found in the branch `v1` of this repository. The refactored version is
 located in the `master` branch. 
 
-- [Live Demo (New Version)](https://forkify-martinkamir.netlify.app/)
-- [Live Demo (Original Version)](https://forkify-v1-martinkamir.netlify.app/)
+- [Live Demo (New Version)](https://forkify-mkk.netlify.app/)
+- [Live Demo (Original Version)](https://forkify-v1-mkk.netlify.app/)
 
 
 

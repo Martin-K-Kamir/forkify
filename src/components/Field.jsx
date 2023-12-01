@@ -17,6 +17,7 @@ let Field = ({ field, onChange, className }) => {
         step,
         maxLength,
         value,
+        title
     } = field;
 
     const fieldClasses = classNames(
@@ -79,7 +80,7 @@ let Field = ({ field, onChange, className }) => {
     };
 
     const handleKeyPress = e => {
-        if ([".", ",", "-"].includes(e.key)) {
+        if ([".", ",", "-", "e"].includes(e.key)) {
             e.preventDefault();
         }
     };
@@ -140,6 +141,7 @@ let Field = ({ field, onChange, className }) => {
                         maxLength={maxLength}
                         required={isRequired}
                         step={step}
+                        title={title}
                     />
                 )}
             </div>
