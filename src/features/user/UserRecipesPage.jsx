@@ -154,15 +154,16 @@ const UserRecipesPage = () => {
                                 aria-autocomplete="list"
                             />
 
-                            {searchTerm && !isBelowSm && <IconButton
-                                    color="secondary"
-                                    variant="text"
-                                    onClick={handleClearSearch}
-                                    srOnly="Clear search"
-                                    hover="absolute"
-                                >
-                                    <Icon className="f-size-1" type="close"/>
-                                </IconButton>}
+                            <IconButton
+                                color="secondary"
+                                variant="text"
+                                onClick={handleClearSearch}
+                                className={searchTerm && !isBelowSm ? "opacity-100 visible" : "opacity-0 invisible"}
+                                srOnly="Clear search"
+                                hover="absolute"
+                            >
+                                <Icon className="f-size-1" type="close"/>
+                            </IconButton>
                         </div>
 
                         <div className="flex gap-xs">
