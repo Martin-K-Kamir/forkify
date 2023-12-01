@@ -55,6 +55,7 @@ const Breadcrumbs = ({ title }) => {
                         variant="text"
                         srOnly="Go to home page"
                         hover="none"
+                        style={{ transform: "translateY(-5%)" }}
                     >
                         <Icon type="home" className="f-size-2" />
                     </IconButton>
