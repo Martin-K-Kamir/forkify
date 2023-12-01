@@ -9,11 +9,6 @@ export const api = createApi({
         //     await new Promise(resolve => setTimeout(resolve, 11_000));
         //     return fetch(...args);
         // },
-        // prepareHeaders(headers) {
-        // headers.set("key", "e403b26e-b88b-46a1-949f-ba1a4e1cde2a");
-        // headers.set("key", "c62986c1-429b-4175-98ba-d2d6813fb6bf");
-        // return headers;
-        // },
     }),
     tagTypes: ["Recipe"],
     endpoints: () => ({}),
