@@ -171,6 +171,7 @@
     color-scheme: dark;
 }
 
+/*! purgecss start ignore */
 :where(a, button, input, select, [role="combobox"]) {
     --_outline-size   : var(--outline-size, max(1px, 0.1525em));
     --_outline-style  : var(--outline-style, solid);
@@ -190,3 +191,5 @@
         box-shadow : calc(var(--_ratio) * var(--_outline-size)) calc(var(--_ratio) * var(--_outline-size)) 0 0 var(--_outline-color), calc((-1 * var(--_ratio)) * var(--_outline-size)) calc(0.6 * var(--_outline-size)) 0 0 var(--_outline-color);
     }
 }
+
+/*! purgecss end ignore */
