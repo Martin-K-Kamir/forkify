@@ -64,7 +64,7 @@ const RecipesList = ({ recipes }) => {
             )}
 
             <div className="flex justify-content-center align-items-center gap-s mt-l">
-                {!isLimitReached && !isRecipesListEmpty && (
+                {!isLimitReached && !isRecipesListEmpty && renderedRecipes.length > 1 && (
                     <Button
                         bold
                         fontSize="sm"
@@ -76,7 +76,7 @@ const RecipesList = ({ recipes }) => {
                 )}
 
                 {isLimitReached &&
-                    recipes.length > 6 &&
+                    renderedRecipes.length > 6 &&
                     !isRecipesListEmpty && (
                         <Button
                             bold
