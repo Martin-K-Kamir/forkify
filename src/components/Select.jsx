@@ -1,4 +1,4 @@
-import { useCallback, useEffect, useRef, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import classNames from "classnames";
 import Icon from "./Icon.jsx";
 import { nanoid } from "@reduxjs/toolkit";
@@ -61,125 +61,108 @@ const Select = ({
         };
     }, []);
 
-    const getNavigationElements = () => {
+    const getNavigationElements = e => {
         const focusableElements =
             'li[role="option"]:not([aria-disabled="true"])';
         const elements = Array.from(
-            document.querySelectorAll(focusableElements)
+            ref.current.querySelectorAll(focusableElements)
         );
         const currentIndex = elements.indexOf(document.activeElement);
         return { elements, currentIndex };
     };
 
-    const toggleIsOpen = useCallback(() => {
+    const toggleIsOpen = () => {
         setIsOpen(prevIsOpen => !prevIsOpen);
-    }, []);
+    };
 
-    const handleClick = useCallback(() => {
+    const handleClick = () => {
         toggleIsOpen();
-    }, []);
+    };
 
-    const handleOutsideClick = useCallback(
-        e => {
-            if (!ref.current?.contains(e.target)) {
-                setIsOpen(false);
-            }
-        },
-        [ref]
-    );
+    const handleOutsideClick = e => {
+        if (!ref.current?.contains(e.target)) {
+            setIsOpen(false);
+        }
+    };
 
-    const handleEnterKey = useCallback(e => {
+    const handleEnterKey = e => {
         if (e.target !== ref.current) return;
 
         toggleIsOpen();
-    }, []);
+    };
 
-    const handleArrowDownKey = useCallback(
-        e => {
-            e.preventDefault();
-            const { elements, currentIndex } = getNavigationElements();
+    const handleArrowDownKey = e => {
+        e.preventDefault();
+        const { elements, currentIndex } = getNavigationElements();
 
-            if (!isOpen) {
-                console.log("");
-                setIsOpen(true);
-            } else if (currentIndex < elements.length - 1) {
-                elements[currentIndex + 1].focus();
-            }
-        },
-        [isOpen]
-    );
+        if (!isOpen) {
+            setIsOpen(true);
+        } else if (currentIndex < elements.length - 1) {
+            elements[currentIndex + 1].focus();
+        }
+    };
 
-    const handleArrowUpKey = useCallback(
-        e => {
-            e.preventDefault();
-            const { elements, currentIndex } = getNavigationElements();
+    const handleArrowUpKey = e => {
+        e.preventDefault();
+        const { elements, currentIndex } = getNavigationElements();
 
-            if (currentIndex > 0) {
-                console.log("");
-                elements[currentIndex - 1].focus();
-            } else if (isOpen) {
-                setIsOpen(false);
-                ref.current.focus();
-            }
-        },
-        [isOpen, ref]
-    );
+        if (currentIndex > 0) {
+            elements[currentIndex - 1].focus();
+        } else if (isOpen) {
+            setIsOpen(false);
+            ref.current.focus();
+        }
+    };
 
-    const handleTabKey = useCallback(() => {
+    const handleTabKey = () => {
         const { elements, currentIndex } = getNavigationElements();
 
         if (currentIndex !== elements.length - 1) return;
 
         setIsOpen(false);
-    }, []);
+    };
 
-    const handleEscapeKey = useCallback(() => {
+    const handleEscapeKey = () => {
         setIsOpen(false);
-    }, []);
+    };
 
-    const handleKeyDown = useCallback(
-        e => {
-            switch (e.key) {
-                case "Enter":
-                    handleEnterKey(e);
-                    break;
-                case "ArrowDown":
-                    handleArrowDownKey(e);
-                    break;
-                case "ArrowUp":
-                    handleArrowUpKey(e);
-                    break;
-                case "Tab":
-                    handleTabKey();
-                    break;
-                case "Escape":
-                    handleEscapeKey();
-                default:
-                    break;
-            }
-        },
-        [handleEnterKey, handleArrowDownKey, handleArrowUpKey, handleTabKey]
-    );
+    const handleKeyDown = e => {
+        switch (e.key) {
+            case "Enter":
+                handleEnterKey(e);
+                break;
+            case "ArrowDown":
+                handleArrowDownKey(e);
+                break;
+            case "ArrowUp":
+                handleArrowUpKey(e);
+                break;
+            case "Tab":
+                handleTabKey();
+                break;
+            case "Escape":
+                handleEscapeKey();
+            default:
+                break;
+        }
+    };
 
-    const handleChange = useCallback(
-        option => {
-            if (option.value === currentValue?.value) {
-                onChange({ value: "default" });
-                setCurrentValue({ value: "default" });
-            } else {
-                onChange(option);
-                setCurrentValue(option);
-            }
-            setIsOpen(false);
-        },
-        [currentValue, onChange]
-    );
+    const handleChange = option => {
+        if (option.value === currentValue?.value) {
+            onChange({ value: "default" });
+            setCurrentValue({ value: "default" });
+        } else {
+            onChange(option);
+            setCurrentValue(option);
+        }
+        setIsOpen(false);
+    };
 
-    const handleBlur = useCallback(e => {
+    const handleBlur = e => {
         if (!ref.current?.contains(e.relatedTarget)) {
             setIsOpen(false);
         }
-    }, []);
+    };
 
     const renderedOptions = options.map((option, i, arr) => {
         const classes = classNames("cursor-pointer outline-none", {
