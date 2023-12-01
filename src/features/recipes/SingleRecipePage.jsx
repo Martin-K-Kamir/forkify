@@ -22,7 +22,7 @@ const SingleRecipePage = () => {
             <div className="flex abc justify-content-center">
                 <Icon
                     type="progressActivity"
-                    className="animation-spin f-size-5"
+                    className="animation-spin f-size-5 text-blue-600 text-zinc-050//dark"
                 />
             </div>
         );
