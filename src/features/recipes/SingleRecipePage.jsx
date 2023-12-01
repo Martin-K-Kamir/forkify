@@ -15,9 +15,7 @@ const SingleRecipePage = () => {
         error,
     } = useGetRecipeQuery(recipeId);
 
-    useDocumentTitle(`${capitalizeWords(recipe?.title)} | Forkify`, isSuccess)
-
-
+    useDocumentTitle(`${capitalizeWords(recipe?.title)} | Forkify`, isSuccess);
 
     if (isLoading) {
         return (
@@ -30,7 +28,7 @@ const SingleRecipePage = () => {
         );
     } else if (isError) {
         return (
-            <div className="text-center f-size-1 f-weight-medium text-red-100 flex align-items-center justify-content-center flex-direction-column gap-2xs">
+            <div className="text-center f-size-1 f-weight-medium text-red-100 flex align-items-center justify-content-center flex-direction-column gap-3xs">
                 <Icon type="warning" className="f-size-3" fill />
                 {error?.message || "Recipe not found"}
             </div>

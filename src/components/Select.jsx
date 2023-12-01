@@ -100,6 +100,7 @@ const Select = ({
             const { elements, currentIndex } = getNavigationElements();
 
             if (!isOpen) {
+                console.log("down");
                 setIsOpen(true);
             } else if (currentIndex < elements.length - 1) {
                 elements[currentIndex + 1].focus();
@@ -114,6 +115,7 @@ const Select = ({
             const { elements, currentIndex } = getNavigationElements();
 
             if (currentIndex > 0) {
+                console.log("up");
                 elements[currentIndex - 1].focus();
             } else if (isOpen) {
                 setIsOpen(false);
