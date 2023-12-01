@@ -1,4 +1,4 @@
-import { Navigate, Route, Routes } from "react-router-dom";
+import { Navigate, Route, Routes, useLocation } from "react-router-dom";
 import SearchRecipesPage from "./features/recipes/SearchRecipesPage.jsx";
 import AlertList from "./features/alert/AlertList.jsx";
 import UserRecipesPage from "./features/user/UserRecipesPage.jsx";
@@ -6,8 +6,15 @@ import AddRecipeForm from "./features/recipes/AddRecipeForm.jsx";
 import RecipesPage from "./features/recipes/RecipesPage.jsx";
 import Layout from "./components/Layout.jsx";
 import SingleRecipePage from "./features/recipes/SingleRecipePage.jsx";
+import { useEffect } from "react";
 
 const App = () => {
+    const { pathname } = useLocation();
+
+    useEffect(() => {
+        window.scrollTo(0, 0);
+    }, [pathname]);
+
     return (
         <>
             <Routes>
