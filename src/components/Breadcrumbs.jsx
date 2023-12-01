@@ -63,7 +63,7 @@ const Breadcrumbs = ({ title }) => {
                         to={url}
                         variant="text"
                         fontSize="sm"
-                        className="text-no-decoration"
+                        className="text-no-decoration text-nowrap"
                         srOnly={isHome && "Go to home page"}
                         hover="none"
                     >
