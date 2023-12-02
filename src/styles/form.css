@@ -94,6 +94,13 @@
         transform : translateY(0.44rem);
     }
 
+
+    & .field:has([data-valid="false"]) label {
+        transform : translateY(-150%);
+        font-size : var(--f-size--1);
+        color : var(--_label-color-error);
+    }
+
     & .field:has(input:not(:focus, :valid, [value=""])) label {
         color : var(--_label-color-error);
     }

@@ -5,6 +5,7 @@ let Field = ({ field, onChange, className }) => {
     const textareaRef = useRef(null);
     const inputRef = useRef(null);
     const fieldRef = useRef(null);
+    const lolref = useRef(null);
 
     const {
         id,
@@ -80,26 +81,21 @@ let Field = ({ field, onChange, className }) => {
     };
 
     const handleKeyPress = e => {
-        if (
-            [
-                ".",
-                ",",
-                "-",
-                "e",
-                "/",
-                ":",
-                ";",
-                "(",
-                ")",
-                "€",
-                "&",
-                "@",
-                '"',
-                "?",
-                "!",
-                "'",
-            ].includes(e.key)
-        ) {
+        const isAndroid = navigator.userAgent.match(/Android/i);
+
+        // Implement a workaround for Android devices where special characters are erroneously permitted in numeric input fields
+        if (isAndroid) {
+            if (!/^\d$/.test(value)) {
+                e.target.dataset.valid = "false";
+            }
+
+            if (e.key === "Backspace" && value.length === 0) {
+                delete e.target.dataset.valid;
+            }
+        }
+
+        const allowedKeys = [8, 9, 46, 37, 38, 39, 40]; // Key codes for Backspace, Tab, Delete, and arrow keys
+        if (!/^\d$/.test(e.key) && !allowedKeys.includes(e.keyCode)) {
             e.preventDefault();
         }
     };
@@ -121,6 +117,7 @@ let Field = ({ field, onChange, className }) => {
 
     return (
         <div ref={fieldRef} className={fieldClasses} onClick={handleFocusClick}>
+            <p ref={lolref}></p>
             <div className="flex h-full w-full">
                 <label
                     htmlFor={id}
