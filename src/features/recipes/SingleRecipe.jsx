@@ -3,7 +3,7 @@ import Icon from "../../components/Icon.jsx";
 import { capitalizeWords, wait } from "../../utilities.js";
 import { useDispatch } from "react-redux";
 import React, { useEffect, useState } from "react";
-import { useNavigate, useParams } from "react-router-dom";
+import { useLocation, useNavigate, useParams } from "react-router-dom";
 import { useRemoveRecipeMutation } from "../user/userSlice.js";
 import useModal from "../../hooks/useModal.js";
 import Modal from "../../components/Modal.jsx";
@@ -19,6 +19,7 @@ import { ALERT_TIMEOUT_LONG } from "../../app/config.js";
 const SingleRecipe = ({ recipe, isPreview, backgroundClassName }) => {
     const dispatch = useDispatch();
     const navigate = useNavigate();
+    const { pathname } = useLocation();
     const { recipeId } = useParams();
 
     const {
@@ -99,11 +100,13 @@ const SingleRecipe = ({ recipe, isPreview, backgroundClassName }) => {
 
     const handleRemoveRecipeClick = async () => {
         try {
+            const path = pathname.split("/").slice(1, -1).join("/");
+
             await removeRecipe(recipeId).unwrap();
             closeDeleteModal();
 
             await wait(300);
-            navigate(-1);
+            navigate(`/${path}`);
 
             dispatch(
                 addAlert({

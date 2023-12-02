@@ -28,8 +28,12 @@ const AddRecipeForm = () => {
         closeModal: closePreviewModal,
     } = useModal();
 
-    const [addRecipe, { data, isLoading }] =
-        useAddRecipeMutation();
+    const [addRecipe, { data, isLoading }] = useAddRecipeMutation({
+        selectFromResult: ({ data, isLoading }) => ({
+            data,
+            isLoading,
+        }),
+    });
 
     const [form, setForm] = useState({
         details: [
@@ -367,10 +371,13 @@ const AddRecipeForm = () => {
 
         try {
             await addRecipe(formatForm(form)).unwrap();
-            await wait(100); // Pause between submitting and showing success modal re-renders to make transition smoother
+            await wait(300); // Pause between submitting and showing success modal re-renders to make transition smoother
 
             showSuccessModal();
+
+            await wait(300);
             setForm(originalForm);
+            setTermsChecked(false);
         } catch (err) {
             console.error(err);
 
@@ -466,7 +473,7 @@ const AddRecipeForm = () => {
                             type="checkbox"
                             id="form-terms"
                             name="form-terms"
-                            value={termsChecked}
+                            checked={termsChecked}
                             className="translate-y-quarter//below-md flex-shrink-0 w-em h-em"
                             onChange={() => setTermsChecked(prev => !prev)}
                             required
