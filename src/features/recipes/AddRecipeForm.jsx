@@ -517,7 +517,7 @@ const AddRecipeForm = () => {
                     isCloseRendered
                     isVisible={isPreviewModalVisible}
                     onClose={closePreviewModal}
-                    className="max-w-xl mt-m p-s py-l//below-sm p-3xs//above-sm"
+                    className="max-w-xl mt-m p-m py-l//below-sm p-3xs//above-sm"
                 >
                     <h2 id="modal-title" className="sr-only">
                         Preview Recipe
