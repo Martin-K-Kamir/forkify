@@ -1,5 +1,5 @@
 
-## Overview of Forkify Application
+## Forkify Application
 Forkify is a comprehensive recipe search application that provides the functionality to not only search for various
 recipes but also to save your favorite ones. Additionally, it offers the ability to add and delete your own recipes.
 
